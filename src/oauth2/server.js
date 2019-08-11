@@ -1,0 +1,1 @@
+const server = require('oauth2orize').createServer();
