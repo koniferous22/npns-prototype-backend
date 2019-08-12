@@ -1,3 +1,5 @@
+const port = process.env.PORT
+
 var express = require('express');
 var path = require('path');
 var logger = require('morgan');
@@ -9,7 +11,7 @@ var app = express();
 // helmmet module for security
 var dbConfig = require('./db');
 // Connect to DB
-mongoose.connect(dbConfig.url, { useNewUrlParser: true });
+mongoose.connect(dbConfig.url, { useNewUrlParser: true, useCreateIndex: true });
 
 app.use(logger('dev'));
 app.use(bodyParser.json());
@@ -18,14 +20,14 @@ app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(cors());
 
-var passport = require('passport');
-passport = require('./passport/passport')(passport)
-app.use(passport.initialize());
+/*var passport = require('passport');
+passport = require('./passport/passport')
+app.use(passport.initialize());*/
 
 
-app.use('/', require('./routers/auth')(passport));
-app.use('/queue/', require('./routers/queue')(passport));
-app.use('/problem/', require('./routers/problem')(passport));
+app.use('/', require('./routers/auth'));
+app.use('/queue/', require('./routers/queue'));
+app.use('/problem/', require('./routers/problem'));
 /*var submission = require('./routes/submission');
 app.use('/submission/', submission);*/
 
@@ -37,5 +39,4 @@ app.use(function(req, res, next) {
 });
 
 
-app.listen(3000);
-
+app.listen(port);
