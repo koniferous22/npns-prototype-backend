@@ -48,6 +48,9 @@ const UserSchema = new mongoose.Schema({
 			type:String,
 			required: true
 		}
+	}],
+	active_problems: [{
+		type: mongoose.Schema.Types.ObjectId
 	}]
 });
 

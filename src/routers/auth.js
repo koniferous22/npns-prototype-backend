@@ -12,9 +12,7 @@ router.post('/signup', async (req, res) => {
     // Create a new user
     try {
         const user = new User(req.body)
-        //console.log('kokot')
         await user.save()
-        //console.log('kokot1')
         const token = await user.generateAuthToken()
         res.status(201).send({ user, token })
     } catch (error) {
@@ -23,13 +21,6 @@ router.post('/signup', async (req, res) => {
     	return res;
     }
 })
-/*
-router.post('/logen',
-	passport.authenticate('local'),
-	(req, res) => {
-		res.status(200)
-	})
-*/
 
 router.post('/signin', async (req, res) => {
 	try {

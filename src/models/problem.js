@@ -1,20 +1,18 @@
 const mongoose = require('mongoose');
 
 const ProblemSchema = new mongoose.Schema({
-  id: {
-    type: String
-  },
   queueId: {
-    type: String,
-    default: ''
+    type: mongoose.Schema.Types.ObjectId,
+    required: true
   },
   userId: {
-    type: String,
-    default: ''
+    type: mongoose.Schema.Types.ObjectId,
+    required: true
   },
   timestamp: {
     type: Date,
-    default: Date.now
+    default: Date.now,
+    max: Date.now
   },
   orderInQueue: {
     type: Number,
@@ -26,12 +24,18 @@ const ProblemSchema = new mongoose.Schema({
   },
   title: {
     type: String,
-    default: ''
+    required: true
   },
   description: {
     type: String,
     default: ''
-  }
+  },
+  submissions: [{
+    submission: {
+      type: mongoose.Schema.Types.ObjectId,
+      required: true
+    }
+  }]
 });
 
 module.exports = mongoose.model('Problem', ProblemSchema, 'Problem');

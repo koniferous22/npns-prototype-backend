@@ -1,45 +1,23 @@
 const Problem = require('../models/problem');
+const User = require('../models/user')
+
 const { body, param, validationResult } = require('express-validator/check');
+const { auth } = require('../middleware')
 
 const router = require('express').Router()
 
-router.post('/add', (req, res, next) => {
-	const { body } = req;
-	let { queueId } = body;  /* queueId a userId sa musia pridavat automaticky... dorobit vo frontende*/
-	let { userId } = body;
-	let { title } = body;
-	let { description } = body;
-	
-	if (!title) {
-		return res.send({
-			success: false,
-			message: 'Error: Title cannot be blank.'
-		});
+router.post('/add', auth, async (req, res, next) => {
+	try {
+		problem = new Problem(req.body);
+		await problem.save();
+		res.status(200).send(problem)
+	} catch (error){
+		res.status(400).send(error)
 	}
+});
 
-	title = title.trim();
-
-		// Save the new problem
-		const newProblem = new Problem();
-		newProblem.queueId = queueId;
-		newProblem.userId = userId;
-		newProblem.title = title;
-		newProblem.description = description;
-		newProblem.save((err, problem) => {
-			if (err) {
-				return res.send({
-					success: false,
-					message: 'Error: Server error'
-				});
-			}
-			return res.send({
-				success: true,
-				message: 'Problem created'
-			});
-		});
-	});
-
-router.get('/allinqueue/:id', function(req,res,next) {
+router.get('/:queue_id/:page', function(req,res,next) {
+        // define paging response
         Problem.find({queueId: req.params.id}, function(err, problemz) {
         if (err) {
             next(err);
@@ -50,19 +28,8 @@ router.get('/allinqueue/:id', function(req,res,next) {
     });
 });
 
-router.get('/userproblems/:userid', function(req,res,next) {
-        Problem.find({userId: req.params.userid}, function(err, problemz) {
-        if (err) {
-            next(err);
-        } else {
-            res.set('Content-type','application/json');
-            res.send(problemz);
-        }
-    });
-});
 
-
-router.get('/:id', [
+router.get('/problem/:id', [
             param('id').isMongoId()
         ], function(req,res,next) {
         Problem.find({_id: req.params.id}, function(err, problem) {

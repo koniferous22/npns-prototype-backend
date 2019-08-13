@@ -20,10 +20,6 @@ app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(cors());
 
-/*var passport = require('passport');
-passport = require('./passport/passport')
-app.use(passport.initialize());*/
-
 
 app.use('/', require('./routers/auth'));
 app.use('/queue/', require('./routers/queue'));
