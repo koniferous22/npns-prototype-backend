@@ -1,5 +1,4 @@
 const User = require('../models/user');
-const UserSession = require('../models/userSession');
 const { auth } = require('../middleware')
 
 const router = require('express').Router()
@@ -12,7 +11,9 @@ router.post('/signup', async (req, res) => {
     // Create a new user
     try {
         const user = new User(req.body)
+        console.log('saving')
         await user.save()
+        console.log('here')
         const token = await user.generateAuthToken()
         res.status(201).send({ user, token })
     } catch (error) {
@@ -25,13 +26,13 @@ router.post('/signup', async (req, res) => {
 router.post('/signin', async (req, res) => {
 	try {
         const { username, email, password } = req.body
-        const user = await User.findByCredentials(username || email, password)
+        const user = await User.find().byCredentials(username || email, password)
         if (!user) {
             return res.status(401).send({error: 'Login failed! Check authentication credentials'})
         }
         const token = await user.generateAuthToken()
         res.status(200).send({ user, token })
-    } catch (error) {
+    } catch (error) {   
         res.status(400).send(error)
     }
 });

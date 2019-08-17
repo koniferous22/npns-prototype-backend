@@ -17,7 +17,8 @@ const UserSchema = new mongoose.Schema({
 				// CHANGE VALIDATOR TO SOMETHING BETTER (Limited set of chars verified by regex)
 				throw new Error({error: 'username cannot be in shape of email'})
 			}
-		}
+		},
+		index: true
 	},
 	password: {
 		type: String,
@@ -54,9 +55,10 @@ const UserSchema = new mongoose.Schema({
 	}]
 });
 
-UserSchema.methods.generateHash = async function(pwd) {
-	return await bcrypt.hashSync(pwd, bcrypt.genSaltSync(8), null);
-};
+UserSchema.static('generateHash', async function(pwd) {
+	password = await bcrypt.hashSync(pwd, bcrypt.genSaltSync(8), null);
+	return password
+});
 
 UserSchema.methods.validPassword = async function(pwd) {
 	const result = await bcrypt.compare(pwd, this.password);
@@ -67,8 +69,7 @@ UserSchema.pre('save', async function (next) {
     // Hash the password before saving the user model
     const user = this
     if (user.isModified('password')) {
-    	console.log('here')
-        user.password = generateHash(user.password)
+        user.password = await UserModel.generateHash(user.password)
     }
     next()
 })
@@ -82,7 +83,7 @@ UserSchema.methods.generateAuthToken = async function() {
     return token
 }
 
-UserSchema.statics.findByCredentials = async function (input, password) {
+UserSchema.query.byCredentials = async function (input, password) {
     // Search for a user by email and password.
  	const predicate = (validator.isEmail(input)) ? {email:input} : {username:input}
     const user = await this.findOne(predicate)
@@ -98,4 +99,6 @@ UserSchema.statics.findByCredentials = async function (input, password) {
 	return user
 }
 
-module.exports = mongoose.model('User', UserSchema, 'User');
+UserModel = mongoose.model('User', UserSchema, 'User');
+
+module.exports = UserModel
