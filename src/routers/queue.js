@@ -3,11 +3,10 @@ const { body, param, validationResult } = require('express-validator/check');
 
 const router = require('express').Router()
 
-// PUBLIC CACHE
 router.get('/hierarchy', async (req, res) => {
 	try {
 		hierarchy = await Queue.hierarchy()
-		res.status(200).send(hierarchy)
+		res.status(200).send({hierarchy:hierarchy})
 	} catch(error) {
 		res.status(400).send(error)
 	}

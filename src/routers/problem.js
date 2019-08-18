@@ -6,7 +6,7 @@ const { auth } = require('../middleware')
 
 const router = require('express').Router()
 
-router.post('/add', auth, async (req, res, next) => {
+router.post('/add', auth, async function (req, res) {
 	try {
 		problem = new Problem(req.body);
 		await problem.save();
@@ -41,5 +41,6 @@ router.get('/problem/:id', [
         }
     });
 });
+
 
 module.exports = router;
