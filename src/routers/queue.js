@@ -63,7 +63,7 @@ router.get('/:name/problems', async (req, res) => {
 		count = req.query.count || 50
 		desc = await Queue.find().descendants({name:req.params.name},'_id')
 		problems = await Problem.find({queue_id:{$in: desc}})
-		res.status(200).send('a')
+		res.status(200).send(problems)
 	} catch (error) {
 		res.status(400).send(error)
 	}	
