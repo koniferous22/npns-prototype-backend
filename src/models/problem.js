@@ -17,7 +17,7 @@ const ProblemSchema = new mongoose.Schema({
 		default: Date.now,
 		max: Date.now
 	},
-	rootQueueValue: { // float timestamp + (if boosted then 1 else 0) + bounty
+	rootQueueValue: {
 		type: Number,
 		default: 0,
 		index: true
@@ -26,9 +26,10 @@ const ProblemSchema = new mongoose.Schema({
 		type: Boolean,
 		default: true
 	},
-	solved: {
-		type: Boolean,
-		default: false
+	accepted_submission: {
+		type: mongoose.Schema.Types.ObjectId,
+		default: null,
+		ref: 'Submission'
 	},
 	title: {
 		type: String,
@@ -57,32 +58,54 @@ const ProblemSchema = new mongoose.Schema({
 
 const epochBegin = new Date(2019,1,1)
 const epochEnd = new Date(2020,1,1)
+const normalizationCoef = epochEnd - epochBegin
 
-ProblemSchema.method.calculateProblemValue = function() {
-	console.log(this.created)
-	console.log(epochBegin)
-	console.log(this.created - epochBegin)
+ProblemSchema.virtual('solved').get(function () {
+	return this.accepted_submission != null
+})
+
+ProblemSchema.virtual('bounty').get(function () {
+	return 0.98 * this.boosts.reduce((a,b) => a + b, 0)
+})
+
+ProblemSchema.methods.calculateProblemValue = function() {
+	const problem = this
+	const defaultValue = (problem.created - epochBegin) / normalizationCoef
+	const boostValue = problem.boosts.map(x => x.boost_value).reduce((a,b) => a + b, 0)
+	if (boostValue > 0) {
+		boostValue++
+	}
+	return defaultValue + boostValue
 }
 
-ProblemSchema.method.view = async function () {
-	
+ProblemSchema.methods.boost = async function (boosted_by, boost_value) {
+	this.boosts.concat({boosted_by, boost_value})
+	await this.save()
+	return true
 }
+
+ProblemSchema.pre('save', async function (next) {
+	const problem = this
+	console.log(problem)
+	if (problem.isNew || problem.isModified('boosts') || problem.isModified('rootQueueValue')) {
+		problem.rootQueueValue = this.calculateProblemValue()
+	}
+	next()
+})
+
+ProblemSchema.statics.viewProblem = async function (id) {
+	const problem = await this.findOne({_id:id}/*,{rootQueueValue: 0}*/)
+	problem.view_count++
+	await problem.save()
+	return problem
+}
+
 
 const ProblemModel = mongoose.model('Problem', ProblemSchema, 'Problem');
 
 /*
-* problem when creating a problem: how to assign  orderInRootQueue
-* 
-*/
-
-/*
 METHODS:
-* boost
-* increment view count (view function)
-* 
-* bounty (virtual)
 * change queue
-* find self and descendant queues by page and offset (try with cached response)
 * implement karma calculator
 */
 

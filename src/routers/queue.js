@@ -59,10 +59,21 @@ router.get('/:name/ancestors', async (req, res) => {
 
 router.get('/:name/problems', async (req, res) => {
 	try {
-		page = req.query.page || 1
-		count = req.query.count || 50
+		const page = req.query.page || 1
+		const count = req.query.count || 50
+		// add solution count
+		const box_query_mask = '_id title bounty view_count created'
 		desc = await Queue.find().descendants({name:req.params.name},'_id')
-		problems = await Problem.find({queue_id:{$in: desc}})
+		desc = desc.map(x => x._id)
+
+		problems = await Problem.find(
+				{
+					queue_id:{
+						$in: desc
+					}
+				},
+				box_query_mask
+			).limit(count)
 		res.status(200).send(problems)
 	} catch (error) {
 		res.status(400).send(error)

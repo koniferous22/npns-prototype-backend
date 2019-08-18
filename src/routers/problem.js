@@ -15,14 +15,13 @@ router.post('/add', /*auth, */ async function (req, res) {
             throw new Error({message:'NO QUEUE FOUND'})
         }
         problem = new Problem({...problem, queue_id:q._id })
-        console.log(problem.calculateProblemValue())
 		await problem.save();
 		res.status(200).send(problem)
 	} catch (error){
 		res.status(400).send(error)
 	}
 });
-
+/*
 router.get('/:queue_id/:page', function(req,res,next) {
         // define paging response
         Problem.find({queueId: req.params.id}, function(err, problemz) {
@@ -33,21 +32,18 @@ router.get('/:queue_id/:page', function(req,res,next) {
             res.send(problemz);
         }
     });
-});
+});*/
 
 
-router.get('/problem/:id', [
-            param('id').isMongoId()
-        ], function(req,res,next) {
-        Problem.find({_id: req.params.id}, function(err, problem) {
-        if (err) {
-            next(err);
-        } else {
-            res.set('Content-type','application/json');
-            res.send(problem);
-        }
-    });
+router.get('/:id', async function(req,res) {
+    try {
+        problem = await Problem.viewProblem(req.params.id)
+        res.status(200).send(problem)
+    } catch (error) {
+        res.status(400).send(error)
+    }
 });
+
 
 
 module.exports = router;
