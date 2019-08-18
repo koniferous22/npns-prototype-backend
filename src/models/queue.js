@@ -28,7 +28,7 @@ QueueSchema.add({
 });
 
 QueueSchema.static('getRoot', async function () {
-	return this.findOne({"name":"root"})
+	return this.findOne({"name":"Index"})
 })
 
 // here (next) => {} notation doesnt work :D
@@ -55,10 +55,10 @@ QueueSchema.query.descendants = async function (recordFilter,fields) {
 	}
 	filter = {
 		lft: {
-			$gt: Math.min(...(self.map(s => s.lft)))
+			$gte: Math.min(...(self.map(s => s.lft)))
 		},
 		rgt: {
-			$lt: Math.max(...(self.map(s => s.rgt)))
+			$lte: Math.max(...(self.map(s => s.rgt)))
 		}
 	}
 	fields = fields || null

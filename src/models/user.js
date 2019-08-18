@@ -49,9 +49,6 @@ const UserSchema = new mongoose.Schema({
 			type:String,
 			required: true
 		}
-	}],
-	active_problems: [{
-		type: mongoose.Schema.Types.ObjectId
 	}]
 });
 
@@ -98,6 +95,12 @@ UserSchema.query.byCredentials = async function (input, password) {
 
 	return user
 }
+
+/*
+change username,
+change password,
+change email
+*/
 
 UserModel = mongoose.model('User', UserSchema, 'User');
 
