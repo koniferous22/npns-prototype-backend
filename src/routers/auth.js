@@ -1,7 +1,10 @@
 const User = require('../models/user');
-const { auth } = require('../middleware')
+const VerificationToken = require('../models/verification_token');
 
-const router = require('express').Router()
+const { auth } = require('../middleware');
+
+
+const router = require('express').Router();
 
 router.get('/', (req,res,next) => {
 	res.send({msg: "NYI"})
@@ -12,12 +15,15 @@ router.post('/signup', async (req, res) => {
     try {
         const user = new User(req.body)
         await user.save()
-        const token = await user.generateAuthToken()
-        res.status(201).send({ user, token })
+        const token = new VerificationToken({userId: user._id})
+        await token.save()
+        const mailInfo = await user.sendSignupEmail(token)
+    	res.status(200).send({
+    		user,
+    		mailInfo
+    	})
     } catch (error) {
         res.status(400).send(error)
-    } finally {
-    	return res;
     }
 })
 
@@ -27,6 +33,9 @@ router.post('/signin', async (req, res) => {
         const user = await User.find().byCredentials(username || email, password)
         if (!user) {
             return res.status(401).send({error: 'Login failed! Check authentication credentials'})
+        }
+        if (!user.verified) {
+            return res.status(401).send({error: 'not verified, check your email'})
         }
         const token = await user.generateAuthToken()
         res.status(200).send({ user, token })

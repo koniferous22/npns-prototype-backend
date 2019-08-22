@@ -3,10 +3,13 @@ const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 const validator = require('validator');
 
+const transporter = require('../nodemailer/transporter');
+const { signupTemplate } = require('../nodemailer/templates');
+
+// https://codemoto.io/coding/nodejs/email-verification-node-express-mongodb
+// https://stackoverflow.com/questions/39092822/how-to-do-confirm-email-address-with-express-node
+
 const UserSchema = new mongoose.Schema({
-	/*id: {
-		type: String
-	},*/
 	username: {
 		type: String,
 		required: true,
@@ -46,10 +49,20 @@ const UserSchema = new mongoose.Schema({
 	},
 	tokens: [{
 		token: {
-			type:String,
+			type: String,
 			required: true
+		},
+		created: {
+			type: Date,
+			default: Date.now,
+			required: true,
+			expires: 86400 // 1 day
 		}
-	}]
+	}],
+	verified: {
+		type: Boolean,
+		default: false
+	}
 });
 
 UserSchema.static('generateHash', async function(pwd) {
@@ -80,6 +93,15 @@ UserSchema.methods.generateAuthToken = async function() {
     return token
 }
 
+UserSchema.methods.sendSignupEmail = async function(token) {
+	const email = {
+        from: 'noreply@npns.biz',
+        to: this.email,
+        ...signupTemplate(token.token)
+    }
+    transporter.sendMail(email)
+}
+
 UserSchema.query.byCredentials = async function (input, password) {
     // Search for a user by email and password.
  	const predicate = (validator.isEmail(input)) ? {email:input} : {username:input}
@@ -95,6 +117,7 @@ UserSchema.query.byCredentials = async function (input, password) {
 
 	return user
 }
+
 
 /*
 change username,
