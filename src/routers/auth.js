@@ -27,6 +27,35 @@ router.post('/signup', async (req, res) => {
     }
 })
 
+router.post('/confirmEmailToken', async (req, res) => {
+    try {
+        const verification_token = await VerificationToken.findOne({token: req.body.emailToken})
+        const user = await User.findOne({_id: verification_token.userId})
+        user.setVerifiedFlag()
+        await user.save()
+        res.status(200).send(user)
+    } catch (error) {
+        res.status(400).send(error)
+    }
+})
+
+router.post('/resendEmailToken', async (req, res) => {
+    try {
+        const user = await User.find().byLogin(req.body.username)
+        if (user.verified) {
+            throw new Error({error:'User already verified'})
+        }
+        await VerificationToken.deleteMany({userId:user._id})
+        const token = new VerificationToken({userId: user._id})
+        await token.save()
+        const mailInfo = await user.sendSignupEmail(token)
+        res.status(200).send(mailInfo)
+    } catch (error) {
+        res.status(500).send(error)
+    }
+})
+
+
 router.post('/signin', async (req, res) => {
 	try {
         const { username, email, password } = req.body
@@ -35,6 +64,7 @@ router.post('/signin', async (req, res) => {
             return res.status(401).send({error: 'Login failed! Check authentication credentials'})
         }
         if (!user.verified) {
+            //console.log('here')
             return res.status(401).send({error: 'not verified, check your email'})
         }
         const token = await user.generateAuthToken()

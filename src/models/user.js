@@ -102,10 +102,24 @@ UserSchema.methods.sendSignupEmail = async function(token) {
     transporter.sendMail(email)
 }
 
+UserSchema.methods.setVerifiedFlag = function() {
+	console.log('here')
+	const user = this
+	if (!!user.verified) {
+		throw new Error({error: 'User already verified'})
+	}
+	user.verified = true
+}
+
+UserSchema.query.byLogin = async function (input) {
+	const predicate = (validator.isEmail(input)) ? {email:input} : {username:input}
+    const user = await this.findOne(predicate)
+    return user
+}
+
 UserSchema.query.byCredentials = async function (input, password) {
     // Search for a user by email and password.
- 	const predicate = (validator.isEmail(input)) ? {email:input} : {username:input}
-    const user = await this.findOne(predicate)
+ 	user = await this.find().byLogin(input)
 
     if (!user) {
         throw new Error({ error: 'Invalid login credentials' })
