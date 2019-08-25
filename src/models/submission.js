@@ -1,25 +1,19 @@
 const mongoose = require('mongoose');
 
+const ContentModel = require('./content');
+
 const SubmissionSchema = new mongoose.Schema({
-  id: {
-    type: String
-  },
-  problemId: {
-    type: String,
-    default: ''
-  },
-  userId: {
-    type: String,
-    default: ''
-  },
-  timestamp: {
-    type: Date,
-    default: Date.now
-  },
-  description: {
-    type: String,
-    default: ''
-  }
+	problemId: {
+		type: mongoose.Schema.Types.ObjectId,
+		ref: 'Problem'
+	}
 });
 
-module.exports = mongoose.model('Submission', SubmissionSchema, 'Submission');
+const options = {
+	discriminatorKey: 'kind'
+}
+
+const SubmissionsModel = ContentModel.discriminator('Submission', SubmissionSchema, options)
+//mongoose.model('Submission', SubmissionSchema, 'Submission');
+
+module.exports = SubmissionsModel

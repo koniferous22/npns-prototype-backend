@@ -1,30 +1,17 @@
 const mongoose = require('mongoose');
 
+const ContentModel = require('./content')
+
 const ProblemSchema = new mongoose.Schema({
 	queue_id: {
 		type: mongoose.Schema.Types.ObjectId,
 		required: true,
 		ref: 'Queue'
 	},
-	submitted_by: {
-		type: mongoose.Schema.Types.ObjectId,
-		required: true,
-		ref: 'User',
-		index: true
-	},
-	created: {	
-	    type: Date,
-		default: Date.now,
-		max: Date.now
-	},
 	rootQueueValue: {
 		type: Number,
 		default: 0,
 		index: true
-	},
-	active: {
-		type: Boolean,
-		default: true
 	},
 	accepted_submission: {
 		type: mongoose.Schema.Types.ObjectId,
@@ -34,10 +21,6 @@ const ProblemSchema = new mongoose.Schema({
 	title: {
 		type: String,
 		required: true
-	},
-	description: {
-    	type: String,
-		default: ''
 	},
   	view_count: {
   		type: Number,
@@ -52,6 +35,13 @@ const ProblemSchema = new mongoose.Schema({
   			type: mongoose.Schema.Types.ObjectId,
   			required: true,
   			ref: 'User'
+  		}
+  	}],
+  	submissions: [{
+  		submission_id: {
+  			type: mongoose.Schema.Types.ObjectId,
+  			required: true,
+  			ref: 'Submission'
   		}
   	}]
 });
@@ -84,6 +74,19 @@ ProblemSchema.methods.boost = async function (boosted_by, boost_value) {
 	return true
 }
 
+/*ProblemSchema.methods.submitSolution = async function () {
+	
+}*/
+/*
+ProblemSchema.methods.editProblem = async function (contents) {
+	this.edits.push({contents})
+	await this.save()
+}*/
+
+ProblemSchema.virtual('submission_count').get(function() {
+	return this.submissions.filter(x => x.hiddenBy === null).length
+})
+
 ProblemSchema.pre('save', async function (next) {
 	const problem = this
 	console.log(problem)
@@ -100,8 +103,12 @@ ProblemSchema.statics.viewProblem = async function (id) {
 	return problem
 }
 
+const options = {
+	discriminatorKey: 'kind'
+}
 
-const ProblemModel = mongoose.model('Problem', ProblemSchema, 'Problem');
+const ProblemModel = ContentModel.discriminator('Problem', ProblemSchema, options)
+//mongoose.model('Problem', ProblemSchema, 'Problem');
 
 /*
 METHODS:

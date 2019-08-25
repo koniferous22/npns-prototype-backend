@@ -62,7 +62,7 @@ router.get('/:name/problems', async (req, res) => {
 		const page = req.query.page || 1
 		const count = req.query.count || 50
 		// add solution count
-		const box_query_mask = '_id title bounty view_count created'
+		const box_query_mask = '_id title bounty view_count created submission_count'
 		desc = await Queue.find().descendants({name:req.params.name},'_id')
 		desc = desc.map(x => x._id)
 
