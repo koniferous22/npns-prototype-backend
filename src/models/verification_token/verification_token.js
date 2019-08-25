@@ -1,6 +1,5 @@
 const mongoose = require('mongoose');
 const crypto = require('crypto')
-const user = require('./user')
 
 const VerificationTokenSchema = new mongoose.Schema({
     userId: {
@@ -24,9 +23,6 @@ const VerificationTokenSchema = new mongoose.Schema({
     }
 });
 
-VerificationTokenSchema.static.verifyUserEmail = async function(tokenToVerify) {
-    // TODO
-}
 
 const VerificationTokenModel = mongoose.model('VerificationToken', VerificationTokenSchema, 'VerificationToken')
 

@@ -24,6 +24,7 @@ app.use(cors());
 app.use('/', require('./routers/auth'));
 app.use('/queue/', require('./routers/queue'));
 app.use('/problem/', require('./routers/problem'));
+app.use('/verify/', require('./routers/verify'));
 /*var submission = require('./routes/submission');
 app.use('/submission/', submission);*/
 
@@ -36,4 +37,3 @@ app.use(function(req, res, next) {
 
 
 app.listen(port);
-

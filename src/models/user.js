@@ -4,10 +4,6 @@ const jwt = require('jsonwebtoken');
 const validator = require('validator');
 
 const transporter = require('../nodemailer/transporter');
-const { signupTemplate } = require('../nodemailer/templates');
-
-// https://codemoto.io/coding/nodejs/email-verification-node-express-mongodb
-// https://stackoverflow.com/questions/39092822/how-to-do-confirm-email-address-with-express-node
 
 const UserSchema = new mongoose.Schema({
 	username: {
@@ -15,29 +11,14 @@ const UserSchema = new mongoose.Schema({
 		required: true,
 		unique: true,
 		trim: true,
-		validate: value => {
-			if (validator.isEmail(value)) {
-				// CHANGE VALIDATOR TO SOMETHING BETTER (Limited set of chars verified by regex)
-				throw new Error({error: 'username cannot be in shape of email'})
-			}
-		},
 		index: true
 	},
-	password: {
-		type: String,
-		required: true,
-		minLength: 8
-	},
+	password: require('./constraints/password'),
 	email: {
-		type: String,
 		required: true,
 		unique: true,
-        lowercase: true,
-        validate: value => {
-            if (!validator.isEmail(value)) {
-                throw new Error({error: 'Invalid Email address'})
-            }
-        }
+        index: true,
+        ...require('./constraints/email')
 	},
 	firstName: {
 		type: String,
@@ -62,7 +43,12 @@ const UserSchema = new mongoose.Schema({
 	verified: {
 		type: Boolean,
 		default: false
-	}
+	}/*
+	commented out cuz too much features,
+	adult: {
+		type: Boolean,
+		default: false
+	}*/
 });
 
 UserSchema.static('generateHash', async function(pwd) {
@@ -78,8 +64,15 @@ UserSchema.methods.validPassword = async function(pwd) {
 UserSchema.pre('save', async function (next) {
     // Hash the password before saving the user model
     const user = this
+    //if (user.)
     if (user.isModified('password')) {
         user.password = await UserModel.generateHash(user.password)
+    }
+    if (validator.isEmail(user.username) && user.username != user.email) {
+    	throw new Error({message:'Different email injected into username'})
+    }
+    if (!user.username) {
+    	user.username = user.email
     }
     next()
 })
@@ -93,17 +86,16 @@ UserSchema.methods.generateAuthToken = async function() {
     return token
 }
 
-UserSchema.methods.sendSignupEmail = async function(token) {
+UserSchema.methods.sendEmail = async function(template,params) {
 	const email = {
         from: 'noreply@npns.biz',
-        to: this.email,
-        ...signupTemplate(token.token)
+        to: params.email || this.email,
+        ...template(params)
     }
-    transporter.sendMail(email)
+    await transporter.sendMail(email)
 }
 
 UserSchema.methods.setVerifiedFlag = function() {
-	console.log('here')
 	const user = this
 	if (!!user.verified) {
 		throw new Error({error: 'User already verified'})
@@ -133,11 +125,10 @@ UserSchema.query.byCredentials = async function (input, password) {
 }
 
 
-/*
-change username,
-change password,
-change email
-*/
+// find shit ton of usernames from Ids
+UserSchema.methods.getUsernamePage = async function (ids) {
+	return await this.find({_id:{$in:ids}}, '_id name')
+}
 
 UserModel = mongoose.model('User', UserSchema, 'User');
 

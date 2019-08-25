@@ -1,4 +1,4 @@
-const Problem = require('../models/problem');
+const Problem = require('../models/content/problem');
 const User = require('../models/user')
 const Queue = require('../models/queue')
 

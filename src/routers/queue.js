@@ -1,5 +1,5 @@
 const Queue = require('../models/queue');
-const Problem = require('../models/problem')
+const Problem = require('../models/content/problem')
 
 const { body, param, validationResult } = require('express-validator/check');
 
@@ -59,10 +59,10 @@ router.get('/:name/ancestors', async (req, res) => {
 
 router.get('/:name/problems', async (req, res) => {
 	try {
-		const page = req.query.page || 1
-		const count = req.query.count || 50
+		const page = (!req.query.page || req.query.page < 1) ? 1 : req.query.page
+		const count = (!req.query.count || req.query.count < 1) ? 50 : req.query.count
 		// add solution count
-		const box_query_mask = '_id title bounty view_count created submission_count'
+		const box_query_mask = '_id title bounty view_count created submitted_by.username' // submission_count
 		desc = await Queue.find().descendants({name:req.params.name},'_id')
 		desc = desc.map(x => x._id)
 
@@ -73,8 +73,20 @@ router.get('/:name/problems', async (req, res) => {
 					}
 				},
 				box_query_mask
-			).limit(count)
-		res.status(200).send(problems)
+			).sort({rootQueueValue:'desc'}).skip(count * (page - 1)).limit(count).populate('submitted_by','username').lean().exec((err,data) => {
+				if (err) {
+					res.status(400).send(err)
+					return
+				}
+				data.forEach(p => {
+					// remove _id from request results
+					p.username = p.submitted_by.username
+					delete p.submitted_by
+				})	
+				res.status(200).send(data)
+			})
+			
+		
 	} catch (error) {
 		res.status(400).send(error)
 	}	

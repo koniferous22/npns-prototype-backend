@@ -1,14 +1,14 @@
 const User = require('../models/user');
-const VerificationToken = require('../models/verification_token');
+const VerificationToken = require('../models/verification_token/verification_token');
+const PasswordResetToken = require('../models/verification_token/password_reset');
+
+const { signupTemplate,pwdResetTemplate } = require('../nodemailer/templates');
 
 const { auth } = require('../middleware');
 
 
 const router = require('express').Router();
 
-router.get('/', (req,res,next) => {
-	res.send({msg: "NYI"})
-})
 
 router.post('/signup', async (req, res) => {
     // Create a new user
@@ -17,7 +17,7 @@ router.post('/signup', async (req, res) => {
         await user.save()
         const token = new VerificationToken({userId: user._id})
         await token.save()
-        const mailInfo = await user.sendSignupEmail(token)
+        const mailInfo = await user.sendEmail(signupTemplate, {token})
     	res.status(200).send({
     		user,
     		mailInfo
@@ -26,35 +26,6 @@ router.post('/signup', async (req, res) => {
         res.status(400).send(error)
     }
 })
-
-router.post('/confirmEmailToken', async (req, res) => {
-    try {
-        const verification_token = await VerificationToken.findOne({token: req.body.emailToken})
-        const user = await User.findOne({_id: verification_token.userId})
-        user.setVerifiedFlag()
-        await user.save()
-        res.status(200).send(user)
-    } catch (error) {
-        res.status(400).send(error)
-    }
-})
-
-router.post('/resendEmailToken', async (req, res) => {
-    try {
-        const user = await User.find().byLogin(req.body.username)
-        if (user.verified) {
-            throw new Error({error:'User already verified'})
-        }
-        await VerificationToken.deleteMany({userId:user._id})
-        const token = new VerificationToken({userId: user._id})
-        await token.save()
-        const mailInfo = await user.sendSignupEmail(token)
-        res.status(200).send(mailInfo)
-    } catch (error) {
-        res.status(500).send(error)
-    }
-})
-
 
 router.post('/signin', async (req, res) => {
 	try {
@@ -93,6 +64,18 @@ router.post('/logoutall', auth, async(req, res) => {
         req.user.tokens.splice(0, req.user.tokens.length)
         await req.user.save()
         res.send()
+    } catch (error) {
+        res.status(500).send(error)
+    }
+})
+
+router.post('/passwordReset', async (req, res) => {
+    try {
+        const token = new PasswordResetToken(req.body)
+        await token.save()
+        const user = await User.findOne({_id: token.userId })
+        await user.sendEmail(pwdResetTemplate, {token: token.token})
+        res.status(200)
     } catch (error) {
         res.status(500).send(error)
     }

@@ -12,8 +12,16 @@ const QueueSchema = new mongoose.Schema({
 	},
 	depth: {
 		type: Number,
-		defualt: 0
-	}
+		default: 0
+	},
+	karmaValue: {
+		type: Number,
+		default: 0
+	}/*,
+	nsfw: {
+		type: Boolean,
+		default: false
+	}*/
 });
 
 QueueSchema.plugin(nested_set_plugin)

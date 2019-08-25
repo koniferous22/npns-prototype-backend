@@ -1,9 +1,5 @@
 const mongoose = require('mongoose');
 
-const options = {
-	discriminatorKey: 'kind'
-}
-
 const ContentSchema = new mongoose.Schema({
 	submitted_by: {
 		type: mongoose.Schema.Types.ObjectId,
