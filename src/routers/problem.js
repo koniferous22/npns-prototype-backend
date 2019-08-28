@@ -14,7 +14,7 @@ router.post('/add', /*auth, */ async function (req, res) {
         if (!q) {
             throw new Error({message:'NO QUEUE FOUND'})
         }
-        problem = new Problem({...problem, queue_id:q._id })
+        problem = new Problem({...problem, queue:q._id })
 		await problem.save();
 		res.status(200).send(problem)
 	} catch (error){
@@ -22,7 +22,7 @@ router.post('/add', /*auth, */ async function (req, res) {
 	}
 });
 /*
-router.get('/:queue_id/:page', function(req,res,next) {
+router.get('/:queue/:page', function(req,res,next) {
         // define paging response
         Problem.find({queueId: req.params.id}, function(err, problemz) {
         if (err) {

@@ -68,12 +68,12 @@ router.get('/:name/problems', async (req, res) => {
 
 		problems = await Problem.find(
 				{
-					queue_id:{
+					queue:{
 						$in: desc
 					}
 				},
 				box_query_mask
-			).sort({rootQueueValue:'desc'}).skip(count * (page - 1)).limit(count).populate('submitted_by','username').lean().exec((err,data) => {
+			).sort({root_queue_value:'desc'}).skip(count * (page - 1)).limit(count).populate('submitted_by','username').lean().exec((err,data) => {
 				if (err) {
 					res.status(400).send(err)
 					return
