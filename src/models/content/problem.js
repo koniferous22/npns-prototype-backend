@@ -3,12 +3,12 @@ const mongoose = require('mongoose');
 const ContentModel = require('./content')
 
 const ProblemSchema = new mongoose.Schema({
-	queue_id: {
+	queue: {
 		type: mongoose.Schema.Types.ObjectId,
 		required: true,
 		ref: 'Queue'
 	},
-	rootQueueValue: {
+	root_queue_value: {
 		type: Number,
 		default: 0,
 		index: true
@@ -35,15 +35,20 @@ const ProblemSchema = new mongoose.Schema({
   			type: mongoose.Schema.Types.ObjectId,
   			required: true,
   			ref: 'User'
-  		}
-  	}],
+  		},
+  		_id: false
+ 	}],
   	submissions: [{
-  		submission_id: {
+  		submission: {
   			type: mongoose.Schema.Types.ObjectId,
   			required: true,
   			ref: 'Submission'
-  		}
+  		},
+  		_id: false
   	}]
+}, {
+	toObject: { virtuals: true },
+    toJSON: { virtuals: true }
 });
 
 const epochBegin = new Date(2019,1,1)
@@ -58,10 +63,14 @@ ProblemSchema.virtual('bounty').get(function () {
 	return 0.98 * this.boosts.reduce((a,b) => a + b, 0)
 })
 
+ProblemSchema.virtual('boost_value').get(function() {
+	return this.boosts.map(x => x.boost_value).reduce((a,b) => a + b, 0)
+})
+
 ProblemSchema.methods.calculateProblemValue = function() {
 	const problem = this
+	const boostValue = problem.boost_value
 	const defaultValue = (problem.created - epochBegin) / normalizationCoef
-	const boostValue = problem.boosts.map(x => x.boost_value).reduce((a,b) => a + b, 0)
 	if (boostValue > 0) {
 		boostValue++
 	}
@@ -69,14 +78,21 @@ ProblemSchema.methods.calculateProblemValue = function() {
 }
 
 ProblemSchema.methods.boost = async function (boosted_by, boost_value) {
+	if (this.accepted_submission != null) {
+		throw new Error('Cannot boost already solved problem')
+	}
 	this.boosts.concat({boosted_by, boost_value})
-	await this.save()
+}
+
+ProblemSchema.methods.acceptSolution = function (solution_id) {
+	if (!submission.map(x => x.submission).includes(solution_id)) {
+		throw new Error('No such submission related to this problem');
+	}
+	this.active = false;
+	this.accepted_submission = solution_id
 	return true
 }
 
-/*ProblemSchema.methods.submitSolution = async function () {
-	
-}*/
 /*
 ProblemSchema.methods.editProblem = async function (contents) {
 	this.edits.push({contents})
@@ -84,31 +100,32 @@ ProblemSchema.methods.editProblem = async function (contents) {
 }*/
 
 ProblemSchema.virtual('submission_count').get(function() {
-	return this.submissions.filter(x => x.hiddenBy === null).length
+	return this.submissions.length
 })
 
 ProblemSchema.pre('save', async function (next) {
 	const problem = this
-	console.log(problem)
-	if (problem.isNew || problem.isModified('boosts') || problem.isModified('rootQueueValue')) {
-		problem.rootQueueValue = this.calculateProblemValue()
+	//console.log(problem)
+	if (problem.isNew || problem.isModified('boosts') || problem.isModified('root_queue_value')) {
+		problem.root_queue_value = this.calculateProblemValue()
 	}
 	next()
 })
 
 ProblemSchema.statics.viewProblem = async function (id) {
-	const problem = await this.findOne({_id:id}/*,{rootQueueValue: 0}*/)
+	const problem = await this.findOne({_id:id}/*,{root_queue_value: 0}*/)
 	problem.view_count++
 	await problem.save()
 	return problem
 }
 
-const options = {
+const schema_options = {
 	discriminatorKey: 'kind'
 }
 
-const ProblemModel = ContentModel.discriminator('Problem', ProblemSchema, options)
-//mongoose.model('Problem', ProblemSchema, 'Problem');
+
+
+const ProblemModel = ContentModel.discriminator('Problem', ProblemSchema, schema_options)
 
 /*
 METHODS:

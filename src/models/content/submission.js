@@ -3,17 +3,29 @@ const mongoose = require('mongoose');
 const ContentModel = require('./content');
 
 const SubmissionSchema = new mongoose.Schema({
-	problemId: {
+	replies: [{
+		reply: {
+			type: mongoose.Schema.Types.ObjectId,
+			ref: 'Reply'
+		},
+		_id:false
+	}],
+	problem: {
 		type: mongoose.Schema.Types.ObjectId,
+		required: true,
 		ref: 'Problem'
 	}
 });
+
+
+SubmissionSchema.virtual('reply_count').get(function() {
+	return this.replies.length
+})
 
 const options = {
 	discriminatorKey: 'kind'
 }
 
 const SubmissionsModel = ContentModel.discriminator('Submission', SubmissionSchema, options)
-//mongoose.model('Submission', SubmissionSchema, 'Submission');
 
 module.exports = SubmissionsModel

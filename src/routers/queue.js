@@ -15,6 +15,7 @@ router.get('/hierarchy', async (req, res) => {
 })
 
 router.post('/create', async (req,res) => {
+	// TODO: make auth
 	try {
 		q = new Queue(req.body)
 		await q.save()
@@ -36,7 +37,6 @@ router.get('/:name', async function(req,res) {
 
 // public cache
 router.get('/:name/descendants', async (req, res) => {
-	// use old school code, cause incompatible with ES6
 	try {
 		desc = await Queue.find().descendants({name:req.params.name},'name')
 		res.status(200).send(desc)
@@ -61,8 +61,7 @@ router.get('/:name/problems', async (req, res) => {
 	try {
 		const page = (!req.query.page || req.query.page < 1) ? 1 : req.query.page
 		const count = (!req.query.count || req.query.count < 1) ? 50 : req.query.count
-		// add solution count
-		const box_query_mask = '_id title bounty view_count created submitted_by.username' // submission_count
+		const box_query_mask = '_id title bounty view_count created submitted_by.username submission_count'
 		desc = await Queue.find().descendants({name:req.params.name},'_id')
 		desc = desc.map(x => x._id)
 
@@ -71,16 +70,16 @@ router.get('/:name/problems', async (req, res) => {
 					queue:{
 						$in: desc
 					}
-				},
-				box_query_mask
+				}
 			).sort({root_queue_value:'desc'}).skip(count * (page - 1)).limit(count).populate('submitted_by','username').lean().exec((err,data) => {
 				if (err) {
 					res.status(400).send(err)
 					return
 				}
 				data.forEach(p => {
-					// remove _id from request results
-					p.username = p.submitted_by.username
+					if (p.submitted_by) {
+						p.username = p.submitted_by.username
+					}
 					delete p.submitted_by
 				})	
 				res.status(200).send(data)

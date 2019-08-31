@@ -15,7 +15,7 @@ router.post('/signup', async (req, res) => {
     try {
         const user = new User(req.body)
         await user.save()
-        const token = new VerificationToken({userId: user._id})
+        const token = new VerificationToken({user: user._id})
         await token.save()
         const mailInfo = await user.sendEmail(signupTemplate, {token})
     	res.status(200).send({
@@ -31,6 +31,7 @@ router.post('/signin', async (req, res) => {
 	try {
         const { username, email, password } = req.body
         const user = await User.find().byCredentials(username || email, password)
+
         if (!user) {
             return res.status(401).send({error: 'Login failed! Check authentication credentials'})
         }
@@ -73,7 +74,7 @@ router.post('/passwordReset', async (req, res) => {
     try {
         const token = new PasswordResetToken(req.body)
         await token.save()
-        const user = await User.findOne({_id: token.userId })
+        const user = await User.findOne({_id: token.user })
         await user.sendEmail(pwdResetTemplate, {token: token.token})
         res.status(200)
     } catch (error) {

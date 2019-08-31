@@ -10,6 +10,7 @@ const ContentSchema = new mongoose.Schema({
 	created: {
 		type: Date,
 		default: Date.now,
+		index: true,
 		max: Date.now
 	},
 	active: {
@@ -29,7 +30,8 @@ const ContentSchema = new mongoose.Schema({
 			type: Date,
 			default: Date.now,
 			max: Date.now
-		}
+		},
+		_id: false
 	}]
 })
 

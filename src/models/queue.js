@@ -78,7 +78,7 @@ QueueSchema.query.descendants = async function (recordFilter,fields) {
 
 QueueSchema.query.ancestors = async function (recordFilter,fields) {
 	self = await QueueModel.find(recordFilter)
-	console.log(self)
+	//console.log(self)
 	if (!self) {
 		throw new Error('record not found')
 	}
@@ -91,7 +91,7 @@ QueueSchema.query.ancestors = async function (recordFilter,fields) {
 		}
 	}
 	fields = fields || null
-	console.log(filter)
+	//console.log(filter)
 	result = await QueueModel.find(filter, fields)
 	return result
 }

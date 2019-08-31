@@ -38,12 +38,21 @@ const UserSchema = new mongoose.Schema({
 			default: Date.now,
 			required: true,
 			expires: 86400 // 1 day
-		}
+		},
+		_id: false
 	}],
 	verified: {
 		type: Boolean,
 		default: false
-	}/*
+	},
+	balances: {
+		type: Map,
+		of: {
+			type: Number,
+			min: 0
+		}
+	}
+	/*
 	commented out cuz too much features,
 	adult: {
 		type: Boolean,
@@ -58,7 +67,7 @@ UserSchema.static('generateHash', async function(pwd) {
 
 UserSchema.methods.validPassword = async function(pwd) {
 	const result = await bcrypt.compare(pwd, this.password);
-	console.log(result)
+	//console.log(result)
 	return result
 };
 UserSchema.pre('save', async function (next) {
@@ -95,12 +104,20 @@ UserSchema.methods.sendEmail = async function(template,params) {
     await transporter.sendMail(email)
 }
 
+// migrate to pre-update callback
 UserSchema.methods.setVerifiedFlag = function() {
 	const user = this
 	if (!!user.verified) {
 		throw new Error({error: 'User already verified'})
 	}
 	user.verified = true
+}
+
+UserSchema.methods.addBalance = function(qid, balanceToAdd) {
+	// TODO qid validation
+	var balance = this.balances.get(qid) || 0;
+	balances += balanceToAdd;
+	this.balances.set(qid, balance);
 }
 
 UserSchema.query.byLogin = async function (input) {
@@ -122,12 +139,6 @@ UserSchema.query.byCredentials = async function (input, password) {
 	}
 
 	return user
-}
-
-
-// find shit ton of usernames from Ids
-UserSchema.methods.getUsernamePage = async function (ids) {
-	return await this.find({_id:{$in:ids}}, '_id name')
 }
 
 UserModel = mongoose.model('User', UserSchema, 'User');

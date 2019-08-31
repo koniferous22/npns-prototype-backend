@@ -10,7 +10,7 @@ const { signupTemplate } = require('../nodemailer/templates')
 router.post('/registration', async (req, res) => {
     try {
         const verification_token = await VerificationToken.findOne({token: req.body.emailToken})
-        const user = await User.findOne({_id: verification_token.userId})
+        const user = await User.findOne({_id: verification_token.user})
         user.setVerifiedFlag()
         await user.save()
         res.status(200).send(user)
@@ -26,8 +26,8 @@ router.post('/registration/resend', async (req, res) => {
             throw new Error({error:'User already verified'})
         }
         // this should delete all other oprations as well
-        await VerificationToken.deleteMany({userId:user._id})
-        const token = new VerificationToken({userId: user._id})
+        await VerificationToken.deleteMany({user:user._id})
+        const token = new VerificationToken({user: user._id})
         await token.save()
         const mailInfo = await user.sendEmail(signupTemplate, {token})
         res.status(200).send(mailInfo)
@@ -39,7 +39,7 @@ router.post('/registration/resend', async (req, res) => {
 router.post('/newPassword', async(req, res) => {
     try {
     	const password_reset_token = await PasswordResetToken.findOne({token: req.body.emailToken})
-    	await User.updateOne({_id: verification_token.userId}, {password:password_reset_token.newPassword})
+    	await User.updateOne({_id: verification_token.user}, {password:password_reset_token.newPassword})
         res.status(200).send('Password updated')
     } catch {
         res.status(400).send(error)
@@ -50,7 +50,7 @@ router.post('/newPassword', async(req, res) => {
 router.post('/newEmail', async(req, res) => {
     try {
         const email_change_token = await EmailChangeToken.findOne({token: req.body.emailToken})
-        await User.updateOne({_id: verification_token.userId}, {email:email_change_token.newEmail})
+        await User.updateOne({_id: verification_token.user}, {email:email_change_token.newEmail})
         res.status(200).send('Email updated')
     } catch {
         res.status(400).send(error)

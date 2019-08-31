@@ -2,7 +2,7 @@ const mongoose = require('mongoose');
 const crypto = require('crypto')
 
 const VerificationTokenSchema = new mongoose.Schema({
-    userId: {
+    user: {
     	type: mongoose.Schema.Types.ObjectId,
     	required: true,
     	ref: 'User',
@@ -15,7 +15,7 @@ const VerificationTokenSchema = new mongoose.Schema({
     		return crypto.randomBytes(16).toString('hex')
     	}
     },
-    createdAt: {
+    created_at: {
     	type: Date,
     	required: true,
     	default: Date.now,

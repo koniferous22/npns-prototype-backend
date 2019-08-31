@@ -3,10 +3,56 @@ const router = require('express').Router()
 const Content = require('../models/content/content');
 const Transaction = require('../models/transaction');
 
+// temp
+const Queue = require('../models/queue');
+const User = require('../models/user');
+
+const _ = require('lodash')
 
 router.get('/posts', async (req, res) => {
 	try {
-		res.status(200).send('NYI')
+		// verify that transactions are sorted
+		const page = (!req.query.page || req.query.page < 1) ? 1 : req.query.page
+        const count = (!req.query.count || req.query.count < 1) ? 50 : req.query.count
+		// AUTH
+		// TODO:
+		const user_id = '5d69698c2cd98a79a67333cb'
+		Content.find({submitted_by: user_id}).skip(count * (page - 1)).limit(count).populate(
+		{
+			path: 'problem submission submitted_by',
+			populate: {
+				path: 'problem submitted_by',
+				populate: {
+					path: 'submitted_by'
+				}
+			}
+		}).exec((err, data) => {
+			if (!err) {
+				// TODO: separate file for query filters (so that shit can be later reused)
+				//'_id title bounty view_count created submitted_by.username submission_count'
+				const objectFieldsFilter = (({_id, title, bounty, view_count, created, submitted_by, submission_count, __t}) => ({_id, title, bounty, view_count, created, submitted_by:submitted_by.username, submission_count, __t}))
+				//console.log(data)
+				const result = data.map(entry => {
+					switch (entry.__t){
+						case 'Problem':
+							return objectFieldsFilter(entry)
+							break;
+						case 'Submission':
+							return objectFieldsFilter(entry.problem)
+							break;
+						case 'Reply':
+							return objectFieldsFilter(entry.submission.problem)
+							break;
+						default:
+							return {}
+					}
+				})
+				// TODO: behaviour will be different, cause, 
+				res.status(200).send(_.uniqWith(result, (x,y) => { return x._id.toString() == y._id.toString() }))
+			} else {
+				res.status(400).send(err)
+			}
+		})
 	} catch (error) {
 		res.status(400).send(error)
 	}
@@ -14,6 +60,10 @@ router.get('/posts', async (req, res) => {
 
 router.get('/transactions', async (req, res) => {
 	try {
+		// TODO: refactor
+		// verify that transactions are sorted
+		const page = (!req.query.page || req.query.page < 1) ? 1 : req.query.page
+        const count = (!req.query.count || req.query.count < 1) ? 50 : req.query.count
 		const user_id = 5 // req.user._id
 		const transactions = await Transaction.find({$or: [
 				{
@@ -22,7 +72,25 @@ router.get('/transactions', async (req, res) => {
 				{
 					recipient: user_id
 				}
-			]})
+			]}).skip(count * (page - 1)).limit(count)
+		res.status(200).send(transactions)
+	} catch (error) {
+		res.status(400).send(error)
+	}
+})
+
+router.post('/createTransaction', async (req, res) => {
+	try {
+		const sender = (req.body.sender) ? (await User.find().byLogin(req.body.sender))._id : null
+		const recipient = (req.body.recipient) ? (await User.find().byLogin(req.body.recipient))._id : null
+		const queue = (req.body.queue) ? (await Queue.findOne({name:req.body.queue}))._id : null
+		const transaction = new Transaction({
+			...req.body,
+			sender,
+			recipient,
+			queue
+		})
+		await transaction.save()
 	} catch (error) {
 		res.status(400).send(error)
 	}
