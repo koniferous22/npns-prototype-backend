@@ -1,3 +1,5 @@
+require('dotenv').config()
+
 const port = process.env.PORT
 
 var express = require('express');
@@ -11,8 +13,7 @@ var app = express();
 // helmmet module for security
 var dbConfig = require('./db');
 // Connect to DB
-mongoose.connect(dbConfig.url, { useNewUrlParser: true, useCreateIndex: true });
-
+mongoose.connect(process.env.MONGODB_HOST, { useNewUrlParser: true, useCreateIndex: true });
 app.use(logger('dev'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
@@ -20,15 +21,12 @@ app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(cors());
 
-
 app.use('/', require('./routers/auth'));
 app.use('/queue/', require('./routers/queue'));
 app.use('/problem/', require('./routers/problem'));
 app.use('/submission/', require('./routers/submission'));
 app.use('/verify/', require('./routers/verify'));
 app.use('/u/', require('./routers/user'))
-/*var submission = require('./routes/submission');
-app.use('/submission/', submission);*/
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

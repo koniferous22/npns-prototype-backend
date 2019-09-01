@@ -5,7 +5,6 @@ const User = require('../models/user')
 const Queue = require('../models/queue')
 const Transaction = require('../models/transaction');
 
-const { body, param, validationResult } = require('express-validator/check');
 const { auth } = require('../middleware')
 
 const router = require('express').Router()

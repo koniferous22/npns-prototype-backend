@@ -17,7 +17,7 @@ router.post('/signup', async (req, res) => {
         await user.save()
         const token = new VerificationToken({user: user._id})
         await token.save()
-        const mailInfo = await user.sendEmail(signupTemplate, {token})
+        const mailInfo = await user.sendEmail(signupTemplate, {token: token.token})
     	res.status(200).send({
     		user,
     		mailInfo

@@ -51,8 +51,8 @@ const ProblemSchema = new mongoose.Schema({
     toJSON: { virtuals: true }
 });
 
-const epochBegin = new Date(2019,1,1)
-const epochEnd = new Date(2020,1,1)
+const epochBegin = new Date(process.env.EPOCH_BEGIN_YEAR,process.env.EPOCH_BEGIN_MONTH,process.env.EPOCH_BEGIN_DAY)
+const epochEnd = new Date(process.env.EPOCH_END_YEAR,process.env.EPOCH_END_MONTH,process.env.EPOCH_END_DAY)
 const normalizationCoef = epochEnd - epochBegin
 
 ProblemSchema.virtual('solved').get(function () {

@@ -1,8 +1,6 @@
 const Queue = require('../models/queue');
 const Problem = require('../models/content/problem')
 
-const { body, param, validationResult } = require('express-validator/check');
-
 const router = require('express').Router()
 
 router.get('/hierarchy', async (req, res) => {
