@@ -1,5 +1,6 @@
 const Queue = require('../models/queue');
-const Problem = require('../models/content/problem')
+const Problem = require('../models/content/problem');
+const User = require('../models/user');
 
 const router = require('express').Router()
 
@@ -87,6 +88,22 @@ router.get('/:name/problems', async (req, res) => {
 	} catch (error) {
 		res.status(400).send(error)
 	}	
+})
+
+router.get('/:name/scoreboard', async (req, res) => {
+	try {
+		const page = (!req.query.page || req.query.page < 1) ? 1 : req.query.page
+		const count = (!req.query.count || req.query.count < 1) ? 50 : req.query.count
+		const queue = await Queue.findOne({name:req.params.name},'_id');
+		const balance_specifier = 'balances.' + queue._id
+		console.log(balance_specifier)
+		const sort_params = {}
+		sort_params[balance_specifier] = 'desc'
+		const users = await User.find({},'username ' + balance_specifier).sort(sort_params).skip(count * (page - 1)).limit(count)
+		res.status(200).send(users)
+	} catch (error) {
+		res.status(400).send(error)
+	}
 })
 
 module.exports = router
