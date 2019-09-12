@@ -33,12 +33,13 @@ const UserSchema = new mongoose.Schema({
 			type: String,
 			required: true
 		},
-		created: {
+		// expires cannot be done on a subdocument, refactor schema
+		/*created: {
 			type: Date,
 			default: Date.now,
 			required: true,
 			expires: 86400 // 1 day
-		},
+		},*/
 		_id: false
 	}],
 	verified: {

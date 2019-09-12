@@ -36,7 +36,6 @@ router.post('/signin', async (req, res) => {
             return res.status(401).send({error: 'Login failed! Check authentication credentials'})
         }
         if (!user.verified) {
-            //console.log('here')
             return res.status(401).send({error: 'not verified, check your email'})
         }
         const token = await user.generateAuthToken()
@@ -68,6 +67,11 @@ router.post('/logoutall', auth, async(req, res) => {
     } catch (error) {
         res.status(500).send(error)
     }
+})
+
+router.post('/verifyLogin', auth, async (req, res) => {
+    // Log user out of the application
+    res.status(200).send({user: req.user, token: req.token})
 })
 
 router.post('/passwordReset', async (req, res) => {
