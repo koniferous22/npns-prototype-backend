@@ -62,14 +62,19 @@ router.get('/:name/problems', async (req, res) => {
 		const box_query_mask = '_id title bounty view_count created submitted_by.username submission_count'
 		desc = await Queue.find().descendants({name:req.params.name},'_id')
 		desc = desc.map(x => x._id)
+ 
+		const size = await Problem.find({
+			queue:{
+				$in: desc
+			}
+		}).countDocuments()
+		const hasMore = (page * count) < size
 
-		problems = await Problem.find(
-				{
-					queue:{
-						$in: desc
-					}
-				}
-			).sort({root_queue_value:'desc'}).skip(count * (page - 1)).limit(count).populate('submitted_by','username').lean().exec((err,data) => {
+		const problems = await Problem.find({
+			queue:{
+				$in: desc
+			}
+		}).sort({root_queue_value:'desc'}).skip(count * (page - 1)).limit(count).populate('submitted_by','username').lean().exec((err,data) => {
 				if (err) {
 					res.status(400).send(err)
 					return
@@ -79,8 +84,8 @@ router.get('/:name/problems', async (req, res) => {
 						p.username = p.submitted_by.username
 					}
 					delete p.submitted_by
-				})	
-				res.status(200).send(data)
+				})
+				res.status(200).send({data, hasMore})
 			})
 			
 		
