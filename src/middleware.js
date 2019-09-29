@@ -3,9 +3,9 @@ const User = require('./models/user')
 
 const auth = async(req, res, next) => {
 	//const header = req.header('Authorization') 
-    const token = req.header('Authorization').replace('Bearer ', '')
-    const data = jwt.verify(token, process.env.JWT_KEY)
     try {
+        const token = req.header('Authorization').replace('Bearer ', '')
+        const data = jwt.verify(token, process.env.JWT_KEY)
         // commented stuff does not work, but I can still access user by id
         const user = await User.findOne({ _id: data._id, 'tokens.token': token })
         if (!user) {

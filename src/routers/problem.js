@@ -48,12 +48,11 @@ router.get('/:id', async function(req,res) {
     }
 });
 
-router.post('/:id/submit', async function(req,res) {
+router.post('/:id/submit', auth,  async function(req,res) {
     try {
         // AUTH:
         // TODO: refactor with auth: field submitted_by: should be only required parameter
-        const user_id = '5d69698c2cd98a79a67333cb'
-
+        const user_id = req.user._id
         const submission = new Submission({ ...req.body, submitted_by: user_id, problem: req.params.id })
         await submission.save()
         await Problem.updateOne(
@@ -70,12 +69,12 @@ router.post('/:id/submit', async function(req,res) {
     }
 });
 
-router.post('/:id/mark_solved', async function (req, res) {
+router.post('/:id/mark_solved', auth, async function (req, res) {
 	try {
 		const problem = await Problem.findOne({_id:req.params.id})
 		// AUTH:
 		// TODO: Reimplment with auth middleware
-		const user_id = '5d69698c2cd98a79a67333cb'
+		const user_id = req.user._id
 		if (problem.submitted_by != user_id) {
 			return res.status(401).send('You are not the problem owner')
 		}
@@ -103,27 +102,20 @@ router.get('/:id/submissions', async function (req, res) {
     try {
         const page = (!req.query.page || req.query.page < 1) ? 1 : req.query.page
         const count = (!req.query.count || req.query.count < 1) ? 50 : req.query.count
-        const problem = await Problem.findOne({_id:req.params.id}).populate(
-            {
-                path: 'submissions',
-                match: {
-                    active: true
-                },
-                options: { limit: count, skip: count * (page - 1) }
-            },
-            )
-        
-        res.status(200).send(problem.submissions)
+        const submissions = await Submission.find({problem:req.params.id, active: true}).skip(count * (page - 1)).limit(count)
+        const problem = await Problem.findOne({_id:req.params.id})
+        const hasMore = (page * count) < problem.submissions.length
+        res.status(200).send({data:submissions, hasMore})
     } catch (error) {
         res.status(400).send('looool')
     }
 })
 
-router.post('/:id/boost', async function (req, res) {
+router.post('/:id/boost', auth, async function (req, res) {
     try {
         // AUTH:
         // TODO: refactor with auth: field submitted_by: should be only required parameter
-        const user_id = '5d69698c2cd98a79a67333cb'
+        const user_id = req.user._id
         const problem = await Problem.findOne({_id:req.params.id})
         problem.boost(user_id, req.body.value)
         // TODO: EXTERNAL SERVICES GO HERE
