@@ -17,23 +17,14 @@ const AuthTokenSchema = new mongoose.Schema({
     	type: Date,
     	required: true,
     	default: Date.now,
-    	expires: 1200
+    	expires: 86400
     }
 })
 
 AuthTokenSchema.statics.generate = async function (user) {
 	const token = jwt.sign({_id: user}, process.env.JWT_KEY)
     const auth_token_record = new this({ token, user })
-    console.log('pre save')
-    await auth_token_record.save((err, doc) => {
-    	if (err) {
-    		console.log('ERRROORR')
-    		console.log(err)
-    	} else {
-    		console.log(doc)
-    	}
-    })
-    console.log('post saves')
+    await auth_token_record.save()
     return auth_token_record
 }
 

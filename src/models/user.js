@@ -28,20 +28,6 @@ const UserSchema = new mongoose.Schema({
 		type: String,
 		default: ''
 	},
-	tokens: [{
-		token: {
-			type: String,
-			required: true
-		},
-		// expires cannot be done on a subdocument, refactor schema
-		/*created: {
-			type: Date,
-			default: Date.now,
-			required: true,
-			expires: 86400 // 1 day
-		},*/
-		_id: false
-	}],
 	verified: {
 		type: Boolean,
 		default: false
