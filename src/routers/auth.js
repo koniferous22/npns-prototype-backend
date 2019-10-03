@@ -40,10 +40,7 @@ router.post('/signin', async (req, res) => {
         if (!user.verified) {
             return res.status(401).send({error: 'not verified, check your email'})
         }
-        console.log('here')
         token = await AuthToken.generate(user._id)
-        console.log(token)
-        //const token = await user.generateAuthToken()
         res.status(200).send({ user, token: token.token })
     } catch (error) {   
         res.status(400).send(error)
