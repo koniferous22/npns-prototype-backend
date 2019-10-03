@@ -69,11 +69,6 @@ router.post('/logoutall', auth, async(req, res) => {
     }
 })
 
-router.post('/verifyLogin', auth, async (req, res) => {
-    // Log user out of the application
-    res.status(200).send({user: req.user, token: req.token})
-})
-
 router.post('/passwordReset', async (req, res) => {
     try {
         const token = new PasswordResetToken(req.body)

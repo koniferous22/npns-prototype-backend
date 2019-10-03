@@ -7,6 +7,8 @@ const EmailChangeToken = require('../models/verification_token/email_change');
 
 const { signupTemplate } = require('../nodemailer/templates')
 
+const { auth } = require('../middleware');
+
 router.post('/registration', async (req, res) => {
     try {
         const verification_token = await VerificationToken.findOne({token: req.body.emailToken})
@@ -55,6 +57,11 @@ router.post('/newEmail', async(req, res) => {
     } catch {
         res.status(400).send(error)
     }
+})
+
+router.post('/login', auth, async (req, res) => {
+    // Log user out of the application
+    res.status(200).send({user: req.user, token: req.token})
 })
 
 module.exports = router
