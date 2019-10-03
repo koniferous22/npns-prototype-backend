@@ -1,6 +1,8 @@
 const User = require('../models/user');
+const AuthToken = require('../models/auth_token')
 const VerificationToken = require('../models/verification_token/verification_token');
 const PasswordResetToken = require('../models/verification_token/password_reset');
+
 
 const { signupTemplate,pwdResetTemplate } = require('../nodemailer/templates');
 
@@ -38,8 +40,11 @@ router.post('/signin', async (req, res) => {
         if (!user.verified) {
             return res.status(401).send({error: 'not verified, check your email'})
         }
-        const token = await user.generateAuthToken()
-        res.status(200).send({ user, token })
+        console.log('here')
+        token = await AuthToken.generate(user._id)
+        console.log(token)
+        //const token = await user.generateAuthToken()
+        res.status(200).send({ user, token: token.token })
     } catch (error) {   
         res.status(400).send(error)
     }
@@ -48,10 +53,11 @@ router.post('/signin', async (req, res) => {
 router.post('/logout', auth, async (req, res) => {
     // Log user out of the application
     try {
-        req.user.tokens = req.user.tokens.filter((token) => {
+        await AuthToken.deleteOne(req.token)
+        /*req.user.tokens = req.user.tokens.filter((token) => {
             return token.token != req.token
         })
-        await req.user.save()
+        await req.user.save()*/
         res.send()
     } catch (error) {
         res.status(500).send(error)
@@ -61,8 +67,9 @@ router.post('/logout', auth, async (req, res) => {
 router.post('/logoutall', auth, async(req, res) => {
     // Log user out of all devices
     try {
-        req.user.tokens.splice(0, req.user.tokens.length)
-        await req.user.save()
+        await AuthToken.deleteMany({user: req.user._id})
+        /*req.user.tokens.splice(0, req.user.tokens.length)
+        await req.user.save()*/
         res.send()
     } catch (error) {
         res.status(500).send(error)

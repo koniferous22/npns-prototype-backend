@@ -117,7 +117,7 @@ UserSchema.methods.setVerifiedFlag = function() {
 UserSchema.methods.addBalance = function(qid, balanceToAdd) {
 	// TODO qid validation
 	var balance = this.balances.get(qid) || 0;
-	balances += balanceToAdd;
+	balance += balanceToAdd;
 	this.balances.set(qid, balance);
 }
 

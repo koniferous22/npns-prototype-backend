@@ -1,21 +1,25 @@
 const jwt = require('jsonwebtoken')
 const User = require('./models/user')
+const AuthToken = require('./models/auth_token')
 
 const auth = async(req, res, next) => {
 	//const header = req.header('Authorization') 
     try {
         const token = req.header('Authorization').replace('Bearer ', '')
         const data = jwt.verify(token, process.env.JWT_KEY)
-        // commented stuff does not work, but I can still access user by id
-        const user = await User.findOne({ _id: data._id, 'tokens.token': token })
+        const token_record = await AuthToken.findOne({token})
+        if (!token) {
+            throw new Error("Invalid token")
+        }
+        const user = await User.findOne({_id: token_record.user})
+        //const user = await User.findOne({ _id: data._id, 'tokens.token': token })
         if (!user) {
-            throw new Error("Token no longer valid")
+            throw new Error("Invalid token")
         }
         req.user = user
-        req.token = token
+        req.token = token_record
         next()
     } catch (error) {
-        //console.log(JSON.stringify(error))
         res.status(401).send({ error: 'Not authorized to access this resource' })
     }
 

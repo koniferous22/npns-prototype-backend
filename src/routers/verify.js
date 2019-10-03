@@ -61,7 +61,7 @@ router.post('/newEmail', async(req, res) => {
 
 router.post('/login', auth, async (req, res) => {
     // Log user out of the application
-    res.status(200).send({user: req.user, token: req.token})
+    res.status(200).send({user: req.user, token: req.token.token})
 })
 
 module.exports = router
