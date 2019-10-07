@@ -1,6 +1,7 @@
 const Queue = require('../models/queue');
 const Problem = require('../models/content/problem');
 const User = require('../models/user');
+const { auth } = require('../middleware');
 
 const router = require('express').Router()
 
@@ -108,5 +109,19 @@ router.get('/:name/scoreboard', async (req, res) => {
 		res.status(400).send(error)
 	}
 })
+
+router.get('/economy/karmaValues', /*auth,*/ async (req, res) => {
+	try {
+		queues = await Queue.find()
+    nameAndKarma = []
+    for (const queue of queues) {
+      nameAndKarma.push({name:queue.name,karmaValue:queue.karmaValue})
+    }
+		res.status(200).send(nameAndKarma)
+	} catch(error) {
+		res.status(400).send(error)
+	}
+})
+
 
 module.exports = router
