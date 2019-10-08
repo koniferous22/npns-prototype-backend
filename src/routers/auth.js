@@ -18,7 +18,8 @@ router.post('/signup', async (req, res) => {
         const user = new User(req.body)
         await user.save()
         const token = new VerificationToken({user: user._id})
-        await token.save()
+        await token.save((err,data) => {})
+        //bez callbacku zlyhavali registracie
         const mailInfo = await user.sendEmail(signupTemplate, {token: token.token})
     	res.status(200).send({
     		user,
