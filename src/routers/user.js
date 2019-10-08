@@ -1,4 +1,5 @@
 const router = require('express').Router()
+const _ = require('lodash')
 
 const Content = require('../models/content/content');
 const Transaction = require('../models/transaction');
@@ -7,16 +8,16 @@ const Transaction = require('../models/transaction');
 const Queue = require('../models/queue');
 const User = require('../models/user');
 
-const _ = require('lodash')
+const { auth } = require('../middleware');
 
-router.get('/posts', async (req, res) => {
+router.get('/posts', auth, async (req, res) => {
 	try {
 		// verify that transactions are sorted
 		const page = (!req.query.page || req.query.page < 1) ? 1 : req.query.page
         const count = (!req.query.count || req.query.count < 1) ? 50 : req.query.count
+		const user_id = req.user._id
 		// AUTH
 		// TODO:
-		const user_id = '5d69698c2cd98a79a67333cb'
 		Content.find({submitted_by: user_id}).skip(count * (page - 1)).limit(count).populate(
 		{
 			path: 'problem submission submitted_by',
@@ -58,13 +59,13 @@ router.get('/posts', async (req, res) => {
 	}
 })
 
-router.get('/transactions', async (req, res) => {
+router.get('/transactions', auth, async (req, res) => {
 	try {
 		// TODO: refactor
 		// verify that transactions are sorted
 		const page = (!req.query.page || req.query.page < 1) ? 1 : req.query.page
         const count = (!req.query.count || req.query.count < 1) ? 50 : req.query.count
-		const user_id = 5 // req.user._id
+		const user_id = req.user._id
 		const transactions = await Transaction.find({$or: [
 				{
 					sender: user_id
@@ -79,7 +80,7 @@ router.get('/transactions', async (req, res) => {
 	}
 })
 
-router.post('/createTransaction', async (req, res) => {
+router.post('/createTransaction', auth, async (req, res) => {
 	try {
 		const sender = (req.body.sender) ? (await User.find().byLogin(req.body.sender))._id : null
 		const recipient = (req.body.recipient) ? (await User.find().byLogin(req.body.recipient))._id : null
