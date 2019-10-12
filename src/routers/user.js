@@ -8,6 +8,9 @@ const Transaction = require('../models/transaction');
 const Queue = require('../models/queue');
 const User = require('../models/user');
 
+const Problem = require('../models/content/problem')
+const Submission = require('../models/content/submission')
+const Reply = require('../models/content/reply')
 const { auth } = require('../middleware');
 
 router.get('/posts', auth, async (req, res) => {
@@ -92,6 +95,18 @@ router.post('/createTransaction', auth, async (req, res) => {
 			queue
 		})
 		await transaction.save()
+	} catch (error) {
+		res.status(400).send(error)
+	}
+})
+
+router.get('/:id', async (req, res) => {
+	try {
+		const user = await User.findOne({username: req.params.id})
+		const problem_count = await Problem.countDocuments({submitted_by: user._id})
+		const submission_count = await Submission.countDocuments({submitted_by: user._id})
+		const reply_count = await Reply.countDocuments({submitted_by: user._id})
+		res.status(200).send({firstName: user.firstName, lastName: user.lastName, email: user.email, problem_count, submission_count, reply_count})
 	} catch (error) {
 		res.status(400).send(error)
 	}
