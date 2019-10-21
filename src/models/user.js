@@ -95,7 +95,7 @@ UserSchema.methods.sendEmail = async function(template,params) {
 UserSchema.methods.setVerifiedFlag = function() {
 	const user = this
 	if (!!user.verified) {
-		throw new Error({error: 'User already verified'})
+		throw new Error({error: 'User already fied'})
 	}
 	user.verified = true
 }

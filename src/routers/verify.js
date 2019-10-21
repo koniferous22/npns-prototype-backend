@@ -25,7 +25,7 @@ router.post('/registration/resend', async (req, res) => {
     try {
         const user = await User.find().byLogin(req.body.username)
         if (user.verified) {
-            throw new Error({error:'User already verified'})
+            throw {message:'User already verified'}
         }
         // this should delete all other oprations as well
         await VerificationToken.deleteMany({user:user._id})

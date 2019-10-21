@@ -19,7 +19,7 @@ router.post('/signup', async (req, res) => {
         await user.save()
         const token = new VerificationToken({user: user._id})
         await token.save((err,data) => {})
-        //bez callbacku zlyhavali registracie
+        //without the callback the sign ups were failing for some reason lol
         const mailInfo = await user.sendEmail(signupTemplate, {token: token.token})
     	res.status(200).send({
     		user,
@@ -48,14 +48,22 @@ router.post('/signin', async (req, res) => {
     }
 });
 
+router.post('/confirmPassword', auth, async (req, res) => {
+   try {
+        user = req.user
+        if (!user.validPassword(req.body.password)) {
+            throw {message:'Invalid password'}
+        }
+        res.status(200).send({ user })
+    } catch (error) {   
+        res.status(400).send(error)
+    } 
+});
+
 router.post('/logout', auth, async (req, res) => {
     // Log user out of the application
     try {
         await AuthToken.deleteOne(req.token)
-        /*req.user.tokens = req.user.tokens.filter((token) => {
-            return token.token != req.token
-        })
-        await req.user.save()*/
         res.send()
     } catch (error) {
         res.status(500).send(error)
@@ -66,8 +74,6 @@ router.post('/logoutall', auth, async(req, res) => {
     // Log user out of all devices
     try {
         await AuthToken.deleteMany({user: req.user._id})
-        /*req.user.tokens.splice(0, req.user.tokens.length)
-        await req.user.save()*/
         res.send()
     } catch (error) {
         res.status(500).send(error)

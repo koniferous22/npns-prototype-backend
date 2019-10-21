@@ -25,19 +25,6 @@ router.post('/add', /*auth, */ async function (req, res) {
 		res.status(400).send(error)
 	}
 });
-/*
-router.get('/:queue/:page', function(req,res,next) {
-        // define paging response
-        Problem.find({queueId: req.params.id}, function(err, problemz) {
-        if (err) {
-            next(err);
-        } else {
-            res.set('Content-type','application/json');
-            res.send(problemz);
-        }
-    });
-});*/
-
 
 router.get('/:id', async function(req,res) {
     try {
