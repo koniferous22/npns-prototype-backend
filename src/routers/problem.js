@@ -9,7 +9,7 @@ const { auth } = require('../middleware')
 
 const router = require('express').Router()
 
-router.post('/add', /*auth, */ async function (req, res) {
+router.post('/add', auth, async function (req, res) {
 	try {
 		// AUTH:
         // TODO: refactor with auth: field submitted_by
