@@ -6,10 +6,7 @@ const options = {
 
 const VerificationTokenModel = require('./verification_token');
 
-const PasswordResetTokenSchema = new mongoose.Schema({
-	newPassword: String
-})
-
+const PasswordResetTokenSchema = new mongoose.Schema({})
 
 const PasswordResetTokenModel = VerificationTokenModel.discriminator('PasswordReset', PasswordResetTokenSchema, options)
 

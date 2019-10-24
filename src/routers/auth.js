@@ -82,9 +82,12 @@ router.post('/logoutall', auth, async(req, res) => {
 
 router.post('/passwordReset', async (req, res) => {
     try {
-        const token = new PasswordResetToken(req.body)
+        const user = await User.find().byLogin(req.body.user)
+        if (!user) {
+            return res.status(400).json({message:'No User found'})
+        }
+        const token = new PasswordResetToken({user})
         await token.save()
-        const user = await User.findOne({_id: token.user })
         await user.sendEmail(pwdResetTemplate, {token: token.token})
         res.status(200)
     } catch (error) {

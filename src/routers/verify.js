@@ -41,7 +41,8 @@ router.post('/registration/resend', async (req, res) => {
 router.post('/newPassword', async(req, res) => {
     try {
     	const password_reset_token = await PasswordResetToken.findOne({token: req.body.emailToken})
-    	await User.updateOne({_id: verification_token.user}, {password:password_reset_token.newPassword})
+
+    	await User.updateOne({_id: verification_token.user}, {password:req.body.password})
         res.status(200).send('Password updated')
     } catch {
         res.status(400).send(error)
