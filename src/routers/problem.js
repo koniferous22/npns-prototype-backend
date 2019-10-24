@@ -13,7 +13,7 @@ router.post('/add', auth, async function (req, res) {
 	try {
 		// AUTH:
         // TODO: refactor with auth: field submitted_by
-        problem = req.body;
+        problem = {...req.body,  submitted_by: req.user._id};
         q = await Queue.findOne({name:problem.queue_name}, '_id')
         if (!q) {
             throw new Error({message:'NO QUEUE FOUND'})
