@@ -89,7 +89,7 @@ router.post('/passwordReset', async (req, res) => {
         const token = new PasswordResetToken({user})
         await token.save()
         await user.sendEmail(pwdResetTemplate, {token: token.token})
-        res.status(200)
+        res.status(200).send({message:"Password reset email sent", user})
     } catch (error) {
         res.status(500).send(error)
     }
