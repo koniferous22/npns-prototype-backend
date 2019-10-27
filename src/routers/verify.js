@@ -47,22 +47,22 @@ router.post('/newPasswordRequest', async(req, res) => {
         } else {
             return res.status(400).send({message:'Invalid token'})
         }
-    } catch {
+    } catch (error) {
         res.status(400).send({message:'Invalid token'})
     }
     
 })
 
-router.post('/newEmail', auth, async(req, res) => {
+router.post('/newEmail', async(req, res) => {
     try {
         const email_change_token = await EmailChangeToken.findOne({token: req.body.emailToken})
-        await User.updateOne({_id: verification_token.user}, {email:email_change_token.newEmail})
+        await User.updateOne({_id: email_change_token.user}, {email:email_change_token.newEmail})
         // deletes all other operations
-        await VerificationToken.deleteMany({user:password_reset_token.user})
+        await VerificationToken.deleteMany({user:email_change_token.user})
         // logs out user in order to confirm the changes
-        await AuthToken.deleteMany({user:password_reset_token.user})
+        await AuthToken.deleteMany({user:email_change_token.user})
         res.status(200).send('Email updated')
-    } catch {
+    } catch (error) {
         res.status(400).send(error)
     }
 })

@@ -110,7 +110,7 @@ router.get('/:name/scoreboard', async (req, res) => {
 	}
 })
 
-router.get('/economy/karmaValues', auth, async (req, res) => {
+router.get('/karmaValues', auth, async (req, res) => {
 	try {
    	nameAndKarma = await Queue.find({}, 'name karmaValue -_id') //nevracia _id 
 		res.status(200).send(nameAndKarma)
