@@ -3,7 +3,7 @@ const AuthToken = require('../models/auth_token')
 const VerificationToken = require('../models/verification_token/verification_token');
 
 
-const { signupTemplate,pwdResetTemplate } = require('../nodemailer/templates');
+const { signupTemplate } = require('../nodemailer/templates');
 
 const { auth } = require('../middleware');
 
@@ -50,7 +50,8 @@ router.post('/signin', async (req, res) => {
 router.post('/confirmPassword', auth, async (req, res) => {
    try {
         user = req.user
-        if (!user.validPassword(req.body.password)) {
+        const hasValidPassword = await user.validPassword(req.body.password)
+        if (!hasValidPassword) {
             throw {message:'Invalid password'}
         }
         res.status(200).send({ user })

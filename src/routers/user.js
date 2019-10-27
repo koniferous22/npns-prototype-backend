@@ -39,7 +39,6 @@ router.get('/posts', auth, async (req, res) => {
 				// TODO: separate file for query filters (so that shit can be later reused)
 				//'_id title bounty view_count created submitted_by.username submission_count'
 				const objectFieldsFilter = (({_id, title, bounty, view_count, created, submitted_by, submission_count, __t}) => ({_id, title, bounty, view_count, created, submitted_by:submitted_by.username, submission_count, __t}))
-				//console.log(data)
 				const result = data.map(entry => {
 					switch (entry.__t){
 						case 'Problem':
@@ -119,8 +118,8 @@ router.get('/:id', async (req, res) => {
 
 router.post('/emailChange', auth, async (req, res) => {
     try {
-        const email = req.body.email
-        const token = new EmailChangeToken({user: req.user._id, email})
+        const newEmail = req.body.email
+        const token = new EmailChangeToken({user: req.user._id, newEmail})
         await token.save()
         await user.sendEmail(emailChangeTemplate, {token: token.token})
         res.status(200).send({message:"Email change requested"})

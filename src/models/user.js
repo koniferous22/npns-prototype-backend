@@ -115,7 +115,6 @@ UserSchema.query.byLogin = async function (input) {
 UserSchema.query.byCredentials = async function (input, password) {
     // Search for a user by email and password.
  	user = await this.find().byLogin(input)
-
     if (!user) {
         throw new Error({ error: 'Invalid login credentials' })
     }
