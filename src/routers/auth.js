@@ -1,7 +1,6 @@
 const User = require('../models/user');
 const AuthToken = require('../models/auth_token')
 const VerificationToken = require('../models/verification_token/verification_token');
-const PasswordResetToken = require('../models/verification_token/password_reset');
 
 
 const { signupTemplate,pwdResetTemplate } = require('../nodemailer/templates');
@@ -80,38 +79,5 @@ router.post('/logout/all', auth, async(req, res) => {
     }
 })
 
-router.post('/passwordReset/request', async (req, res) => {
-    try {
-        const user = await User.find().byLogin(req.body.user)
-        if (!user) {
-            return res.status(400).json({message:'No User found'})
-        }
-        const token = new PasswordResetToken({user})
-        await token.save()
-        await user.sendEmail(pwdResetTemplate, {token: token.token})
-        res.status(200).send({message:"Password reset email sent", user})
-    } catch (error) {
-        res.status(500).send(error)
-    }
-})
-
-router.post('/passwordReset/confirm', async (req, res) => {
-    try {
-        const password_reset_token = await PasswordResetToken.findOne({token: req.body.emailToken})
-        const user = await User.findOne({_id: password_reset_token.user})
-        // could not be bothered, pre update event handler doesnt work, sorry you have to witness this
-        user.password = req.body.password
-        await user.save()
-
-        // deletes all other operations
-        await VerificationToken.deleteMany({user:password_reset_token.user})
-        // logs out user in order to confirm the changes
-        await AuthToken.deleteMany({user:password_reset_token.user})
-        
-        res.status(200).send('Password updated')
-    } catch(error) {
-        res.status(400).send(error)
-    }
-})
 
 module.exports = router

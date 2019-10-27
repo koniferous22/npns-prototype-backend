@@ -12,6 +12,10 @@ const Submission = require('../models/content/submission')
 const Reply = require('../models/content/reply')
 const { auth } = require('../middleware');
 
+const PasswordResetToken = require('../models/verification_token/password_reset');
+const EmailChangeToken = require('../models/verification_token/email_change');
+
+const { pwdResetTemplate, emailChangeTemplate } = require('../nodemailer/templates');
 
 router.get('/posts', auth, async (req, res) => {
 	try {
@@ -111,5 +115,54 @@ router.get('/:id', async (req, res) => {
 		res.status(400).json({error})
 	}
 })
+
+
+router.post('/emailChange', auth, async (req, res) => {
+    try {
+        const email = req.body.email
+        const token = new EmailChangeToken({user: req.user._id, email})
+        await token.save()
+        await user.sendEmail(emailChangeTemplate, {token: token.token})
+        res.status(200).send({message:"Email change requested"})
+    } catch (error) {
+        res.status(500).send({message: error})
+    }
+})
+
+router.post('/passwordReset/request', async (req, res) => {
+    try {
+        const user = await User.find().byLogin(req.body.user)
+        if (!user) {
+            return res.status(400).json({message:'No User found'})
+        }
+        const token = new PasswordResetToken({user})
+        await token.save()
+        await user.sendEmail(pwdResetTemplate, {token: token.token})
+        res.status(200).send({message:"Password reset email sent", user})
+    } catch (error) {
+        res.status(500).send(error)
+    }
+})
+
+router.post('/passwordReset/confirm', async (req, res) => {
+    try {
+        const password_reset_token = await PasswordResetToken.findOne({token: req.body.emailToken})
+        const user = await User.findOne({_id: password_reset_token.user})
+        // could not be bothered, pre update event handler doesnt work, sorry you have to witness this
+        user.password = req.body.password
+        await user.save()
+
+        // deletes all other operations
+        await VerificationToken.deleteMany({user:password_reset_token.user})
+        // logs out user in order to confirm the changes
+        await AuthToken.deleteMany({user:password_reset_token.user})
+        
+        res.status(200).send('Password updated')
+    } catch(error) {
+        res.status(400).send(error)
+    }
+})
+
+
 
 module.exports = router

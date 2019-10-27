@@ -16,7 +16,17 @@ const pwdResetTemplate = (params) => {
 	}
 }
 
+const emailChangeTemplate = (params) => {
+	const frontend_address = "http://localhost:3001/confirm/emailChange/"
+	return {
+		subject: 'NPNS Email Change Link',
+		text: 'Copy following address to confirm email:\n' + frontend_address + params.token,
+		html: '<p>Click <a href="' + frontend_address + params.token + '">here</a> to confirm your newly email</p>'
+	}
+}
+
 module.exports = {
 	signupTemplate,
-	pwdResetTemplate
+	pwdResetTemplate,
+	emailChangeTemplate
 }
