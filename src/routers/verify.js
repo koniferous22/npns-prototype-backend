@@ -1,5 +1,6 @@
 const router = require('express').Router();
 
+const AuthToken = require('../models/auth_token')
 const User = require('../models/user')
 const VerificationToken = require('../models/verification_token/verification_token');
 const PasswordResetToken = require('../models/verification_token/password_reset');
@@ -38,14 +39,12 @@ router.post('/registration/resend', async (req, res) => {
     }
 })
 
-router.post('/newPassword', async(req, res) => {
+router.post('/newPasswordRequest', async(req, res) => {
     try {
     	const password_reset_token = await PasswordResetToken.findOne({token: req.body.emailToken})
-
-    	await User.updateOne({_id: verification_token.user}, {password:req.body.password})
-        res.status(200).send('Password updated')
+    	res.status(200).send('Password updated')
     } catch {
-        res.status(400).send(error)
+        res.status(400).send({message:'Invalid token'})
     }
     
 })
@@ -54,6 +53,10 @@ router.post('/newEmail', auth, async(req, res) => {
     try {
         const email_change_token = await EmailChangeToken.findOne({token: req.body.emailToken})
         await User.updateOne({_id: verification_token.user}, {email:email_change_token.newEmail})
+        // deletes all other operations
+        await VerificationToken.deleteMany({user:password_reset_token.user})
+        // logs out user in order to confirm the changes
+        await AuthToken.deleteMany({user:password_reset_token.user})
         res.status(200).send('Email updated')
     } catch {
         res.status(400).send(error)
@@ -61,7 +64,7 @@ router.post('/newEmail', auth, async(req, res) => {
 })
 
 router.post('/login', auth, async (req, res) => {
-    // Log user out of the application
+    // just verifies if user is logged in
     res.status(200).send({user: req.user, token: req.token.token})
 })
 

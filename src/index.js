@@ -26,7 +26,8 @@ app.use('/queue/', require('./routers/queue'));
 app.use('/problem/', require('./routers/problem'));
 app.use('/submission/', require('./routers/submission'));
 app.use('/verify/', require('./routers/verify'));
-app.use('/u/', require('./routers/user'))
+app.use('/u/', require('./routers/user'));
+app.use('/valid', require('./routers/valid'));
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

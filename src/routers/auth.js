@@ -70,7 +70,7 @@ router.post('/logout', auth, async (req, res) => {
     }
 })
 
-router.post('/logoutall', auth, async(req, res) => {
+router.post('/logout/all', auth, async(req, res) => {
     // Log user out of all devices
     try {
         await AuthToken.deleteMany({user: req.user._id})
@@ -80,7 +80,7 @@ router.post('/logoutall', auth, async(req, res) => {
     }
 })
 
-router.post('/passwordReset', async (req, res) => {
+router.post('/passwordReset/request', async (req, res) => {
     try {
         const user = await User.find().byLogin(req.body.user)
         if (!user) {
@@ -92,6 +92,21 @@ router.post('/passwordReset', async (req, res) => {
         res.status(200).send({message:"Password reset email sent", user})
     } catch (error) {
         res.status(500).send(error)
+    }
+})
+
+router.post('/passwordReset/confirm', async (req, res) => {
+    try {
+        const password_reset_token = await PasswordResetToken.findOne({token: req.body.emailToken})
+        await User.updateOne({_id: verification_token.user}, {password:req.body.password})
+        // deletes all other operations
+        await VerificationToken.deleteMany({user:password_reset_token.user})
+        // logs out user in order to confirm the changes
+        await AuthToken.deleteMany({user:password_reset_token.user})
+        
+        res.status(200).send('Password updated')
+    } catch {
+        res.status(400).send(error)
     }
 })
 
