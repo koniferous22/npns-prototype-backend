@@ -98,14 +98,18 @@ router.post('/passwordReset/request', async (req, res) => {
 router.post('/passwordReset/confirm', async (req, res) => {
     try {
         const password_reset_token = await PasswordResetToken.findOne({token: req.body.emailToken})
-        await User.updateOne({_id: verification_token.user}, {password:req.body.password})
+        const user = await User.findOne({_id: password_reset_token.user})
+        // could not be bothered, pre update event handler doesnt work, sorry you have to witness this
+        user.password = req.body.password
+        await user.save()
+
         // deletes all other operations
         await VerificationToken.deleteMany({user:password_reset_token.user})
         // logs out user in order to confirm the changes
         await AuthToken.deleteMany({user:password_reset_token.user})
         
         res.status(200).send('Password updated')
-    } catch {
+    } catch(error) {
         res.status(400).send(error)
     }
 })

@@ -42,7 +42,11 @@ router.post('/registration/resend', async (req, res) => {
 router.post('/newPasswordRequest', async(req, res) => {
     try {
     	const password_reset_token = await PasswordResetToken.findOne({token: req.body.emailToken})
-    	res.status(200).send('Password updated')
+        if (password_reset_token) {
+    	   return res.status(200).send('Email token valid')
+        } else {
+            return res.status(400).send({message:'Invalid token'})
+        }
     } catch {
         res.status(400).send({message:'Invalid token'})
     }

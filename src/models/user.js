@@ -60,7 +60,6 @@ UserSchema.methods.validPassword = async function(pwd) {
 UserSchema.pre('save', async function (next) {
     // Hash the password before saving the user model
     const user = this
-    //if (user.)
     if (user.isModified('password')) {
         user.password = await UserModel.generateHash(user.password)
     }
