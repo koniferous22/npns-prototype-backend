@@ -5,6 +5,7 @@ const User = require('../models/user')
 const VerificationToken = require('../models/verification_token/verification_token');
 const PasswordResetToken = require('../models/verification_token/password_reset');
 const EmailChangeToken = require('../models/verification_token/email_change');
+const UsernameChangeToken = require('../models/verification_token/username_change');
 
 const { signupTemplate } = require('../nodemailer/templates')
 
@@ -62,6 +63,20 @@ router.post('/newEmail', async(req, res) => {
         // logs out user in order to confirm the changes
         await AuthToken.deleteMany({user:email_change_token.user})
         res.status(200).send('Email updated')
+    } catch (error) {
+        res.status(400).send(error)
+    }
+})
+
+router.post('/newUsername', async(req, res) => {
+    try {
+        const username_change_token = await UsernameChangeToken.findOne({token: req.body.emailToken})
+        await User.updateOne({_id: username_change_token.user}, {username:username_change_token.newUsername})
+        // deletes all other operations
+        await VerificationToken.deleteMany({user:username_change_token.user})
+        // logs out user in order to confirm the changes
+        await AuthToken.deleteMany({user:username_change_token.user})
+        res.status(200).send('Username updated')
     } catch (error) {
         res.status(400).send(error)
     }

@@ -16,9 +16,10 @@ const AuthToken = require('../models/auth_token')
 
 const PasswordResetToken = require('../models/verification_token/password_reset');
 const EmailChangeToken = require('../models/verification_token/email_change');
+const UsernameChangeToken = require('../models/verification_token/username_change');
 const VerificationToken = require('../models/verification_token/verification_token');
 
-const { pwdResetTemplate, emailChangeTemplate } = require('../nodemailer/templates');
+const { pwdResetTemplate, emailChangeTemplate, usernameChangeTemplate } = require('../nodemailer/templates');
 
 router.get('/posts', auth, async (req, res) => {
 	try {
@@ -121,10 +122,22 @@ router.get('/:id', async (req, res) => {
 
 router.post('/emailChange', auth, async (req, res) => {
     try {
-        const newEmail = req.body.email
+        const newEmail = req.body.newEmail
         const token = new EmailChangeToken({user: req.user._id, newEmail})
         await token.save()
         await user.sendEmail(emailChangeTemplate, {token: token.token})
+        res.status(200).send({message:"Email change requested"})
+    } catch (error) {
+        res.status(500).send({message: error})
+    }
+})
+
+router.post('/usernameChange', auth, async (req, res) => {
+    try {
+        const newUsername = req.body.newUsername
+        const token = new UsernameChangeToken({user: req.user._id, newUsername})
+        await token.save()
+        await user.sendEmail(usernameChangeTemplate, {token: token.token})
         res.status(200).send({message:"Email change requested"})
     } catch (error) {
         res.status(500).send({message: error})
@@ -159,6 +172,18 @@ router.post('/passwordReset/confirm', async (req, res) => {
         // logs out user in order to confirm the changes
         await AuthToken.deleteMany({user:user._id})
         
+        res.status(200).send('Password updated')
+    } catch(error) {
+        res.status(400).send(error)
+    }
+})
+
+router.post('/changeName', auth, async (req, res) => {
+    try {
+        const user = req.user
+        user.firstName = req.body.firstName || user.firstName
+        user.lastName = req.body.lastName || user.lastName
+        await user.save()
         res.status(200).send('Password updated')
     } catch(error) {
         res.status(400).send(error)

@@ -8,6 +8,9 @@ const { auth } = require('../middleware');
 
 router.post('/username', async (req, res) => {
 	try {
+		if (!req.body.username || req.body.username === '') {
+			return res.status(400).send({message:'No username submitted'})
+		}
 		const user_with_username = await User.find({username: req.body.username}).limit(1)
 		if (user_with_username.length > 0) {
 			return res.status(400).send({message:'Username taken'})
@@ -38,7 +41,9 @@ router.post('/email', check('email').isEmail() , async (req, res) => {
 
 router.post('/password', async (req, res) => {
 	// OK HERE I GOT REALLY LAZY
-
+	if (!req.body.password) {
+		return res.status(400).send({message:'No password'})
+	}
 	if (req.body.password.length < 8) {
 		return res.status(400).send({message:'Too short'})
 	}
