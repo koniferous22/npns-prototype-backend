@@ -12,8 +12,11 @@ const Submission = require('../models/content/submission')
 const Reply = require('../models/content/reply')
 const { auth } = require('../middleware');
 
+const AuthToken = require('../models/auth_token')
+
 const PasswordResetToken = require('../models/verification_token/password_reset');
 const EmailChangeToken = require('../models/verification_token/email_change');
+const VerificationToken = require('../models/verification_token/verification_token');
 
 const { pwdResetTemplate, emailChangeTemplate } = require('../nodemailer/templates');
 
@@ -152,9 +155,9 @@ router.post('/passwordReset/confirm', async (req, res) => {
         await user.save()
 
         // deletes all other operations
-        await VerificationToken.deleteMany({user:password_reset_token.user})
+        await VerificationToken.deleteMany({user:user._id})
         // logs out user in order to confirm the changes
-        await AuthToken.deleteMany({user:password_reset_token.user})
+        await AuthToken.deleteMany({user:user._id})
         
         res.status(200).send('Password updated')
     } catch(error) {
