@@ -95,6 +95,20 @@ router.get('/:name/problems', async (req, res) => {
 	}	
 })
 
+router.get('/:name/user_count', async (req, res) => {
+	try {
+		const queue = await Queue.findOne({name:req.params.name},'_id');
+		const balance_specifier = 'balances.' + queue._id
+		const sort_params = {}
+		sort_params[balance_specifier] = 'desc'
+		const users = await User.find({},'username ' + balance_specifier).sort(sort_params).skip(count * (page - 1)).limit(count)
+		res.status(200).send(users)
+	} catch (error) {
+		res.status(400).send(error)
+	}
+})
+
+
 router.get('/:name/scoreboard', async (req, res) => {
 	try {
 		const page = (!req.query.page || req.query.page < 1) ? 1 : req.query.page

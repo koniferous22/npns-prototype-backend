@@ -21,22 +21,24 @@ const VerificationToken = require('../models/verification_token/verification_tok
 
 const { pwdResetTemplate, emailChangeTemplate, usernameChangeTemplate } = require('../nodemailer/templates');
 
-router.get('/posts', auth, async (req, res) => {
+router.get('/:id/posts', async (req, res) => {
 	try {
-		// verify that transactions are sorted
+		/*const size = await Problem.find({
+			queue:{
+				$in: desc
+			}
+		}).countDocuments()*/
 		const page = (!req.query.page || req.query.page < 1) ? 1 : req.query.page
         const count = (!req.query.count || req.query.count < 1) ? 50 : req.query.count
-		const user_id = req.user._id
-		// AUTH
-		// TODO:
+		const user = await User.findOne({username: req.params.id})
+		const user_id = user._id
+		const size = await Content.find({submitted_by: user_id}).countDocuments()
+		const hasMore = (page * count) < size
 		Content.find({submitted_by: user_id}).skip(count * (page - 1)).limit(count).populate(
 		{
 			path: 'problem submission submitted_by',
 			populate: {
-				path: 'problem submitted_by',
-				populate: {
-					path: 'submitted_by'
-				}
+				path: 'submitted_by'
 			}
 		}).exec((err, data) => {
 			if (!err) {
@@ -44,22 +46,20 @@ router.get('/posts', auth, async (req, res) => {
 				//'_id title bounty view_count created submitted_by.username submission_count'
 				const objectFieldsFilter = (({_id, title, bounty, view_count, created, submitted_by, submission_count, __t}) => ({_id, title, bounty, view_count, created, submitted_by:submitted_by.username, submission_count, __t}))
 				const result = data.map(entry => {
-					switch (entry.__t){
-						case 'Problem':
-							return objectFieldsFilter(entry)
-							break;
-						case 'Submission':
-							return objectFieldsFilter(entry.problem)
-							break;
-						case 'Reply':
-							return objectFieldsFilter(entry.submission.problem)
-							break;
-						default:
-							return {}
+					if (entry.__t === 'Problem'){
+						return objectFieldsFilter(entry)
+					} else {
+						return objectFieldsFilter(entry.problem)
 					}
 				})
-				// TODO: behaviour will be different, cause, 
-				res.status(200).send(_.uniqWith(result, (x,y) => { return x._id.toString() == y._id.toString() }))
+				// TODO: behaviour will be different, cause
+				// couple months ago there might have been a deep thought in comment above, honestly I forgot to fully write it xD
+				const uniquePosts = _.uniqWith(result, (x,y) => { return x._id.toString() == y._id.toString() })
+				
+				res.status(200).send({
+					data: uniquePosts,
+					hasMore
+				})
 			} else {
 				res.status(400).json({error:err})
 			}
@@ -178,11 +178,11 @@ router.post('/passwordReset/confirm', async (req, res) => {
     }
 })
 
-router.post('/changeName', auth, async (req, res) => {
+router.post('/namesChange', auth, async (req, res) => {
     try {
         const user = req.user
-        user.firstName = req.body.firstName || user.firstName
-        user.lastName = req.body.lastName || user.lastName
+        user.firstName = req.body.newFirstName || user.firstName
+        user.lastName = req.body.newLastName || user.lastName
         await user.save()
         res.status(200).send('Password updated')
     } catch(error) {

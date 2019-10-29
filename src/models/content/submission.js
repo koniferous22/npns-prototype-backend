@@ -13,6 +13,7 @@ const SubmissionSchema = new mongoose.Schema({
 	problem: {
 		type: mongoose.Schema.Types.ObjectId,
 		required: true,
+		index: true,
 		ref: 'Problem'
 	}
 });
