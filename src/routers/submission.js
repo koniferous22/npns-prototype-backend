@@ -19,7 +19,7 @@ router.post('/:id/reply', auth, async function(req, res) {
         // TODO:
         // AUTH
         const user_id = req.user.id
-        const reply = new Reply({ ...req.body, submitted_by: user_id, submission: req.params.id })
+        const reply = new Reply({ ...req.body, submitted_by: user_id/*, submission: submission._id, problem: submission.problem*/ })
         await reply.save()
         await Submission.updateOne(
         	{_id:req.params.id},

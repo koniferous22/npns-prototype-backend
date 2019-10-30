@@ -76,6 +76,15 @@ router.get('/transactions', auth, async (req, res) => {
 		const page = (!req.query.page || req.query.page < 1) ? 1 : req.query.page
         const count = (!req.query.count || req.query.count < 1) ? 50 : req.query.count
 		const user_id = req.user._id
+		const size = await Transaction.find({$or: [
+				{
+					sender: user_id
+				},
+				{
+					recipient: user_id
+				}
+			]}).countDocuments()
+		const hasMore = (page * count) < size
 		const transactions = await Transaction.find({$or: [
 				{
 					sender: user_id
@@ -83,8 +92,21 @@ router.get('/transactions', auth, async (req, res) => {
 				{
 					recipient: user_id
 				}
-			]}).skip(count * (page - 1)).limit(count)
-		res.status(200).send(transactions)
+			]}).sort({created: 'desc'}).skip(count * (page - 1)).limit(count).exec((err, data) => {
+				if (!err) {
+					const reciptient_filter = ({queue, karma_value, monetary_value, created, description}) => ({queue, karma_value, monetary_value, created, description})
+					const sender_filter = ({queue, karma_value, monetary_value, created, description}) => ({queue, karma_value:-karma_value, monetary_value:-monetary_value, created, description})
+					const result = data.map(entry => {
+						if (entry.sender === user_id) {
+							return sender_filter(entry)
+						} 
+						return reciptient_filter(entry)
+					})
+				} else {
+					res.status(400).json({error:err})
+				}
+			})
+		res.status(200).send({data: transactions, hasMore})
 	} catch (error) {
 		res.status(400).json({error})
 	}
