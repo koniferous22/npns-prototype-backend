@@ -5,10 +5,10 @@ const { auth } = require('../middleware');
 
 const router = require('express').Router()
 
-router.get('/karmaValues', auth, async (req, res) => {
+router.get('/all', async (req, res) => {
 	try {
-   	nameAndKarma = await Queue.find({}, 'name karmaValue -_id') //nevracia _id 
-		res.status(200).send(nameAndKarma)
+		queues = await Queue.find({}).sort({name: 'asc'})
+		res.status(200).send({queues})
 	} catch(error) {
 		res.status(400).send(error)
 	}
@@ -19,7 +19,7 @@ router.get('/hierarchy', async (req, res) => {
 		hierarchy = await Queue.hierarchy()
 		res.status(200).send({hierarchy:hierarchy})
 	} catch(error) {
-		res.status(400).send(error)
+		res.status(400).send({error})
 	}
 })
 
@@ -35,12 +35,21 @@ router.post('/create', async (req,res) => {
 	
 });
 
+router.get('/karmaValues', auth, async (req, res) => {
+	try {
+   	nameAndKarma = await Queue.find({}, 'name karmaValue -_id') //nevracia _id 
+		res.status(200).send(nameAndKarma)
+	} catch(error) {
+		res.status(400).send({error})
+	}
+})
+
 router.get('/:name', async function(req,res) {
     try {
 		q = await Queue.findOne({"name":req.params.name}, 'name _id')
 		res.status(200).send(q)
 	} catch (error) {
-		res.status(400).send(error)
+		res.status(400).send({error})
 	}
 });
 
@@ -50,7 +59,7 @@ router.get('/:name/descendants', async (req, res) => {
 		desc = await Queue.find().descendants({name:req.params.name},'name')
 		res.status(200).send(desc)
 	} catch (error) {
-		res.status(400).send(error)
+		res.status(400).send({error})
 	}
 
 });
@@ -60,7 +69,7 @@ router.get('/:name/ancestors', async (req, res) => {
 		anc = await Queue.find().ancestors({name:req.params.name},'name')
 		res.status(200).send(desc)
 	} catch (error) {
-		res.status(400).send(error)
+		res.status(400).send({error})
 	}	
 
 });
@@ -100,33 +109,68 @@ router.get('/:name/problems', async (req, res) => {
 			
 		
 	} catch (error) {
-		res.status(400).send(error)
+		res.status(400).send({error})
 	}	
 })
 
-router.get('/:name/user_count', async (req, res) => {
+router.get('/:name/user_count', auth, async (req, res) => {
 	try {
 		const queue = await Queue.findOne({name:req.params.name},'_id');
 		const balance_specifier = 'balances.' + queue._id
-		const users = await User.find({[balance_specifier] : { $nin: [undefined, null]}},'username ' + balance_specifier).skip(count * (page - 1)).limit(count)
+		const users = await User.find({[balance_specifier] : { $exists: true }},'username ' + balance_specifier)
 		res.status(200).send(users)
 	} catch (error) {
-		res.status(400).send(error)
+		res.status(400).send({error})
 	}
 })
 
-router.get('/:name/scoreboard', async (req, res) => {
+router.get('/:name/scoreboard', auth, async (req, res) => {
 	try {
 		const page = (!req.query.page || req.query.page < 1) ? 1 : req.query.page
 		const count = (!req.query.count || req.query.count < 1) ? 50 : req.query.count
 		const queue = await Queue.findOne({name:req.params.name},'_id');
 		const balance_specifier = 'balances.' + queue._id
 		const sort_params = { [balance_specifier]: 'desc' }
-		const users = await User.find({[balance_specifier]: {$nin: [undefined, null]}},'username ' + balance_specifier).sort(sort_params).skip(count * (page - 1)).limit(count)
+		const users = await User.find({[balance_specifier]: { $exists: true }},'username ' + balance_specifier).sort(sort_params).skip(count * (page - 1)).limit(count)
 		res.status(200).send(users)
 	} catch (error) {
-		res.status(400).send(error)
+		res.status(400).send({error})
 	}
+})
+
+router.get('/:name/position/:problem', auth, async (req, res) => {
+	try {
+		let desc = await Queue.find().descendants({name:req.params.name},'_id')
+		desc = desc.map(x => x._id)
+ 
+		const problem = await Problem.findOne({_id: req.params.problem})
+		const position = (desc.includes(problem.queue)) ? await Problem.find({
+			queue:{
+				$in: desc
+			},
+			root_queue_value: {
+				$gte: problem.root_queue_value
+			}
+		}).countDocuments() : null
+		res.status(200).send({queue: queue.name, problem: req.params.problem, position})
+	} catch (error) {
+		res.status(400).send({error})
+	}
+		
+})
+
+router.get('/:name/scoreboard/position/:user', auth, async (req, res) => {
+	try {
+		const queue = await Queue.findOne({name:req.params.name},'_id');
+		const user = await User.findOne({username: req.params.user})
+		const userQueueScore = user.balances[queue._id]
+		const balance_specifier = 'balances.' + queue._id
+		const position = (user.balances[queue._id]) ? await User.find({[balance_specifier] : {$gte: userQueueScore}}).countDocuments : null 
+		res.status(200).send({queue: queue.name, user: req.params.user, position})
+	} catch (error) {
+		res.status(400).send({error})
+	}
+		
 })
 
 module.exports = router
