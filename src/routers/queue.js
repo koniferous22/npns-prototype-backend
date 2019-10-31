@@ -5,6 +5,15 @@ const { auth } = require('../middleware');
 
 const router = require('express').Router()
 
+router.get('/karmaValues', auth, async (req, res) => {
+	try {
+   	nameAndKarma = await Queue.find({}, 'name karmaValue -_id') //nevracia _id 
+		res.status(200).send(nameAndKarma)
+	} catch(error) {
+		res.status(400).send(error)
+	}
+})
+
 router.get('/hierarchy', async (req, res) => {
 	try {
 		hierarchy = await Queue.hierarchy()
@@ -106,7 +115,6 @@ router.get('/:name/user_count', async (req, res) => {
 	}
 })
 
-
 router.get('/:name/scoreboard', async (req, res) => {
 	try {
 		const page = (!req.query.page || req.query.page < 1) ? 1 : req.query.page
@@ -120,15 +128,5 @@ router.get('/:name/scoreboard', async (req, res) => {
 		res.status(400).send(error)
 	}
 })
-
-router.get('/karmaValues', auth, async (req, res) => {
-	try {
-   	nameAndKarma = await Queue.find({}, 'name karmaValue -_id') //nevracia _id 
-		res.status(200).send(nameAndKarma)
-	} catch(error) {
-		res.status(400).send(error)
-	}
-})
-
 
 module.exports = router
