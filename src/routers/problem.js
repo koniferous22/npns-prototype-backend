@@ -77,10 +77,15 @@ router.post('/:id/mark_solved', auth, async function (req, res) {
 			description: 'Correct solution reward form problem ' + problem._id
 		})
 		const winner = await User.findOne({_id:submission.submitted_by})
-        winner.addBalance(problem.queue.toString() /*has to convert to string*/, transaction.karma_value)
-		await problem.save()
-        await winner.save()
+        const ancestors = await Queue.find().ancestors({_id: problem.queue}, '_id')
+        ancestors.push({_id: problem.queue})
+        ancestors.forEach(ancestor => {
+            winner.addBalance(ancestor._id.toString() /*has to convert to string*/, transaction.karma_value)            
+        })
+
+        await problem.save()
 		await transaction.save()
+        await winner.save()
         res.status(200).send(transaction)
 	} catch (error) {
 		res.status(400).send('lol nepreslo')
