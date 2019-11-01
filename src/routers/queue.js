@@ -35,7 +35,7 @@ router.post('/create', async (req,res) => {
 	
 });
 
-router.get('/karmaValues', auth, async (req, res) => {
+router.get('/karmaValues', async (req, res) => {
 	try {
    	nameAndKarma = await Queue.find({}, 'name karmaValue -_id') //nevracia _id 
 		res.status(200).send(nameAndKarma)
@@ -113,39 +113,38 @@ router.get('/:name/problems', async (req, res) => {
 	}	
 })
 
-router.get('/:name/user_count', auth, async (req, res) => {
+router.get('/:name/user_count', async (req, res) => {
 	try {
 		const queue = await Queue.findOne({name:req.params.name},'_id');
 		const balance_specifier = 'balances.' + queue._id
-		const users = await User.find({[balance_specifier] : { $exists: true }},'username ' + balance_specifier)
-		res.status(200).send(users)
+		const body_count = await User.find({[balance_specifier] : { $exists: true }},'username ' + balance_specifier).countDocuments()
+		res.status(200).send({body_count})
 	} catch (error) {
 		res.status(400).send({error})
 	}
 })
 
-router.get('/:name/scoreboard', auth, async (req, res) => {
+router.get('/:name/scoreboard', async (req, res) => {
 	try {
 		const page = (!req.query.page || req.query.page < 1) ? 1 : req.query.page
 		const count = (!req.query.count || req.query.count < 1) ? 50 : req.query.count
 		const queue = await Queue.findOne({name:req.params.name},'_id');
 		const balance_specifier = 'balances.' + queue._id
 		const sort_params = { [balance_specifier]: 'desc' }
-		const users = await User.find({[balance_specifier]: { $exists: true }},'username ' + balance_specifier).sort(sort_params).skip(count * (page - 1)).limit(count).exec((err, data) => {
+		const users = await User.find({[balance_specifier]: { $exists: true }},'username ' + balance_specifier).sort(sort_params).skip(count * (page - 1)).limit(count).exec((err, users) => {
 			if (err) {
 				res.status(400).send({err})
 			}
-			const projection = (user) => ({username: user.username, [req.params.name]: user[balance_specifier]})
-
-			return res.send({data: data.map(x => projection(x))})
+			const projection = (user) => ({username: user.username, [req.params.name]: user.balances.get(queue._id.toString())})
+			const data = users.map(x => projection(x))
+			return res.status(200).send({data})
 		})
-		res.status(200).send(users)
 	} catch (error) {
 		res.status(400).send({error})
 	}
 })
 
-router.get('/:name/position/:problem', auth, async (req, res) => {
+router.get('/:name/position/:problem', async (req, res) => {
 	try {
 		let desc = await Queue.find().descendants({name:req.params.name},'_id')
 		desc = desc.map(x => x._id)
@@ -166,7 +165,7 @@ router.get('/:name/position/:problem', auth, async (req, res) => {
 		
 })
 
-router.get('/:name/scoreboard/position/:user', auth, async (req, res) => {
+router.get('/:name/scoreboard/position/:user', async (req, res) => {
 	try {
 		const queue = await Queue.findOne({name:req.params.name},'_id');
 		const user = await User.findOne({username: req.params.user})
