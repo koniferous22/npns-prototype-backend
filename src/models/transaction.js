@@ -35,6 +35,11 @@ const TransactionSchema = new mongoose.Schema({
 		// compress message into enum values, so that the whole fucking string doesn't have to be stored
 		type: String,
 		required: true
+	},
+	meta: {
+		type: Map,
+		of: String,
+		default: {}
 	}
 
 })

@@ -85,7 +85,7 @@ ProblemSchema.methods.boost = async function (boosted_by, boost_value) {
 }
 
 ProblemSchema.methods.acceptSolution = function (solution_id) {
-	if (!submission.map(x => x.submission).includes(solution_id)) {
+	if (!this.submissions.map(x => x.submission).includes(solution_id)) {
 		throw new Error('No such submission related to this problem');
 	}
 	this.active = false;

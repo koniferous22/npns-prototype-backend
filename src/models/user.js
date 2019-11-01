@@ -5,6 +5,8 @@ const validator = require('validator');
 
 const transporter = require('../nodemailer/transporter');
 
+const Queue = require('./queue')
+
 const UserSchema = new mongoose.Schema({
 	username: {
 		type: String,
@@ -37,7 +39,8 @@ const UserSchema = new mongoose.Schema({
 		of: {
 			type: Number,
 			min: 0
-		}
+		},
+		default: {}
 	}
 	/*
 	commented out cuz too much features,
@@ -90,11 +93,18 @@ UserSchema.methods.sendEmail = async function(template,params) {
     await transporter.sendMail(email)
 }
 
+UserSchema.methods.translateQueueIds = async function() {
+	const queues = await Queue.find({},'id name')
+	const queues_table = queues.reduce((acc, cv) => ({...acc, [cv._id] : cv.name}), {})
+	const balances = Array.from(this.balances.keys()).reduce((acc, cv) => ({...acc, [queues_table[cv]]: this.balances.get(cv)}),{})
+	return balances
+}
+
 // migrate to pre-update callback
 UserSchema.methods.setVerifiedFlag = function() {
 	const user = this
 	if (!!user.verified) {
-		throw new Error({error: 'User already fied'})
+		throw new Error({error: 'User already verified'})
 	}
 	user.verified = true
 }

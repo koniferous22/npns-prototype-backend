@@ -92,21 +92,21 @@ router.get('/transactions', auth, async (req, res) => {
 				{
 					recipient: user_id
 				}
-			]}).sort({created: 'desc'}).skip(count * (page - 1)).limit(count).exec((err, data) => {
+			]}).sort({created: 'desc'}).skip(count * (page - 1)).populate('queue').limit(count).exec((err, data) => {
 				if (!err) {
-					const reciptient_filter = ({queue, karma_value, monetary_value, created, description}) => ({queue, karma_value, monetary_value, created, description})
-					const sender_filter = ({queue, karma_value, monetary_value, created, description}) => ({queue, karma_value:-karma_value, monetary_value:-monetary_value, created, description})
+					const reciptient_filter = ({queue, karma_value, monetary_value, created, description}) => ({queue: queue.name, karma_value, monetary_value, created, description})
+					const sender_filter = ({queue, karma_value, monetary_value, created, description}) => ({queue: queue.name, karma_value:-karma_value, monetary_value:-monetary_value, created, description})
 					const result = data.map(entry => {
 						if (entry.sender === user_id) {
 							return sender_filter(entry)
 						} 
 						return reciptient_filter(entry)
 					})
+					res.status(200).send({data: result, hasMore})
 				} else {
 					res.status(400).json({error:err})
 				}
 			})
-		res.status(200).send({data: transactions, hasMore})
 	} catch (error) {
 		res.status(400).json({error})
 	}
@@ -124,18 +124,6 @@ router.post('/createTransaction', auth, async (req, res) => {
 			queue
 		})
 		await transaction.save()
-	} catch (error) {
-		res.status(400).json({error})
-	}
-})
-
-router.get('/:id', async (req, res) => {
-	try {
-		const user = await User.findOne({username: req.params.id})
-		const problem_count = await Problem.countDocuments({submitted_by: user._id})
-		const submission_count = await Submission.countDocuments({submitted_by: user._id})
-		const reply_count = await Reply.countDocuments({submitted_by: user._id})
-		res.status(200).send({firstName: user.firstName, lastName: user.lastName, email: user.email, problem_count, submission_count, reply_count})
 	} catch (error) {
 		res.status(400).json({error})
 	}
@@ -212,6 +200,17 @@ router.post('/namesChange', auth, async (req, res) => {
     }
 })
 
-
+router.get('/:id', async (req, res) => {
+	try {
+		const user = await User.findOne({username: req.params.id})
+		const balances = await user.translateQueueIds()
+		const problem_count = await Problem.countDocuments({submitted_by: user._id})
+		const submission_count = await Submission.countDocuments({submitted_by: user._id})
+		const reply_count = await Reply.countDocuments({submitted_by: user._id})
+		res.status(200).send({firstName: user.firstName, lastName: user.lastName, email: user.email, balances, problem_count, submission_count, reply_count})
+	} catch (error) {
+		res.status(400).json({error})
+	}
+})
 
 module.exports = router

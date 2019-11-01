@@ -58,28 +58,30 @@ router.post('/:id/submit', auth,  async function(req,res) {
 
 router.post('/:id/mark_solved', auth, async function (req, res) {
 	try {
-		const problem = await Problem.findOne({_id:req.params.id})
+		const problem = await Problem.findOne({_id:req.params.id, submitted_by: req.user._id})
 		// AUTH:
 		// TODO: Reimplment with auth middleware
 		const user_id = req.user._id
-		if (problem.submitted_by != user_id) {
+        const problem_owner = problem.submitted_by
+        // Have to use mongoose id equals method, otherwise string-wise comparision simply fails xD
+		if (!user_id.equals(problem_owner)) {
 			return res.status(401).send('You are not the problem owner')
 		}
 		const submission = await Submission.findOne({_id:req.body.submission});
-
-		problem.acceptSubmission(submission._id);
+		problem.acceptSolution(submission._id);
 		const transaction = new Transaction({
-			recipient: user_id,
+			recipient: submission.submitted_by,
 			queue: problem.queue,
 			karma_value: 1,
 			monetary_value: problem.boost_value,
-			description: 'Correct solution reward'
+			description: 'Correct solution reward form problem ' + problem._id
 		})
+		const winner = await User.findOne({_id:submission.submitted_by})
+        winner.addBalance(problem.queue.toString() /*has to convert to string*/, transaction.karma_value)
 		await problem.save()
-		await User.findOne({_id:submission.submitted_by}).exec((err, user) => {
-			user.addBalance(problem.queue, transaction.karma_value)
-		});
+        await winner.save()
 		await transaction.save()
+        res.status(200).send(transaction)
 	} catch (error) {
 		res.status(400).send('lol nepreslo')
 	}
