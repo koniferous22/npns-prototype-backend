@@ -131,7 +131,14 @@ router.get('/:name/scoreboard', auth, async (req, res) => {
 		const queue = await Queue.findOne({name:req.params.name},'_id');
 		const balance_specifier = 'balances.' + queue._id
 		const sort_params = { [balance_specifier]: 'desc' }
-		const users = await User.find({[balance_specifier]: { $exists: true }},'username ' + balance_specifier).sort(sort_params).skip(count * (page - 1)).limit(count)
+		const users = await User.find({[balance_specifier]: { $exists: true }},'username ' + balance_specifier).sort(sort_params).skip(count * (page - 1)).limit(count).exec((err, data) => {
+			if (err) {
+				res.status(400).send({err})
+			}
+			const projection = (user) => ({username: user.username, [req.params.name]: user[balance_specifier]})
+
+			return res.send({data: data.map(x => projection(x))})
+		})
 		res.status(200).send(users)
 	} catch (error) {
 		res.status(400).send({error})
