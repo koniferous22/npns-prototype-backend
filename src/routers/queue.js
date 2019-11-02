@@ -131,7 +131,7 @@ router.get('/:name/scoreboard', async (req, res) => {
 		const queue = await Queue.findOne({name:req.params.name},'_id');
 		const balance_specifier = 'balances.' + queue._id
 		const sort_params = { [balance_specifier]: 'desc' }
-		const users = await User.find({[balance_specifier]: { $exists: true }},'username ' + balance_specifier).sort(sort_params).skip(count * (page - 1)).limit(count).exec((err, users) => {
+		const users = await User.find({[balance_specifier]: { $exists: true }},'username email ' + balance_specifier).sort(sort_params).skip(count * (page - 1)).limit(count).exec((err, users) => {
 			if (err) {
 				res.status(400).send({err})
 			}
@@ -168,10 +168,10 @@ router.get('/:name/position/:problem', async (req, res) => {
 router.get('/:name/scoreboard/position/:user', async (req, res) => {
 	try {
 		const queue = await Queue.findOne({name:req.params.name},'_id');
-		const user = await User.findOne({username: req.params.user})
-		const userQueueScore = user.balances[queue._id]
+		const user = await User.findOne().byLogin(req.params.user)
+		const userQueueScore = user.balances.get(queue._id.toString())
 		const balance_specifier = 'balances.' + queue._id
-		const position = (user.balances[queue._id]) ? await User.find({[balance_specifier] : {$gte: userQueueScore}}).countDocuments : null 
+		const position = (user.balances.get(queue._id.toString())) ? await User.find({[balance_specifier] : {$gte: userQueueScore}}).countDocuments() : null 
 		res.status(200).send({queue: queue.name, user: req.params.user, position})
 	} catch (error) {
 		res.status(400).send({error})

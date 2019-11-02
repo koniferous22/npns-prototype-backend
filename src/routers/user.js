@@ -213,4 +213,16 @@ router.get('/:id', async (req, res) => {
 	}
 })
 
+router.get('/:id/exists', async (req, res) => {
+	try {
+		const user = await User.findOne().byLogin(req.params.id)
+		if (!user) {
+			return res.status(400).send({exists:false})
+		}
+		return res.status(200).send({exists:true})
+	} catch (error) {
+		res.status(400).json({error})
+	}
+})
+
 module.exports = router
