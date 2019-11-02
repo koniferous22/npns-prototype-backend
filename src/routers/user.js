@@ -200,6 +200,18 @@ router.post('/namesChange', auth, async (req, res) => {
     }
 })
 
+router.post('/exists', async (req, res) => {
+	try {
+		const user = await User.findOne().byLogin(req.body.user)
+		if (!user) {
+			return res.status(400).send({exists:false})
+		}
+		return res.status(200).send({exists:true})
+	} catch (error) {
+		res.status(400).json({error})
+	}
+})
+
 router.get('/:id', async (req, res) => {
 	try {
 		const user = await User.findOne({username: req.params.id})
@@ -208,18 +220,6 @@ router.get('/:id', async (req, res) => {
 		const submission_count = await Submission.countDocuments({submitted_by: user._id})
 		const reply_count = await Reply.countDocuments({submitted_by: user._id})
 		res.status(200).send({firstName: user.firstName, lastName: user.lastName, email: user.email, balances, problem_count, submission_count, reply_count})
-	} catch (error) {
-		res.status(400).json({error})
-	}
-})
-
-router.get('/:id/exists', async (req, res) => {
-	try {
-		const user = await User.findOne().byLogin(req.params.id)
-		if (!user) {
-			return res.status(400).send({exists:false})
-		}
-		return res.status(200).send({exists:true})
 	} catch (error) {
 		res.status(400).json({error})
 	}
