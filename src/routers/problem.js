@@ -84,7 +84,7 @@ router.post('/:id/mark_solved', auth, async function (req, res) {
         })
 
         await problem.save()
-		await transaction.save()
+				await transaction.save()
         await winner.save()
         res.status(200).send(transaction)
 	} catch (error) {
@@ -105,15 +105,29 @@ router.get('/:id/submissions', async function (req, res) {
     }
 })
 
-router.post('/:id/boost', auth, async function (req, res) {
+router.post('/:id/boost', /*auth,*/ async function (req, res) {
     try {
         // AUTH:
         // TODO: refactor with auth: field submitted_by: should be only required parameter
-        const user_id = req.user._id
+        const user_id = '5dbd3c6283133206cad92abd' //req.user._id
         const problem = await Problem.findOne({_id:req.params.id})
-        problem.boost(user_id, req.body.value)
+ 				// problem.boost(user_id, req.body.value)
+				//zialbohu kombinacia boost metody a save z neznamych pricin nefungovala, tak sa pouziva updateOne... btw save() som tu stale ponechal pre vypocet celkovej boost_value problemu
+
         // TODO: EXTERNAL SERVICES GO HERE
-        await problem.save()
+				if (problem.accepted_submission != null) {
+            throw new Error({message:'Cannot boost solved problem'})
+				}
+        await Problem.updateOne(
+        	{_id:req.params.id},
+        	{
+        		$push: {
+        			boosts: {boosted_by: user_id, boost_value: req.body.value}
+        		}
+        	}
+        	)
+        await problem.save((err, problem) => {}) //nutny callback
+        res.status(200).send(problem)   
     } catch (error) {
         res.status(400).send('aaaaaaaaaaaaaaa')   
     }
