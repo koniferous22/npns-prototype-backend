@@ -118,6 +118,9 @@ router.post('/:id/boost', auth, async function (req, res) {
 		if (problem.accepted_submission != null) {
 			throw new Error({message:'Cannot boost solved problem'})
 		}
+		if (req.body.value <= 0) {
+			throw new Error({message:'Boost value has to be positive'})
+		}
 		await Problem.updateOne(
 			{_id:req.params.id},
 			{
@@ -126,10 +129,10 @@ router.post('/:id/boost', auth, async function (req, res) {
 				}
 			}
 			)
-await problem.save((err, problem) => {}) //nutny callback
+			await problem.save((err, problem) => {}) //nutny callback
 res.status(200).send(problem)
 	} catch (error) {
-		res.status(400).send('aaaaaaaaaaaaaaa')   
+		res.status(400).send('aaaaaaaaaaaaaaa')
 	}
 })
 
