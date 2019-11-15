@@ -7,7 +7,7 @@ const router = require('express').Router()
 
 router.get('/all', async (req, res) => {
 	try {
-		queues = await Queue.find({}).sort({name: 'asc'})
+		queues = await Queue.find({}, '-_id name').sort({name: 'asc'})
 		res.status(200).send({queues})
 	} catch(error) {
 		res.status(400).send(error)

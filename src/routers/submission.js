@@ -42,7 +42,10 @@ router.get('/:id/replies', async function (req, res) {
         const page = (!req.query.page || req.query.page < 1) ? 1 : req.query.page
         const count = (!req.query.count || req.query.count < 1) ? 50 : req.query.count
         const submission = await Submission.findOne({_id:req.params.id})
-        const replies = await Reply.find({submission:req.params.id, active: true}).skip(count * (page - 1)).limit(count)
+        const replies = await Reply.find({submission:req.params.id, active: true}).populate({
+            path: 'submitted_by',
+            select: 'username',
+        }).skip(count * (page - 1)).limit(count)
         const hasMore = (page * count) < submission.replies.length        
         res.status(200).send({data: replies, hasMore})
     } catch (error) {

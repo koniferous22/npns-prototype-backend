@@ -113,7 +113,17 @@ ProblemSchema.pre('save', async function (next) {
 })
 
 ProblemSchema.statics.viewProblem = async function (id) {
-	const problem = await this.findOne({_id:id}/*,{root_queue_value: 0}*/)
+	const problem = await this
+		.findOne({_id:id})
+		.populate({
+			path: 'submitted_by',
+		    select: 'username',
+		})
+		.populate({
+			path: 'queue',
+			select: 'name -_id'
+		})
+
 	problem.view_count++
 	await problem.save()
 	return problem
