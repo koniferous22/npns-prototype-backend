@@ -50,7 +50,12 @@ router.post('/:id/submit', auth,  async function(req,res) {
         		}
         	}
         	)
-        res.status(200).send(submission)
+        // have to do extra query cause submitted by field needs to be populated
+        const populatedSubmission = await Submission.findOne({_id: submission._id, active: true}).populate({
+            path: 'submitted_by',
+            select: 'username',
+        })
+        res.status(200).send(populatedSubmission)
     } catch (error) {
         res.status(400).send(error)
     }
