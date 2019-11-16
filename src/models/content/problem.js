@@ -60,7 +60,7 @@ ProblemSchema.virtual('solved').get(function () {
 })
 
 ProblemSchema.virtual('bounty').get(function () {
-	return 0.98 * this.boosts.reduce((a,b) => a + b, 0)
+	return 0.98 * this.boosts.reduce((acc,cv) => acc + cv.boost_value, 0)
 })
 
 ProblemSchema.virtual('boost_value').get(function() {
@@ -123,6 +123,7 @@ ProblemSchema.statics.viewProblem = async function (id) {
 			path: 'queue',
 			select: 'name -_id'
 		})
+		.populate('accepted_submission')
 
 	problem.view_count++
 	await problem.save()

@@ -31,7 +31,11 @@ router.post('/:id/reply', auth, async function(req, res) {
         		}
         	}
         	)
-        res.status(200).send(reply)
+        const populatedReply = await Reply.findOne({_id: reply._id, active: true}).populate({
+            path: 'submitted_by',
+            select: 'username',
+        })
+        res.status(200).send(populatedReply)
     } catch (error) {
         res.status(400).send(error)
     }

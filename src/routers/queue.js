@@ -101,7 +101,12 @@ router.get('/:name/problems', async (req, res) => {
 				data.forEach(p => {
 					if (p.submitted_by) {
 						p.username = p.submitted_by.username
+						p.bounty = 0.98 * p.boosts.reduce((acc,cv) => acc + cv.boost_value, 0)
+						/*
+							OK SRSLY HERE I GOT REALLY LAZY, CANNOT BE BOTHERED HOW TO SOLVE, THAT VIRTUAL STUFF CANNOT BE QUERIED IN MONGOOSE LIKE SRSLY
+						*/
 					}
+
 					delete p.submitted_by
 				})
 				res.status(200).send({data, hasMore})
