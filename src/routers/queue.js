@@ -83,6 +83,7 @@ router.get('/:name/problems', async (req, res) => {
 		desc = desc.map(x => x._id)
  
 		const size = await Problem.find({
+			active: true,
 			queue:{
 				$in: desc
 			}
@@ -90,6 +91,7 @@ router.get('/:name/problems', async (req, res) => {
 		const hasMore = (page * count) < size
 
 		const problems = await Problem.find({
+			active: true,
 			queue:{
 				$in: desc
 			}

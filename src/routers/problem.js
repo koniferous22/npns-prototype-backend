@@ -136,9 +136,9 @@ router.post('/:id/boost', auth, async function (req, res) {
 					boosts: {boosted_by: user_id, boost_value: req.body.value}
 				}
 			}
-			)
-			await problem.save((err, problem) => {}) //nutny callback
-res.status(200).send(problem)
+		)
+		await problem.save((err, problem) => {}) //nutny callback
+        res.status(200).send(problem)
 	} catch (error) {
 		res.status(400).send('aaaaaaaaaaaaaaa')
 	}
