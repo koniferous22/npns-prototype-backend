@@ -44,7 +44,7 @@ router.get('/:id/posts', async (req, res) => {
 			if (!err) {
 				// TODO: separate file for query filters (so that shit can be later reused)
 				//'_id title bounty view_count created submitted_by.username submission_count'
-				const objectFieldsFilter = (({_id, title, bounty, view_count, created, submitted_by, submission_count, __t}) => ({_id, title, bounty, view_count, created, submitted_by:submitted_by.username, submission_count, __t}))
+				const objectFieldsFilter = (({_id, title, active, bounty, view_count, created, submitted_by, submission_count, __t}) => ({_id, title, active, bounty, view_count, created, submitted_by:submitted_by.username, submission_count, __t}))
 				const result = data.map(entry => {
 					if (entry.__t === 'Problem'){
 						return objectFieldsFilter(entry)
