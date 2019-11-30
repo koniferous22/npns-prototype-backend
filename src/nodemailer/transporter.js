@@ -5,7 +5,7 @@ const transporter = (process.env.NODEMAILER_MODE === 'production') ?
 			service: 'SendGrid',
 			auth: {
 				user: process.env.NODEMAILER_USER,
-				pass: 
+				pass: process.env.NODEMAILER_PASSWORD
 			}
 		})
 	: 	nodemailer.createTransport({
@@ -16,6 +16,6 @@ const transporter = (process.env.NODEMAILER_MODE === 'production') ?
 		        user: process.env.NODEMAILER_USER,
 		        pass: process.env.NODEMAILER_PASSWORD
 		    }
-		});
+		 });
 
 module.exports = transporter
