@@ -135,12 +135,9 @@ router.post('/emailChange', auth, async (req, res) => {
         const newEmail = req.body.newEmail
         const token = new EmailChangeToken({user: req.user._id, newEmail})
         await token.save()
-        console.log('TOKEN SAVED')
-        await user.sendEmail(emailChangeTemplate, {token: token.token})
-        console.log('EMAIL SENT')
+        await user.sendEmail(emailChangeTemplate, {token: token.token, email: newEmail})
         res.status(200).send({message:"Email change requested"})
     } catch (error) {
-        console.log('ERROR')
         console.log(error)
         res.status(500).send({message: error})
     }
