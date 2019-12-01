@@ -1,6 +1,6 @@
 const nodemailer = require('nodemailer')
 
-const transporter = (process.env.NODEMAILER_MODE === 'production') ? 
+const transporter = (process.env.NODE_ENV === 'production') ? 
 		nodemailer.createTransport({
 			service: 'SendGrid',
 			auth: {

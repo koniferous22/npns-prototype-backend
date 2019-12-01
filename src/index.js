@@ -1,4 +1,6 @@
-require('dotenv').config()
+var custom_environments = require('custom-env')
+custom_environments.env()
+custom_environments.env(process.env.NODE_ENV,'cfg/environments')
 
 const port = process.env.PORT
 
@@ -13,7 +15,7 @@ var app = express();
 // helmmet module for security
 var dbConfig = require('./db');
 // Connect to DB
-mongoose.connect(process.env.MONGODB_HOST, { useNewUrlParser: true, useCreateIndex: true, useUnifiedTopology: true });
+//mongoose.connect(process.env.MONGODB_HOST, { useNewUrlParser: true, useCreateIndex: true, useUnifiedTopology: true });
 app.use(logger('dev'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
