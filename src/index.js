@@ -15,7 +15,7 @@ var app = express();
 // helmmet module for security
 var dbConfig = require('./db');
 // Connect to DB
-//mongoose.connect(process.env.MONGODB_HOST, { useNewUrlParser: true, useCreateIndex: true, useUnifiedTopology: true });
+mongoose.connect(process.env.MONGODB_HOST, { useNewUrlParser: true, useCreateIndex: true, useUnifiedTopology: true });
 app.use(logger('dev'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
