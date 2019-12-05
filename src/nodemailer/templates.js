@@ -1,5 +1,5 @@
 const signupTemplate = (params) => {
-	const frontend_address = "https://romantic-swanson-171168.netlify.com/confirm/registration/"
+	const frontend_address = process.env.FRONTEND_EMAIL_LINK + "confirm/registration/"
 	return {
 		subject: 'NPNS Regoostration code',
 		text: 'Copy following address to confirm email:\n' + frontend_address + params.token,
@@ -8,7 +8,7 @@ const signupTemplate = (params) => {
 }
 
 const pwdResetTemplate = (params) => {
-	const frontend_address = "https://romantic-swanson-171168.netlify.com/confirm/passwordChange/"
+	const frontend_address = process.env.FRONTEND_EMAIL_LINK + "confirm/passwordChange/"
 	return {
 		subject: 'NPNS Password Reset Link',
 		text: 'Copy following address to reset ur password:\n' + frontend_address + params.token,
@@ -17,7 +17,7 @@ const pwdResetTemplate = (params) => {
 }
 
 const emailChangeTemplate = (params) => {
-	const frontend_address = "https://romantic-swanson-171168.netlify.com/confirm/emailChange/"
+	const frontend_address = process.env.FRONTEND_EMAIL_LINK + "confirm/emailChange/"
 	return {
 		subject: 'NPNS Email Change Link',
 		text: 'Copy following address to confirm email:\n' + frontend_address + params.token,
@@ -26,7 +26,7 @@ const emailChangeTemplate = (params) => {
 }
 
 const usernameChangeTemplate = (params) => {
-	const frontend_address = "https://romantic-swanson-171168.netlify.com/confirm/usernameChange/"
+	const frontend_address = process.env.FRONTEND_EMAIL_LINK + "confirm/usernameChange/"
 	return {
 		subject: 'NPNS Username Change Link',
 		text: 'Copy following address to confirm your new username:\n' + frontend_address + params.token,
