@@ -12,15 +12,15 @@ const { signupTemplate } = require('../nodemailer/templates')
 const { auth } = require('../middleware');
 
 router.post('/registration', async (req, res) => {
-    //try {
+    try {
         const verification_token = await VerificationToken.findOne({token: req.body.emailToken})
         const user = await User.findOne({_id: verification_token.user})
         user.setVerifiedFlag()
         await user.save(() => {})
         res.status(200).send(user)
-    /*} catch (error) {
+    } catch (error) {
         res.status(400).send(error)
-    }*/
+    }
 })
 
 router.post('/registration/resend', async (req, res) => {
