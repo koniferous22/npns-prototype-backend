@@ -18,7 +18,7 @@ const ContentSchema = new mongoose.Schema({
 		default: true
 	},
 	content: {
-    	type: String,
+		type: String,
 		required: true
 	},
 	edits: [{
@@ -32,7 +32,10 @@ const ContentSchema = new mongoose.Schema({
 			max: Date.now
 		},
 		_id: false
-	}]
+	}],
+	attachmentUrl: {
+		type: String
+	}
 })
 
 ContentSchema.methods.edit = function (contents) {
