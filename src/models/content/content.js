@@ -33,9 +33,8 @@ const ContentSchema = new mongoose.Schema({
 		},
 		_id: false
 	}],
-	attachmentUrl: {
-		type: String
-	}
+	attachmentUrls: [
+	]
 })
 
 ContentSchema.methods.edit = function (contents) {
