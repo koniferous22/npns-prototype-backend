@@ -30,6 +30,10 @@ const UserSchema = new mongoose.Schema({
 		type: String,
 		default: ''
 	},
+	referred_by: {
+		type: String,
+		default: ''
+	},
 	verified: {
 		type: Boolean,
 		default: false

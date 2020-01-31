@@ -38,7 +38,6 @@ router.post('/email', check('email').isEmail() , async (req, res) => {
 	}
 })
 
-
 router.post('/password', async (req, res) => {
 	// OK HERE I GOT REALLY LAZY
 	if (!req.body.password) {
@@ -65,6 +64,22 @@ router.post('/passwordChange', auth, async (req, res) => {
 		return res.status(200).send({message:'Password available'})
 	} catch(error) {
 		return res.status(400).json({error})
+	}
+})
+
+router.post('/referred_by', async (req, res) => {
+	try {
+		if (!req.body.referred_by || req.body.referred_by === '') {
+			return res.status(200).send({message:'Not referred'})
+		}
+		const referred_by = await User.find({username: req.body.referred_by}).limit(1)
+		if (referred_by.length > 0) {
+			return res.status(200).send({message:'Referred'})
+		} else {
+		return res.status(400).send({message:'This username does not exist'})
+		}
+	} catch (error) {
+		res.status(400).send(error)
 	}
 })
 
