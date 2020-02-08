@@ -118,6 +118,7 @@ router.post('/:id/boost', auth, async function (req, res) {
 		// AUTH:
 		// TODO: refactor with auth: field submitted_by: should be only required parameter
 		const user_id = req.user._id
+		console.log(req.body)
 		const problem = await Problem.findOne({_id:req.params.id})
 		// problem.boost(user_id, req.body.value)
 		//zialbohu kombinacia boost metody a save z neznamych pricin nefungovala, tak sa pouziva updateOne... btw save() som tu stale ponechal pre vypocet celkovej boost_value problemu
@@ -133,7 +134,7 @@ router.post('/:id/boost', auth, async function (req, res) {
 			{_id:req.params.id},
 			{
 				$push: {
-					boosts: {boosted_by: user_id, boost_value: req.body.value}
+					boosts: {boosted_by: user_id, boost_value: req.body.value, paypal_order: req.body.order}
 				}
 			}
 		)
