@@ -54,6 +54,8 @@ router.post('/newPasswordRequest', async(req, res) => {
     
 })
 
+
+
 router.post('/newEmail', async(req, res) => {
     try {
         const email_change_token = await EmailChangeToken.findOne({token: req.body.emailToken})

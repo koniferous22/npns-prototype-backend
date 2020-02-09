@@ -12,6 +12,7 @@
   "author": "ja a ado",
   "license": "ISC",
   "dependencies": {
+    "apollo-server-express": "^2.9.16",
     "bcrypt": "^3.0.6",
     "bcrypt-nodejs": "0.0.3",
     "body-parser": "^1.18.3",
@@ -20,7 +21,7 @@
     "cors": "^2.8.5",
     "custom-env": "^1.0.2",
     "dotenv": "^8.2.0",
-    "express": "^4.16.4",
+    "express": "^4.17.1",
     "express-session": "^1.17.0",
     "express-validator": "^5.3.1",
     "jsonwebtoken": "^8.5.1",

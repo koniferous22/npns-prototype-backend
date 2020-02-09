@@ -5,7 +5,6 @@ const User = require('../models/user');
 
 const { auth } = require('../middleware');
 
-
 router.post('/username', async (req, res) => {
 	try {
 		if (!req.body.username || req.body.username === '') {
@@ -38,6 +37,7 @@ router.post('/email', check('email').isEmail() , async (req, res) => {
 	}
 })
 
+// MOVE TO FRONTEND
 router.post('/password', async (req, res) => {
 	// OK HERE I GOT REALLY LAZY
 	if (!req.body.password) {
@@ -49,6 +49,7 @@ router.post('/password', async (req, res) => {
 	return res.status(200).send({message:"yes"})
 })
 
+// USER HISTORY LOGS
 router.post('/passwordChange', auth, async (req, res) => {
 	try {	
 		const dupl_user = new User(req.user)
@@ -67,6 +68,7 @@ router.post('/passwordChange', auth, async (req, res) => {
 	}
 })
 
+// TOKENS
 router.post('/referred_by', async (req, res) => {
 	try {
 		if (!req.body.referred_by || req.body.referred_by === '') {
