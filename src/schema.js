@@ -2,11 +2,13 @@ const { gql } = require('apollo-server-express');
 
 const schema = gql`
 	type Queue {
-		_id: ID!
+		# POSSIBLY NOT EXPOSE QUEUE IDS
+		#id: ID!
 		name: String!
-		parentId: Queue
-		#descendants: [String]
-		#ancestors: [String]
+		karmaValue: Int!
+		parent: Queue
+		descendants: [Queue]!
+		ancestors: [Queue]!
 		#problems: [String]
 		#scoreboard: [String]
 		#user_count: [String]

@@ -97,16 +97,49 @@ QueueSchema.query.ancestors = async function (recordFilter,fields) {
 }
 
 QueueSchema.static('hierarchy', async function () {
+	const qs = await QueueModel.find({}, '_id name parentId').sort({depth: 0})
+	
+	// ONLY HERE IN CASE WE CHANGE BEHAVIOUR FROM SINGLE ROOT TO MULTIPLE ROOTS
+	const getDepthZero = queues => queues[0]
+	const skipDepthZero = queues => queues.slice(1)
+	const findParent = parentId => {
+
+	}
+
+	const hierarchy = {
+		queue: getDepthZero(qs).name,
+		children: []
+	}
+	const hierarchyDirections = {
+		[getDepthZero(qs)._id]: []
+	}
+	skipDepthZero(qs).forEach(q => {
+		let hierarchyLocation = hierarchy
+		hierarchyDirections[q.parentId].forEach(hierarchyDirection => {
+			hierarchyLocation = hierarchyLocation.children[hierarchyDirection]
+		})
+		hierarchyDirections[q._id] = [ ...hierarchyDirections[q.parentId], hierarchyLocation.children.length ]
+		hierarchyLocation.children.push({
+			queue: q.name,
+			children: []
+		})
+	})
+	return { hierarchy }
+})
+
+
+// legacy hierarchy shitcode method
+QueueSchema.static('LEGACY_hierarchy', async function () {
 	qs = await QueueModel.find({},'name parentId').sort({depth:1})
 
-	dbQueues = new Object()
+	dbQueues = {}
 	qs.forEach(q => {
 		dbQueues[q._id] = {
 			hierarchy_location: null,
 			parentId: q.parentId || null,
 			name: q.name}
 		})
-	hierarchy = new Object()
+	hierarchy = {}
 	Object.keys(dbQueues).forEach(key => {
 		// Verifies if queue is present in constructed data structure
 		q = dbQueues[key]
@@ -139,7 +172,7 @@ QueueSchema.static('hierarchy', async function () {
 		// NOTE CAN BE DONE WAY EFFECTIVE, BUT I'M LAZY
 		nonPresentAscendants.forEach(nonExistingAscendantId => {
 			nonExistingAscendant = dbQueues[nonExistingAscendantId].name
-			lowestPresentAscendant[nonExistingAscendant] = new Object()
+			lowestPresentAscendant[nonExistingAscendant] = {}
 			lowestPresentAscendant = lowestPresentAscendant[nonExistingAscendant]
 			parentOfAscendantId = dbQueues[nonExistingAscendantId].parentId
 			// update the access metadata
