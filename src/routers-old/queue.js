@@ -5,14 +5,14 @@ const { auth } = require('../middleware');
 
 const router = require('express').Router()
 
-router.get('/all', async (req, res) => {
+/*router.get('/all', async (req, res) => {
 	try {
 		queues = await Queue.find({}, '-_id name').sort({name: 'asc'})
 		res.status(200).send({queues})
 	} catch(error) {
 		res.status(400).send(error)
 	}
-})
+})*/
 
 router.get('/hierarchy', async (req, res) => {
 	try {
@@ -35,26 +35,26 @@ router.post('/create', async (req,res) => {
 	
 });
 
-router.get('/karmaValues', async (req, res) => {
+/*router.get('/karmaValues', async (req, res) => {
 	try {
    	nameAndKarma = await Queue.find({}, 'name karmaValue -_id') //nevracia _id 
 		res.status(200).send(nameAndKarma)
 	} catch(error) {
 		res.status(400).send({error})
 	}
-})
+})*/
 
-router.get('/:name', async function(req,res) {
+/*router.get('/:name', async function(req,res) {
     try {
 		q = await Queue.findOne({"name":req.params.name}, 'name _id')
 		res.status(200).send(q)
 	} catch (error) {
 		res.status(400).send({error})
 	}
-});
+});*/
 
 // public cache
-router.get('/:name/descendants', async (req, res) => {
+/*router.get('/:name/descendants', async (req, res) => {
 	try {
 		desc = await Queue.find().descendants({name:req.params.name},'name')
 		res.status(200).send(desc)
@@ -62,9 +62,9 @@ router.get('/:name/descendants', async (req, res) => {
 		res.status(400).send({error})
 	}
 
-});
+});*/
 
-router.get('/:name/ancestors', async (req, res) => {
+/*router.get('/:name/ancestors', async (req, res) => {
 	try {
 		anc = await Queue.find().ancestors({name:req.params.name},'name')
 		res.status(200).send(desc)
@@ -72,7 +72,7 @@ router.get('/:name/ancestors', async (req, res) => {
 		res.status(400).send({error})
 	}	
 
-});
+});*/
 
 router.get('/:name/problems', async (req, res) => {
 	try {
@@ -187,3 +187,4 @@ router.get('/:name/scoreboard/position/:user', async (req, res) => {
 })
 
 module.exports = router
+-

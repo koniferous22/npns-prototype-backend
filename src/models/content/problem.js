@@ -22,33 +22,33 @@ const ProblemSchema = new mongoose.Schema({
 		type: String,
 		required: true
 	},
-  view_count: {
-  	type: Number,
-  	default: 0
-  },
-  boosts: [{
-  	boost_value: {
-  		type: Number,
-  		required: true
-  	},
-  	boosted_by: {
-  		type: mongoose.Schema.Types.ObjectId,
-  		required: true,
-  		ref: 'User'
-  	},
+	view_count: {
+		type: Number,
+		default: 0
+	},
+	boosts: [{
+		boost_value: {
+			type: Number,
+			required: true
+		},
+		boosted_by: {
+			type: mongoose.Schema.Types.ObjectId,
+			required: true,
+			ref: 'User'
+		},
 		paypal_order: {
 			type: Object
 		},
-  	_id: false
- 	}],
-  submissions: [{
-  	submission: {
-  		type: mongoose.Schema.Types.ObjectId,
-  		required: true,
-  		ref: 'Submission'
-  	},
-  	_id: false
-  }]
+		_id: false
+	}],
+	submissions: [{
+		submission: {
+			type: mongoose.Schema.Types.ObjectId,
+			required: true,
+			ref: 'Submission'
+		},
+		_id: false
+	}]
 }, {
 	toObject: { virtuals: true },
     toJSON: { virtuals: true }

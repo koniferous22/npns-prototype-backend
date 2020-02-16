@@ -16,11 +16,11 @@ const TransactionSchema = new mongoose.Schema({
     	ref: 'Queue',
     	default: null
 	},
-	karma_value: {
+	karmaValue: {
 		type: Number,
 		default: 0
 	},
-	monetary_value: {
+	monetaryValue: {
 		type: Number,
 		default: 0
 		// refactor with currency enum
