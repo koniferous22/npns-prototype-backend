@@ -107,8 +107,9 @@ QueueSchema.static('hierarchy', async function () {
 	}
 
 	const hierarchy = {
-		queue: getDepthZero(qs).name,
-		children: []
+		/*queue: getDepthZero(qs).name,
+		children: []*/
+		[getDepthZero(qs).name]: {}
 	}
 	const hierarchyDirections = {
 		[getDepthZero(qs)._id]: []
@@ -116,15 +117,22 @@ QueueSchema.static('hierarchy', async function () {
 	skipDepthZero(qs).forEach(q => {
 		let hierarchyLocation = hierarchy
 		hierarchyDirections[q.parentId].forEach(hierarchyDirection => {
-			hierarchyLocation = hierarchyLocation.children[hierarchyDirection]
+			hierarchyLocation = hierarchyLocation[hierarchyDirection]
 		})
-		hierarchyDirections[q._id] = [ ...hierarchyDirections[q.parentId], hierarchyLocation.children.length ]
-		hierarchyLocation.children.push({
+		hierarchyDirections[q._id] = [ ...hierarchyDirections[q.parentId], q.name ]
+		hierarchyLocation[q.name] = {}
+		console.log('q')
+		console.log(q)
+		console.log('hierarchy')
+		console.log(hierarchy)
+		console.log('hierarchyDirections')
+		console.log(hierarchyDirections)
+		/*hierarchyLocation.children.push({
 			queue: q.name,
 			children: []
-		})
+		})*/
 	})
-	return { hierarchy }
+	return hierarchy
 })
 
 

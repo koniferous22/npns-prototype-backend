@@ -9,6 +9,8 @@ const typeDefs = require('./schema')
 const resolvers = require('./resolvers')
 const mongoose = require('mongoose');
 
+const Queue = require('./models/queue')
+
 const dbConfig = require('./db');
 // Connect to DB
 mongoose.connect(process.env.MONGODB_HOST, { useNewUrlParser: true, useCreateIndex: true, useUnifiedTopology: true });
@@ -18,6 +20,11 @@ const server = new ApolloServer({ typeDefs, resolvers });
 
 const app = express();
 server.applyMiddleware({ app });
+
+app.get('/hierarchy', async(req, res) => {
+	const hierarchy = Queue.hierarchy()
+	
+})
 
 app.listen({ port: 4000 }, () =>
   console.log(`🚀 Server ready at http://localhost:4000${server.graphqlPath}`)

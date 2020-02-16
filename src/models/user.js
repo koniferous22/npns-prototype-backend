@@ -7,7 +7,7 @@ const transporter = require('../nodemailer/transporter');
 
 const Queue = require('./queue')
 
-const UserSchema = new mongoose.Schema({
+const UserSchema = mongoose.Schema({
 	username: {
 		type: String,
 		required: true,
@@ -45,13 +45,21 @@ const UserSchema = new mongoose.Schema({
 			min: 0
 		},
 		default: {}
-	}
-	/*
-	commented out cuz too much features,
-	adult: {
+	},
+	balanceEntries: [{
+		queue: {
+			type: mongoose.Schema.Types.ObjectId,
+			ref: 'Queue'
+		},
+		balance: {
+			type: Number,
+			min: 0
+		}
+	}],
+	allowNsfw: {
 		type: Boolean,
 		default: false
-	}*/
+	}
 });
 
 UserSchema.static('generateHash', async function(pwd) {
