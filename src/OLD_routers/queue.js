@@ -72,7 +72,7 @@ router.post('/create', async (req,res) => {
 		res.status(400).send({error})
 	}	
 
-});*/
+});
 
 router.get('/:name/problems', async (req, res) => {
 	try {
@@ -104,9 +104,7 @@ router.get('/:name/problems', async (req, res) => {
 					if (p.submitted_by) {
 						p.username = p.submitted_by.username
 						p.bounty = 0.98 * p.boosts.reduce((acc,cv) => acc + cv.boost_value, 0)
-						/*
-							OK SRSLY HERE I GOT REALLY LAZY, CANNOT BE BOTHERED HOW TO SOLVE, THAT VIRTUAL STUFF CANNOT BE QUERIED IN MONGOOSE LIKE SRSLY
-						*/
+							//OK SRSLY HERE I GOT REALLY LAZY, CANNOT BE BOTHERED HOW TO SOLVE, THAT VIRTUAL STUFF CANNOT BE QUERIED IN MONGOOSE LIKE SRSLY
 					}
 
 					delete p.submitted_by
@@ -118,7 +116,7 @@ router.get('/:name/problems', async (req, res) => {
 	} catch (error) {
 		res.status(400).send({error})
 	}	
-})
+})*/
 
 router.get('/:name/user_count', async (req, res) => {
 	try {
@@ -187,4 +185,3 @@ router.get('/:name/scoreboard/position/:user', async (req, res) => {
 })
 
 module.exports = router
--
