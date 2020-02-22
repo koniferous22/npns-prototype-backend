@@ -20,10 +20,12 @@ const schema = gql`
 		queues: [Queue!]
 		queue(name: String!): Queue
 		user(username: String!): User
+		challenge(challengeId: ID!): Challenge
 	}
 
 	type Mutation {
-		createQueue(name: String, parent: ID): Queue
+		userSignUp(username: String!, password: String!, email: String!, firstName: String, lastName: String): User
+		#createQueue(name: String, parent: ID): Queue
 	}
 `
 

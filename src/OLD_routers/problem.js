@@ -97,6 +97,7 @@ router.post('/:id/mark_solved', auth, async function (req, res) {
 	}
 })
 
+/*
 router.get('/:id/submissions', async function (req, res) {
     try {
         const page = (!req.query.page || req.query.page < 1) ? 1 : req.query.page
@@ -112,6 +113,7 @@ router.get('/:id/submissions', async function (req, res) {
         res.status(400).send('looool')
     }
 })
+*/
 
 router.post('/:id/boost', auth, async function (req, res) {
 	try {
