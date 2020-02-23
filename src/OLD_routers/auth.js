@@ -7,6 +7,7 @@ const { auth } = require('../middleware');
 
 const router = require('express').Router();
 
+/*
 router.post('/signup', async (req, res) => {
 	// Create a new user
 	try {
@@ -28,7 +29,7 @@ router.post('/signup', async (req, res) => {
 			res.status(400).send(error)
 	}
 })
-
+*/
 router.post('/signin', async (req, res) => {
 	try {
 		const { username, email, password } = req.body

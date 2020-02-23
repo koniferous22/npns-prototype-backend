@@ -14,7 +14,7 @@ type User {
 	balanceEntries: [Balance!]!
 	verified: Boolean!
 	allowNsfw: Boolean!
-	transactions(page:Int!, count: Int!): [Transaction]
+	transactions(page:Int!, count: Int!, authToken: String!): [Transaction]
 }`
 
 module.exports = UserSchema

@@ -6,7 +6,8 @@ const User = {
 	balanceEntries: async user => (await user.populate({path: 'balanceEntries.balance', select: QUEUE_FIELDS}).execPopulate()).balanceEntries,
 	referredBy: async user => (await user.populate({path: 'referred_by', select: USER_FIELDS}).execPopulate()).referredBy,
 	// TODO: added default params, make sure that typescript allows non-negative params in functions
-	transactions: async (user, {page = 1, count = 50}) => {
+	transactions: async (user, {page = 1, count = 50, authToken}) => {
+		
 		const size = await TransactionAPI.countDocuments({$or: [
 			{
 				sender: user.id

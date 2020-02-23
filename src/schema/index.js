@@ -1,20 +1,16 @@
 const { gql } = require('apollo-server-express')
 const { GraphQLDate, GraphQLDateTime } = require('graphql-iso-date')
 
+const mutationInputs = require('./inputs')
+const mutationPayloads = require('./payloads')
 const scalars = require('./scalars')
-
-const ContentSchemas = require('./content')
-const QueueSchema = require('./Queue')
-const UserSchema = require('./User')
-const TransactionSchema = require('./Transaction')
+const types = require('./types')
 
 const schema = gql`
 	${scalars}
-	
-	${ContentSchemas}
-	${QueueSchema}
-	${TransactionSchema}
-	${UserSchema}
+	${mutationInputs}
+	${mutationPayloads}
+	${types}
 
 	type Query {
 		queues: [Queue!]
@@ -24,7 +20,8 @@ const schema = gql`
 	}
 
 	type Mutation {
-		userSignUp(username: String!, password: String!, email: String!, firstName: String, lastName: String): User
+		signUpUser(signUpUserInput: SignUpUserInput!): SignUpUserPayload
+		signInUser(signInUserInput: SignInUserInput!): SignInUserPayload
 		#createQueue(name: String, parent: ID): Queue
 	}
 `

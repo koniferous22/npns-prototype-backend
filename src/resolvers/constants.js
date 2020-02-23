@@ -7,6 +7,7 @@ const USER_FIELDS = 'username email firstName lastName referred_by balanceEntrie
 module.exports = {
 	CHALLENGE_FIELDS,
 	QUEUE_FIELDS,
+	REPLY_FIELDS,
 	SUBMISSION_FIELDS,
 	USER_FIELDS
 }
