@@ -9,58 +9,6 @@ const { auth } = require('../middleware')
 
 const router = require('express').Router()
 
-router.post('/add', auth, async function (req, res) {
-	try {
-		// AUTH:
-        // TODO: refactor with auth: field submitted_by
-        problem = {...req.body,  submitted_by: req.user._id};
-        q = await Queue.findOne({name:problem.queue_name}, '_id')
-        if (!q) {
-            throw new Error({message:'NO QUEUE FOUND'})
-        }
-        problem = new Problem({...problem, queue:q._id })
-		await problem.save();
-		res.status(200).send(problem)
-	} catch (error){
-		res.status(400).send(error)
-	}
-});
-
-router.get('/:id', async function(req,res) {
-    try {
-        problem = await Problem.viewProblem(req.params.id)
-        res.status(200).send(problem)
-    } catch (error) {
-        res.status(400).send(error)
-    }
-});
-
-router.post('/:id/submit', auth,  async function(req,res) {
-    try {
-        // AUTH:
-        // TODO: refactor with auth: field submitted_by: should be only required parameter
-        const user_id = req.user._id
-        const submission = new Submission({ ...req.body, submitted_by: user_id, problem: req.params.id })
-        await submission.save()
-        await Problem.updateOne(
-        	{_id:req.params.id},
-        	{
-        		$push: {
-        			submissions: {submission: submission._id}
-        		}
-        	}
-        	)
-        // have to do extra query cause submitted by field needs to be populated
-        const populatedSubmission = await Submission.findOne({_id: submission._id, active: true}).populate({
-            path: 'submitted_by',
-            select: 'username',
-        })
-        res.status(200).send(populatedSubmission)
-    } catch (error) {
-        res.status(400).send(error)
-    }
-});
-
 router.post('/:id/mark_solved', auth, async function (req, res) {
 	try {
 		const problem = await Problem.findOne({_id:req.params.id, submitted_by: req.user._id})
@@ -97,24 +45,6 @@ router.post('/:id/mark_solved', auth, async function (req, res) {
 	}
 })
 
-/*
-router.get('/:id/submissions', async function (req, res) {
-    try {
-        const page = (!req.query.page || req.query.page < 1) ? 1 : req.query.page
-        const count = (!req.query.count || req.query.count < 1) ? 50 : req.query.count
-        const submissions = await Submission.find({problem:req.params.id, active: true}).populate({
-            path: 'submitted_by',
-            select: 'username',
-        }).skip(count * (page - 1)).limit(count)
-        const problem = await Problem.findOne({_id:req.params.id})
-        const hasMore = (page * count) < problem.submissions.length
-        res.status(200).send({data:submissions, hasMore})
-    } catch (error) {
-        res.status(400).send('looool')
-    }
-})
-*/
-
 router.post('/:id/boost', auth, async function (req, res) {
 	try {
 		// AUTH:
@@ -148,3 +78,4 @@ router.post('/:id/boost', auth, async function (req, res) {
 })
 
 module.exports = router;
+	

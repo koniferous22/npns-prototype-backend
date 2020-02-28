@@ -22,7 +22,10 @@ const schema = gql`
 	type Mutation {
 		signUpUser(signUpUserInput: SignUpUserInput!): SignUpUserPayload
 		signInUser(signInUserInput: SignInUserInput!): SignInUserPayload
-		#createQueue(name: String, parent: ID): Queue
+		logoutUser(logoutInput: TokenInput!): MessagePayload
+		logoutUserAllDevices(logoutInput: TokenInput!): MessagePayload
+		postChallenge(postChallengeInput: PostChallengeInput!): PostChallengePayload
+		postSubmission(postSubmissionInput: PostSubmissionInput!): PostSubmissionPayload
 	}
 `
 

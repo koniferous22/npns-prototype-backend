@@ -1,9 +1,15 @@
-const signUpUser = require('./signUpUserInput')
-const signInUser = require('./signInUserInput')
+const signUpUserInput = require('./signUpUserInput')
+const signInUserInput = require('./signInUserInput')
+const postChallengeInput = require('./postChallengeInput')
+const postSubmissionInput = require('./postSubmissionInput')
+const tokenInput = require('./tokenInput')
 
 const inputTypes = `
-	${signUpUser}
-	${signInUser}
+	${postChallengeInput}
+	${postSubmissionInput}
+	${signUpUserInput}
+	${signInUserInput}
+	${tokenInput}
 `
 
 module.exports = inputTypes
