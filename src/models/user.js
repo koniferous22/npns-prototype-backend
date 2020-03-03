@@ -68,12 +68,14 @@ UserSchema.static('generateHash', async function(pwd) {
 });
 
 UserSchema.methods.validPassword = async function(pwd) {
+	console.log(`pwd: ${pwd}`);
+	console.log(`JSON.stringify(this): ${JSON.stringify(this)}`)
 	const result = await bcrypt.compare(pwd, this.password);
-	//console.log(result)
 	return result
 };
 UserSchema.pre('save', async function (next) {
     // Hash the password before saving the user model
+    console.log('PRE SAVE hook')
     const user = this
     if (user.isModified('password')) {
         user.password = await UserModel.generateHash(user.password)

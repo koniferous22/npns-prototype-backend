@@ -17,6 +17,8 @@ router.post('/create', async (req,res) => {
 	
 });
 
+/*
+*/
 router.get('/:name/user_count', async (req, res) => {
 	try {
 		const queue = await Queue.findOne({name:req.params.name},'_id');
@@ -28,6 +30,9 @@ router.get('/:name/user_count', async (req, res) => {
 	}
 })
 
+/*
+separate scoreboard api
+*/
 router.get('/:name/scoreboard', async (req, res) => {
 	try {
 		const page = (!req.query.page || req.query.page < 1) ? 1 : req.query.page

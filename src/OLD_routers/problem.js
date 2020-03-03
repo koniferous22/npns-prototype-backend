@@ -9,11 +9,15 @@ const { auth } = require('../middleware')
 
 const router = require('express').Router()
 
+/*
+1.) Challenge.findOne (by challenge id and submission exists)
+2.) ensure problem owner & find submission Owner & find queueancestors
+3.) challenge.acceptSubmission() & save winner, challenge, transaction
+*/
+
 router.post('/:id/mark_solved', auth, async function (req, res) {
 	try {
 		const problem = await Problem.findOne({_id:req.params.id, submitted_by: req.user._id})
-		// AUTH:
-		// TODO: Reimplment with auth middleware
 		const user_id = req.user._id
         const problem_owner = problem.submitted_by
         // Have to use mongoose id equals method, otherwise string-wise comparision simply fails xD
@@ -45,6 +49,11 @@ router.post('/:id/mark_solved', auth, async function (req, res) {
 	}
 })
 
+/*
+1.) Find challenge
+2.) Verify problem can be boosted
+3.) await update by concating into array (yandreyovi to nefachcalo)
+*/
 router.post('/:id/boost', auth, async function (req, res) {
 	try {
 		// AUTH:

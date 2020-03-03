@@ -21,13 +21,9 @@ const VerificationToken = require('../models/verification_token/verification_tok
 
 const { pwdResetTemplate, emailChangeTemplate, usernameChangeTemplate } = require('../nodemailer/templates');
 
+
 router.get('/:id/posts', async (req, res) => {
 	try {
-		/*const size = await Problem.find({
-			queue:{
-				$in: desc
-			}
-		}).countDocuments()*/
 		const page = (!req.query.page || req.query.page < 1) ? 1 : req.query.page
         const count = (!req.query.count || req.query.count < 1) ? 50 : req.query.count
 		const user = await User.findOne({username: req.params.id})

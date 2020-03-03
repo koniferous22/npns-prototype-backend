@@ -1,15 +1,20 @@
-const signUpUserPayload = require('./signUpUserPayload')
-const signInUserPayload = require('./signInUserPayload')
-const postChallengePayload = require('./postChallengePayload')
-const postSubmissionPayload = require('./postSubmissionPayload')
 const messagePayload = require('./messagePayload')
 
+const markChallengeSolvedPayload = require('./markChallengeSolvedPayload')
+const postChallengePayload = require('./postChallengePayload')
+const postSubmissionPayload = require('./postSubmissionPayload')
+const postReplyPayload = require('./postReplyPayload')
+const signUpUserPayload = require('./signUpUserPayload')
+const signInUserPayload = require('./signInUserPayload')
+
 const payloads = `
-	${signUpUserPayload}
-	${signInUserPayload}
+	${messagePayload}
+	${markChallengeSolvedPayload}
 	${postChallengePayload}
 	${postSubmissionPayload}
-	${messagePayload}
+	${postReplyPayload}
+	${signUpUserPayload}
+	${signInUserPayload}
 `
 
 module.exports = payloads

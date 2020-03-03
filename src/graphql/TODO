@@ -1,0 +1,10 @@
+queries
+* index.js, add files for accessors
+mutations
+* each file: subschema (inputs, payload), resolver, 
+types (used by both)
+scalar (NYI)
+utils
+* constants
+
+
