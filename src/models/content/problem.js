@@ -80,7 +80,7 @@ ProblemSchema.methods.calculateProblemValue = function() {
 	return defaultValue + boostValue
 }
 
-ProblemSchema.methods.boost = async function (boosted_by, boost_value) {
+ProblemSchema.methods.boost = function (boosted_by, boost_value) {
 	if (this.accepted_submission != null) {
 		throw new Error('Cannot boost already solved problem')
 	}
