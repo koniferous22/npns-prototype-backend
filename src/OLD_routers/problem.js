@@ -9,45 +9,6 @@ const { auth } = require('../middleware')
 
 const router = require('express').Router()
 
-/*
-1.) Challenge.findOne (by challenge id and submission exists)
-2.) ensure problem owner & find submission Owner & find queueancestors
-3.) challenge.acceptSubmission() & save winner, challenge, transaction
-*/
-
-router.post('/:id/mark_solved', auth, async function (req, res) {
-	try {
-		const problem = await Problem.findOne({_id:req.params.id, submitted_by: req.user._id})
-		const user_id = req.user._id
-        const problem_owner = problem.submitted_by
-        // Have to use mongoose id equals method, otherwise string-wise comparision simply fails xD
-		if (!user_id.equals(problem_owner)) {
-			return res.status(401).send('You are not the problem owner')
-		}
-		const submission = await Submission.findOne({_id:req.body.submission});
-		problem.acceptSolution(submission._id);
-		const transaction = new Transaction({
-			recipient: submission.submitted_by,
-			queue: problem.queue,
-			karma_value: 1,
-			monetary_value: problem.boost_value,
-			description: 'Correct solution reward form problem ' + problem._id
-		})
-		const winner = await User.findOne({_id:submission.submitted_by})
-        const ancestors = await Queue.find().ancestors({_id: problem.queue}, '_id')
-        ancestors.push({_id: problem.queue})
-        ancestors.forEach(ancestor => {
-            winner.addBalance(ancestor._id.toString() /*has to convert to string*/, transaction.karma_value)            
-        })
-
-        await problem.save()
-        await transaction.save()
-        await winner.save()
-        res.status(200).send(transaction)
-	} catch (error) {
-		res.status(400).send('lol nepreslo')
-	}
-})
 
 /*
 1.) Find challenge
