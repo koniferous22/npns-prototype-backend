@@ -27,6 +27,7 @@ app.use('/', require('./routers/auth'));
 app.use('/queue/', require('./routers/queue'));
 app.use('/problem/', require('./routers/problem'));
 app.use('/submission/', require('./routers/submission'));
+app.use('/content/', require('./routers/content'));
 app.use('/verify/', require('./routers/verify'));
 app.use('/u/', require('./routers/user'));
 app.use('/valid', require('./routers/valid'));
