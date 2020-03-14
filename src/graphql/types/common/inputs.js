@@ -4,6 +4,14 @@ const tokenInput = `
 	}
 `
 
+const paging = `
+	input Paging {
+		page: Int!
+		pageSize: Int!
+	}
+`
+
 module.exports = {
-	tokenInput
+	tokenInput,
+	paging
 }

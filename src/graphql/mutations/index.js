@@ -7,6 +7,11 @@ const {
 	confirmPasswordInput,
 	confirmPassword
 } = require('./confirmPassword')
+const {
+	createQueueInput,
+	createQueuePayload,
+	createQueue
+} = require('./createQueue')
 const { logoutUser } = require('./logoutUser')
 const { logoutUserAllDevices } = require('./logoutUserAllDevices')
 const {
@@ -42,6 +47,7 @@ const {
 
 const mutationInputs = `
 	${boostChallengeInput}
+	${createQueueInput}
 	${confirmPasswordInput}
 	${markChallengeSolvedInput}
 	${postChallengeInput}
@@ -53,6 +59,7 @@ const mutationInputs = `
 
 const mutationPayloads = `
 	${boostChallengePayload}
+	${createQueuePayload}
 	${markChallengeSolvedPayload}
 	${postChallengePayload}
 	${postReplyPayload}
@@ -66,6 +73,7 @@ const mutationSchema = `
 	${mutationPayloads}
 	type Mutation {
 		boostChallenge(boostChallengeInput: BoostChallengeInput!): BoostChallengePayload
+		createQueue(createQueueInput: CreateQueueInput!): CreateQueuePayload
 		confirmPassword(confirmPasswordInput: ConfirmPasswordInput!): MessagePayload
 		signUpUser(signUpUserInput: SignUpUserInput!): SignUpUserPayload
 		signInUser(signInUserInput: SignInUserInput!): SignInUserPayload

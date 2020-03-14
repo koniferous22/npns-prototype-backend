@@ -5,34 +5,6 @@ const { auth } = require('../middleware');
 
 const router = require('express').Router()
 
-router.post('/create', async (req,res) => {
-	// TODO: make auth
-	try {
-		q = new Queue(req.body)
-		await q.save()
-		res.status(200).send(q)
-	} catch (error) {
-		res.status(400).send(error)
-	}
-	
-});
-
-/*
-*/
-router.get('/:name/user_count', async (req, res) => {
-	try {
-		const queue = await Queue.findOne({name:req.params.name},'_id');
-		const balance_specifier = 'balances.' + queue._id
-		const body_count = await User.find({[balance_specifier] : { $exists: true }},'username ' + balance_specifier).countDocuments()
-		res.status(200).send({body_count})
-	} catch (error) {
-		res.status(400).send({error})
-	}
-})
-
-/*
-separate scoreboard api
-*/
 router.get('/:name/scoreboard', async (req, res) => {
 	try {
 		const page = (!req.query.page || req.query.page < 1) ? 1 : req.query.page
