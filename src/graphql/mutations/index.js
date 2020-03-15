@@ -35,6 +35,10 @@ const {
 	postSubmission
 } = require('./postSubmission')
 const {
+	requestProfileChangeInput,
+	requestProfileChange
+} = require('./requestProfileChange')
+const {
 	signInUserInput,
 	signInUserPayload,
 	signInUser
@@ -53,6 +57,7 @@ const mutationInputs = `
 	${postChallengeInput}
 	${postReplyInput}
 	${postSubmissionInput}
+	${requestProfileChangeInput}
 	${signInUserInput}
 	${signUpUserInput}
 `
@@ -81,6 +86,7 @@ const mutationSchema = `
 		postChallenge(postChallengeInput: PostChallengeInput!): PostChallengePayload
 		postSubmission(postSubmissionInput: PostSubmissionInput!): PostSubmissionPayload
 		postReply(postReplyInput: PostReplyInput!): PostReplyPayload
+		requestProfileChange(requestProfileChangeInput: RequestProfileChangeInput!): MessagePayload
 		signUpUser(signUpUserInput: SignUpUserInput!): SignUpUserPayload
 		signInUser(signInUserInput: SignInUserInput!): SignInUserPayload
 	}
