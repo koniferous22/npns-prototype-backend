@@ -1,6 +1,6 @@
 const mongoose = require('mongoose');
 
-const ContentModel = require('./content');
+const PostModel = require('./post');
 
 const SubmissionSchema = new mongoose.Schema({
 	replies: [{
@@ -10,11 +10,11 @@ const SubmissionSchema = new mongoose.Schema({
 		},
 		_id:false
 	}],
-	problem: {
+	challenge: {
 		type: mongoose.Schema.Types.ObjectId,
 		required: true,
 		index: true,
-		ref: 'Problem'
+		ref: 'Challenge'
 	}
 });
 
@@ -27,6 +27,6 @@ const options = {
 	discriminatorKey: 'kind'
 }
 
-const SubmissionsModel = ContentModel.discriminator('Submission', SubmissionSchema, options)
+const SubmissionsModel = PostModel.discriminator('Submission', SubmissionSchema, options)
 
 module.exports = SubmissionsModel

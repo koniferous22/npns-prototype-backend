@@ -1,5 +1,5 @@
-const SubmissionAPI = require('../../models/content/submission')
-const ReplyAPI = require('../../models/content/reply')
+const SubmissionAPI = require('../../models/post/submission')
+const ReplyAPI = require('../../models/post/reply')
 
 const { Authentication } = require('../../middleware')
 

@@ -1,8 +1,8 @@
 const mongoose = require('mongoose');
 
-const ContentModel = require('./content')
+const PostModel = require('./post')
 
-const ProblemSchema = new mongoose.Schema({
+const ChallengeSchema = new mongoose.Schema({
 	queue: {
 		type: mongoose.Schema.Types.ObjectId,
 		required: true,
@@ -58,38 +58,38 @@ const epochBegin = new Date(process.env.EPOCH_BEGIN_YEAR,process.env.EPOCH_BEGIN
 const epochEnd = new Date(process.env.EPOCH_END_YEAR,process.env.EPOCH_END_MONTH,process.env.EPOCH_END_DAY)
 const normalizationCoef = epochEnd - epochBegin
 
-ProblemSchema.virtual('solved').get(function () {
+ChallengeSchema.virtual('solved').get(function () {
 	return this.accepted_submission != null
 })
 
-ProblemSchema.virtual('bounty').get(function () {
+ChallengeSchema.virtual('bounty').get(function () {
 	return 0.98 * this.boosts.reduce((acc,cv) => acc + cv.boost_value, 0)
 })
 
-ProblemSchema.virtual('boost_value').get(function() {
+ChallengeSchema.virtual('boost_value').get(function() {
 	return this.boosts.map(x => x.boost_value).reduce((a,b) => a + b, 0)
 })
 
-ProblemSchema.methods.calculateProblemValue = function() {
-	const problem = this
-	const boostValue = problem.boost_value
-	const defaultValue = (problem.created - epochBegin) / normalizationCoef
+ChallengeSchema.methods.calculateChallengeValue = function() {
+	const challenge = this
+	const boostValue = challenge.boost_value
+	const defaultValue = (challenge.created - epochBegin) / normalizationCoef
 	if (boostValue > 0) {
 		boostValue++
 	}
 	return defaultValue + boostValue
 }
 
-ProblemSchema.methods.boost = function (boosted_by, boost_value) {
+ChallengeSchema.methods.boost = function (boosted_by, boost_value) {
 	if (this.accepted_submission != null) {
-		throw new Error('Cannot boost already solved problem')
+		throw new Error('Cannot boost already solved challenge')
 	}
 	this.boosts.concat({boosted_by, boost_value})
 }
 
-ProblemSchema.methods.acceptSolution = function (solution_id) {
+ChallengeSchema.methods.acceptSolution = function (solution_id) {
 	if (!this.submissions.map(x => x.submission).includes(solution_id)) {
-		throw new Error('No such submission related to this problem');
+		throw new Error('No such submission related to this challenge');
 	}
 	this.active = false;
 	this.accepted_submission = solution_id
@@ -97,26 +97,26 @@ ProblemSchema.methods.acceptSolution = function (solution_id) {
 }
 
 /*
-ProblemSchema.methods.editProblem = async function (contents) {
-	this.edits.push({contents})
+ChallengeSchema.methods.editChallenge = async function (posts) {
+	this.edits.push({posts})
 	await this.save()
 }*/
 
-ProblemSchema.virtual('submission_count').get(function() {
+ChallengeSchema.virtual('submission_count').get(function() {
 	return this.submissions.length
 })
 
-ProblemSchema.pre('save', async function (next) {
-	const problem = this
-	//console.log(problem)
-	if (problem.isNew || problem.isModified('boosts') || problem.isModified('root_queue_value')) {
-		problem.root_queue_value = this.calculateProblemValue()
+ChallengeSchema.pre('save', async function (next) {
+	const challenge = this
+	//console.log(challenge)
+	if (challenge.isNew || challenge.isModified('boosts') || challenge.isModified('root_queue_value')) {
+		challenge.root_queue_value = this.calculateChallengeValue()
 	}
 	next()
 })
 
-ProblemSchema.statics.viewProblem = async function (id) {
-	const problem = await this
+ChallengeSchema.statics.viewChallenge = async function (id) {
+	const challenge = await this
 		.findOne({_id:id})
 		.populate({
 			path: 'submitted_by',
@@ -128,9 +128,9 @@ ProblemSchema.statics.viewProblem = async function (id) {
 		})
 		.populate('accepted_submission')
 
-	problem.view_count++
-	await problem.save()
-	return problem
+	challenge.view_count++
+	await challenge.save()
+	return challenge
 }
 
 const schema_options = {
@@ -139,7 +139,7 @@ const schema_options = {
 
 
 
-const ProblemModel = ContentModel.discriminator('Problem', ProblemSchema, schema_options)
+const ChallengeModel = PostModel.discriminator('Challenge', ChallengeSchema, schema_options)
 
 /*
 METHODS:
@@ -149,4 +149,4 @@ METHODS:
 
 
 
-module.exports = ProblemModel
+module.exports = ChallengeModel

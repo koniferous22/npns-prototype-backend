@@ -1,6 +1,6 @@
 const { Authentication } = require('../../middleware')
-const Challenge = require('../../models/content/problem')
-const Submission = require('../../models/content/submission')
+const Challenge = require('../../models/post/challenge')
+const Submission = require('../../models/post/submission')
 
 const postSubmissionInput = `
 	input PostSubmissionInput {
@@ -22,7 +22,7 @@ const postSubmission = (_, {postSubmissionInput}) => Promise.all([
 		const submission = new Submission({
 			content: postSubmissionInput.content,
 			submitted_by: user._id,
-			problem: challenge._id
+			challenge: challenge._id
 		})
 		return Promise.all([
 			submission.save(),

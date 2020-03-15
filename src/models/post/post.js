@@ -1,6 +1,6 @@
 const mongoose = require('mongoose');
 
-const ContentSchema = new mongoose.Schema({
+const PostSchema = new mongoose.Schema({
 	submitted_by: {
 		type: mongoose.Schema.Types.ObjectId,
 		required: true,
@@ -38,10 +38,10 @@ const ContentSchema = new mongoose.Schema({
 	}]
 })
 
-ContentSchema.methods.edit = function (contents) {
+PostSchema.methods.edit = function (contents) {
 	this.edits.push({contents})
 }
 
-const ContentModel = mongoose.model('Content', ContentSchema, 'Content');
+const PostModel = mongoose.model('Post', PostSchema, 'Post');
 
-module.exports = ContentModel
+module.exports = PostModel

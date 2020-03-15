@@ -1,6 +1,6 @@
 const QueueModel = require('../../models/queue')
 const User = require('../../models/user')
-const Challenge = require('../../models/content/problem')
+const Challenge = require('../../models/post/challenge')
 
 const { QUEUE_FIELDS, CHALLENGE_FIELDS, USER_FIELDS } = require('../utils/queryFields')
 
@@ -87,14 +87,14 @@ const Queue = {
 	},
 	challengePosition: async (queue, { challengeId }) => {
 		const descendantQueues = await Queue.find().descendants({_id: queue._id},'_id')
-		const challenge = await Challenge.findOne({_id: req.params.problem})
+		const challenge = await Challenge.findOne({_id: challengeId})
 		return descendantQueues.find((descendantQueue) => descendantQueue._id.equals(challenge.queue))
 			? await Challenge.countDocuments({
 					queue:{
 						$in: descendantQueues.map(({ _id }) => _id)
 					},
 					root_queue_value: {
-						$gte: problem.root_queue_value
+						$gte: challenge.root_queue_value
 					}
 				})
 			: null

@@ -1,6 +1,6 @@
 const commonTypes = require('./common')
 
-const { contentSchemas, contentAccessors } = require('./content')
+const { postSchemas, postAccessors } = require('./post')
 const { queueSchema, Queue } = require('./Queue')
 const { userSchema, User } = require('./User')
 const { transactionSchema, Transaction } = require('./Transaction')
@@ -8,14 +8,14 @@ const { transactionSchema, Transaction } = require('./Transaction')
 const types = `
 	${commonTypes}
 
-	${contentSchemas}
+	${postSchemas}
 
 	${queueSchema}
 	${userSchema}
 	${transactionSchema}
 `
 const accessors = {
-	...contentAccessors,
+	...postAccessors,
 	Queue,
 	User,
 	Transaction

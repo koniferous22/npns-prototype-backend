@@ -1,5 +1,5 @@
 const Queue = require('../../models/queue')
-const Challenge = require('../../models/content/problem')
+const Challenge = require('../../models/post/challenge')
 const { Authentication } = require('../../middleware')
 
 const postChallengeInput = `

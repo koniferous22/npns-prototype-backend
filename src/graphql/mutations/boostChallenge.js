@@ -1,4 +1,4 @@
-const Challenge = require('../../models/content/problem')
+const Challenge = require('../../models/post/challenge')
 const { Authentication } = require('../../middleware')
  
 const { CHALLENGE_FIELDS } = require('../utils/queryFields')
@@ -16,15 +16,15 @@ const boostChallengePayload = `
 		boostedChallenge: Challenge
 	}
 `
-
+// TODO rewrite with async await
 const boostChallenge = (_, {boostChallengeInput}) => Promise.all([
 		Authentication(boostChallengeInput.token),
 		Challenge.findOne({_id: boostChallengeInput.challengeId}, CHALLENGE_FIELDS)
 	]).then(([user, challenge]) => {
-		if (problem.accepted_submission != null) {
-			throw new Error({message:'Cannot boost solved problem'})
+		if (challenge.accepted_submission != null) {
+			throw new Error({message:'Cannot boost solved challenge'})
 		}
-		if (req.body.value <= 0) {
+		if (boostChallengeInput.boostedValue <= 0) {
 			throw new Error({message:'Boost value has to be positive'})
 		}
 		challenge.boost(user._id, boostChallengeInput.boostedValue)

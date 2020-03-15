@@ -1,5 +1,5 @@
 const Transaction = require('../../models/transaction')
-const Content = require('../../models/content/content')
+const Post = require('../../models/post/post')
 
 const { QUEUE_FIELDS, USER_FIELDS } = require('../utils/queryFields')
 
@@ -62,11 +62,11 @@ const User = {
 
 	posts: async (user, { paging = { page: 1, pageSize: 50 }}) => {
 		const { page, pageSize } = paging
-		const userPosts = await Content.find({submitted_by: user._id}).skip(pageSize * (page - 1)).limit(pageSize)
+		const userPosts = await Post.find({submitted_by: user._id}).skip(pageSize * (page - 1)).limit(pageSize)
 		return userPosts
 	},
 	postPageCount: async (user, { pageSize = 50 }) => {
-		const postCount = await Content.countDocuments({submitted_by: user._id});
+		const postCount = await Post.countDocuments({submitted_by: user._id});
 		const pageCount = Math.floor(postCount / pageSize) + (postCount % pageSize > 0 ? 1 : 0)
 		return pageCount
 	}

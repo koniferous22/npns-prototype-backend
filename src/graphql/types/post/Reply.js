@@ -1,14 +1,14 @@
 const { USER_FIELDS, SUBMISSION_FIELDS } = require('../../utils/queryFields')
 
 const replySchema = `
-	type Reply implements Content {
+	type Reply implements Post {
 		# interface copy-paste
 		id: ID!
 		submittedBy: User!
 		created: Date!
 		active: Boolean!
 		content: String!
-		edits: [ContentEdit!]!
+		edits: [PostEdit!]!
 		attachmentUrls: [String!]!
 
 		relatedSubmission: Submission!

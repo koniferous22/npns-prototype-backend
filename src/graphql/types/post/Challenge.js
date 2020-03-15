@@ -1,5 +1,5 @@
-const Submission = require('../../../models/content/submission')
-const Reply = require('../../../models/content/reply')
+const Submission = require('../../../models/post/submission')
+const Reply = require('../../../models/post/reply')
 
 const { QUEUE_FIELDS, USER_FIELDS, SUBMISSION_FIELDS } = require('../../utils/queryFields')
 
@@ -10,14 +10,14 @@ const challengeSchema =`
 		# payPalOrder: ???
 	}
 
-	type Challenge implements Content {
+	type Challenge implements Post {
 		# interface copy-paste
 		id: ID!
 		submittedBy: User!
 		created: Date!
 		active: Boolean!
 		content: String!
-		edits: [ContentEdit!]!
+		edits: [PostEdit!]!
 		attachmentUrls: [String!]!
 
 		# end of interface copy-paste
@@ -37,7 +37,7 @@ const Challenge = {
 	submissionPageCount: (challenge, {pageSize = 50}) => Math.floor(challenge.submissions.length / pageSize) + (challenge.submissions.length % pageSize > 0 ? 1 : 0),
 	submissions: async challenge => (await challenge.populate('submissions.submission', SUBMISSION_FIELDS).execPopulate()).submissions.map(s => s.submission),
 	submittedBy: async challenge => (await challenge.populate('submitted_by', USER_FIELDS).execPopulate()).submitted_by,
-	queue: async content => (await content.populate('queue', QUEUE_FIELDS).execPopulate()).queue,
+	queue: async post => (await post.populate('queue', QUEUE_FIELDS).execPopulate()).queue,
 	viewCount: challenge => challenge.view_count
 }
 

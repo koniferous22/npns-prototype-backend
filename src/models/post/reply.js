@@ -1,13 +1,13 @@
 const mongoose = require('mongoose');
 
-const ContentModel = require('./content');
+const PostModel = require('./post');
 
 const ReplySchema = new mongoose.Schema({
-	problem: {
+	challenge: {
 		type: mongoose.Schema.Types.ObjectId,
 		required: true,
 		index: true,
-		ref: 'Problem'
+		ref: 'Challenge'
 	},
 	submission: {
 		type: mongoose.Schema.Types.ObjectId,
@@ -20,6 +20,6 @@ const options = {
 	discriminatorKey: 'kind'
 }
 
-const ReplyModel = ContentModel.discriminator('Reply', ReplySchema, options)
+const ReplyModel = PostModel.discriminator('Reply', ReplySchema, options)
 
 module.exports = ReplyModel

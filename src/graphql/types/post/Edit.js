@@ -1,5 +1,5 @@
 const editSchema = `
-	type ContentEdit {
+	type PostEdit {
 		contents: String!
 		edited: Date!
 	}
