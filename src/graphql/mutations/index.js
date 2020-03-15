@@ -8,6 +8,10 @@ const {
 	confirmPassword
 } = require('./confirmPassword')
 const {
+	confirmPasswordResetInput,
+	confirmPasswordReset
+} = require('./confirmPasswordReset')
+const {
 	createQueueInput,
 	createQueuePayload,
 	createQueue
@@ -53,6 +57,7 @@ const mutationInputs = `
 	${boostChallengeInput}
 	${createQueueInput}
 	${confirmPasswordInput}
+	${confirmPasswordResetInput}
 	${markChallengeSolvedInput}
 	${postChallengeInput}
 	${postReplyInput}
@@ -79,6 +84,7 @@ const mutationSchema = `
 	type Mutation {
 		boostChallenge(boostChallengeInput: BoostChallengeInput!): BoostChallengePayload
 		confirmPassword(confirmPasswordInput: ConfirmPasswordInput!): MessagePayload
+		confirmPasswordReset(confirmPasswordResetInput: ConfirmPasswordResetInput!): MessagePayload
 		createQueue(createQueueInput: CreateQueueInput!): CreateQueuePayload
 		logoutUser(logoutInput: TokenInput!): MessagePayload
 		logoutUserAllDevices(logoutInput: TokenInput!): MessagePayload

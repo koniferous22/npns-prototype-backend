@@ -1,6 +1,6 @@
 const Challenge = require('../../models/post/challenge')
 const Submission = require('../../models/post/submission')
-const { Authentication } = require('../../middleware')
+const { authentication } = require('../../utils/authentication')
  
 const { CHALLENGE_FIELDS, SUBMISSION_FIELDS, USER_FIELDS } = require('../utils/queryFields')
 
@@ -18,7 +18,7 @@ const markChallengeSolvedPayload = `
 `
 
 const markChallengeSolved = (_, {markChallengeSolvedInput}) => Promise.all([
-		Authentication(markChallengeSolvedInput.token),
+		authentication(markChallengeSolvedInput.token),
 		Challenge.findOne({_id: markChallengeSolvedInput.challengeId}, CHALLENGE_FIELDS).populate('submitted_by', USER_FIELDS).populate('queue', QUEUE_FIELDS),
 		Submission.findOne({_id: markChallengeSolvedInput.submissionId}, SUBMISSION_FIELDS).populate('submitted_by', USER_FIELDS)
 	]).then(([user, challenge, submission]) => {

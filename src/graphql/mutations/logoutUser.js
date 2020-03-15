@@ -1,7 +1,7 @@
 const AuthToken = require('../../models/auth_token')
-const { Authentication } = require('../../middleware')
+const { authentication } = require('../../utils/authentication')
 
-const logoutUser = (_, {logoutInput}) => Authentication(logoutInput.token)
+const logoutUser = (_, {logoutInput}) => authentication(logoutInput.token)
 	.then(() => AuthToken.deleteOne({token: logoutInput.token}))
 	.then(() => ({message: 'Logged out!'}))
 

@@ -1,4 +1,4 @@
-const { Authentication } = require('../../middleware')
+const { authentication } = require('../../utils/authentication')
 const Challenge = require('../../models/post/challenge')
 const Submission = require('../../models/post/submission')
 
@@ -16,7 +16,7 @@ const postSubmissionPayload = `
 `
 
 const postSubmission = (_, {postSubmissionInput}) => Promise.all([
-		Authentication(postSubmissionInput.token),
+		authentication(postSubmissionInput.token),
 		Challenge.findOne({_id: postSubmissionInput.relatedChallenge})
 	]).then(([user, challenge]) => {
 		const submission = new Submission({

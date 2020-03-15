@@ -1,7 +1,7 @@
 const SubmissionAPI = require('../../models/post/submission')
 const ReplyAPI = require('../../models/post/reply')
 
-const { Authentication } = require('../../middleware')
+const { authentication } = require('../../utils/authentication')
 
 const postReplyInput = `
 	input PostReplyInput {
@@ -17,7 +17,7 @@ const postReplyPayload = `
 `
 
 const postReply = (_, {postReplyInput}) => Promise.all([
-		Authentication(postReplyInput.token),
+		authentication(postReplyInput.token),
 		SubmissionAPI.findOne({_id: postReplyInput.relatedSubmission})
 	]).then(([user, submission]) => {
 		const reply = new ReplyAPI({

@@ -1,5 +1,5 @@
 const Challenge = require('../../models/post/challenge')
-const { Authentication } = require('../../middleware')
+const { authentication } = require('../../utils/authentication')
  
 const { CHALLENGE_FIELDS } = require('../utils/queryFields')
 
@@ -18,7 +18,7 @@ const boostChallengePayload = `
 `
 // TODO rewrite with async await
 const boostChallenge = (_, {boostChallengeInput}) => Promise.all([
-		Authentication(boostChallengeInput.token),
+		authentication(boostChallengeInput.token),
 		Challenge.findOne({_id: boostChallengeInput.challengeId}, CHALLENGE_FIELDS)
 	]).then(([user, challenge]) => {
 		if (challenge.accepted_submission != null) {

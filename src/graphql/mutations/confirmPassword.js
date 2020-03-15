@@ -1,4 +1,4 @@
-const { Authentication } = require('../../middleware')
+const { authentication } = require('../../utils/authentication')
 
 const confirmPasswordInput = `
 	input ConfirmPasswordInput {
@@ -6,7 +6,7 @@ const confirmPasswordInput = `
 		password: String!
 	}
 `
-const confirmPassword = (_, {confirmPasswordInput}) => Authentication(confirmPasswordInput.token)
+const confirmPassword = (_, {confirmPasswordInput}) => authentication(confirmPasswordInput.token)
 	.then(user => {
 		return user.validPassword(confirmPasswordInput.password)
 	})

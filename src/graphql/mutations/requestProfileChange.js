@@ -64,6 +64,9 @@ const requestProfileChange = async (_, { operationType, token, identifier, ...pa
 	if (mailTemplate) {
 		await userRecord.sendMail(mailTemplate, payload)
 	}
+	return {
+		message: 'Profile updated'
+	}
 }
 
 module.exports = {

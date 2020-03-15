@@ -1,6 +1,6 @@
 const Queue = require('../../models/queue')
 const Challenge = require('../../models/post/challenge')
-const { Authentication } = require('../../middleware')
+const { authentication } = require('../../utils/authentication')
 
 const postChallengeInput = `
 	input PostChallengeInput {
@@ -17,7 +17,7 @@ const postChallengePayload = `
 `
 
 const postChallenge = (_, {postChallengeInput}) => Promise.all([
-		Authentication(postChallengeInput.token), 
+		authentication(postChallengeInput.token), 
 		Queue.findOne({name: postChallengeInput.queueName})
 	]).then(([user, queue]) => {
 		const challenge = new Challenge({
