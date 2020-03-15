@@ -36,6 +36,10 @@ const ProblemSchema = new mongoose.Schema({
   		required: true,
   		ref: 'User'
   	},
+  	username: {
+  		type: String,
+  		required: true
+  	},
 		paypal_order: {
 			type: Object
 		},
