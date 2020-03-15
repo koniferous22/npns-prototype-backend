@@ -1,5 +1,8 @@
 const Transaction = require('../../models/transaction')
 const Post = require('../../models/post/post')
+const Challenge = require('../../models/post/challenge')
+const Submission = require('../../models/post/submission')
+const Reply = require('../../models/post/reply')
 
 const { QUEUE_FIELDS, USER_FIELDS } = require('../utils/queryFields')
 
@@ -28,6 +31,10 @@ const userSchema = `
 		# related posts		
 		posts(paging: Paging): [Challenge!]!
 		postPageCount(pageSize: Int): Int!
+		# misc statistics
+		numberOfChallenges: Int!
+		numberOfSubmissions: Int!
+		numberOfReplies: Int!
 	}
 `
 
@@ -69,7 +76,11 @@ const User = {
 		const postCount = await Post.countDocuments({submitted_by: user._id});
 		const pageCount = Math.floor(postCount / pageSize) + (postCount % pageSize > 0 ? 1 : 0)
 		return pageCount
-	}
+	},
+
+	numberOfChallenges: async user => Challenge.countDocuments({submitted_by: user._id}),
+	numberOfSubmissions: async user => Submission.countDocuments({submitted_by: user._id}),
+	numberOfReplies: async user => Reply.countDocuments({submitted_by: user._id})
 }
 
 module.exports = {

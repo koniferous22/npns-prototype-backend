@@ -4,7 +4,7 @@ const _ = require('lodash')
 const Content = require('../models/content/content');
 const Transaction = require('../models/transaction');
 
-const Queue = require('../models/queue');
+const Queue = require('../models/queue')	;
 const User = require('../models/user');
 
 const Problem = require('../models/content/problem')
@@ -20,24 +20,6 @@ const UsernameChangeToken = require('../models/verification_token/username_chang
 const VerificationToken = require('../models/verification_token/verification_token');
 
 const { pwdResetTemplate, emailChangeTemplate, usernameChangeTemplate } = require('../nodemailer/templates');
-
-router.post('/createTransaction', auth, async (req, res) => {
-	try {
-		const sender = (req.body.sender) ? (await User.find().byLogin(req.body.sender))._id : null
-		const recipient = (req.body.recipient) ? (await User.find().byLogin(req.body.recipient))._id : null
-		const queue = (req.body.queue) ? (await Queue.findOne({name:req.body.queue}))._id : null
-		const transaction = new Transaction({
-			...req.body,
-			sender,
-			recipient,
-			queue
-		})
-		await transaction.save()
-	} catch (error) {
-		res.status(400).json({error})
-	}
-})
-
 
 router.post('/emailChange', auth, async (req, res) => {
     try {
@@ -117,19 +99,6 @@ router.post('/exists', async (req, res) => {
 			return res.status(400).send({exists:false})
 		}
 		return res.status(200).send({exists:true})
-	} catch (error) {
-		res.status(400).json({error})
-	}
-})
-
-router.get('/:id', async (req, res) => {
-	try {
-		const user = await User.findOne({username: req.params.id})
-		const balances = await user.translateQueueIds()
-		const problem_count = await Problem.countDocuments({submitted_by: user._id})
-		const submission_count = await Submission.countDocuments({submitted_by: user._id})
-		const reply_count = await Reply.countDocuments({submitted_by: user._id})
-		res.status(200).send({firstName: user.firstName, lastName: user.lastName, email: user.email, balances, problem_count, submission_count, reply_count})
 	} catch (error) {
 		res.status(400).json({error})
 	}
