@@ -17,7 +17,7 @@ const queueSchema = `
 
 		challenges(paging: Paging): [Challenge!]!
 		challengePageCount(pageSize: Int): Int!
-		challengePosition(ID: String!): Int
+		challengePosition(challengeId: String!): Int
 
 		scoreboard(paging: Paging): [User!]!
 		scoreboardPageCount(pageSize: Int): Int!
@@ -82,14 +82,14 @@ const Queue = {
 				$in: desc.map(x => x.id)
 			}
 		})
-		const pagesCount = Math.floor(challengesCount / pageSize) + (challengesCount % pageSize > 0 ? 1 : 0)
-		return pagesCount
+		const pageCount = Math.floor(challengesCount / pageSize) + (challengesCount % pageSize > 0 ? 1 : 0)
+		return pageCount
 	},
-	challengePosition: async (queue, { problemId }) => {
-		const descendantQueues = await Queue.find().descendants({name:req.params.name},'_id')
-		const problem = await Problem.findOne({_id: req.params.problem})
-		return descendantQueues.find((descendantQueue) => descendantQueue._id.equals(problem.queue))
-			? await Problem.find({
+	challengePosition: async (queue, { challengeId }) => {
+		const descendantQueues = await Queue.find().descendants({_id: queue._id},'_id')
+		const challenge = await Challenge.findOne({_id: req.params.problem})
+		return descendantQueues.find((descendantQueue) => descendantQueue._id.equals(challenge.queue))
+			? await Challenge.countDocuments({
 					queue:{
 						$in: descendantQueues.map(({ _id }) => _id)
 					},
