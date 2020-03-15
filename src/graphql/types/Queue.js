@@ -14,7 +14,7 @@ const queueSchema = `
 		children: [Queue]!
 		descendants: [Queue]!
 		ancestors: [Queue]!
-		challengePages(pageSize: Int): Int!
+		challengePageCount(pageSize: Int): Int!
 		challenges(paging: Paging): [Challenge!]!
 		scoreboard(paging: Paging): [User!]!
 		userPosition(username: String!): Int
@@ -55,7 +55,7 @@ const Queue = {
 		return result
 	},
 
-	challengePages: async (queue, { pageSize = 50 }) => {
+	challengePageCount: async (queue, { pageSize = 50 }) => {
 		const desc = await QueueModel.find().descendants({name: queue.name},'id')
 		const challengesCount = await Challenge.countDocuments({
 			active: true,
@@ -99,7 +99,7 @@ const Queue = {
 				})
 			: null
 	},
-	// Migrate Away, or decide what to do
+	// Migrate Away
 	scoreboard: (queue, { paging = { page: 1, pageSize: 50 }}) => [],
 	userPosition: (queue, { username }) => 0
 }

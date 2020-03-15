@@ -18,7 +18,9 @@ const userSchema = `
 		balanceEntries: [Balance!]!
 		verified: Boolean!
 		allowNsfw: Boolean!
-		transactions(page:Int!, count: Int!, authToken: String!): [Transaction]
+		transactions(paging: Paging, authToken: String!): [Transaction!]!
+		posts(paging: Paging): [Challenge!]!
+		#postPage
 	}
 `
 
@@ -26,8 +28,8 @@ const User = {
 	balanceEntries: async user => (await user.populate({path: 'balanceEntries.balance', select: QUEUE_FIELDS}).execPopulate()).balanceEntries,
 	referredBy: async user => (await user.populate({path: 'referred_by', select: USER_FIELDS}).execPopulate()).referredBy,
 	// TODO: added default params, make sure that typescript allows non-negative params in functions
-	transactions: async (user, {page = 1, count = 50, authToken}) => {
-		
+	transactions: async (user, {paging = { page: 1, pageSize: 50 }, authToken}) => {
+		const { page, pageSize } = paging	
 		const size = await Transaction.countDocuments({$or: [
 			{
 				sender: user.id
@@ -43,8 +45,14 @@ const User = {
 			{
 				recipient: user.id
 			}
-		]}).sort({created: 'desc'}).skip(count * (page - 1))
+		]}).sort({created: 'desc'}).skip(pageSize * (page - 1))
 		return transactions
+	},
+	posts: async (user, { paging = { page: 1, pageSize: 50 }}) => {
+		const { page, pageSize } = paging
+		const size = await Content.find({submitted_by: user_id}).countDocuments()
+		const hasMore = (page * count) < size
+		
 	}
 }
 
