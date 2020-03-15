@@ -18,7 +18,7 @@ const queueSchema = `
 		challenges(paging: Paging): [Challenge!]!
 		scoreboard(paging: Paging): [User!]!
 		userPosition(username: String!): Int
-		problemPosition(ID: String!): Int
+		challengePosition(ID: String!): Int
 		#user_count: [String]
 	}
 `
@@ -85,7 +85,7 @@ const Queue = {
 		return challenges
 	},
 
-	problemPosition: async (queue, { problemId }) => {
+	challengePosition: async (queue, { problemId }) => {
 		const descendantQueues = await Queue.find().descendants({name:req.params.name},'_id')
 		const problem = await Problem.findOne({_id: req.params.problem})
 		return descendantQueues.find((descendantQueue) => descendantQueue._id.equals(problem.queue))
