@@ -16,8 +16,9 @@ const queueSchema = `
 		ancestors: [Queue]!
 		challengePages(pageSize: Int): Int!
 		challenges(paging: Paging): [Challenge!]!
-		
 		scoreboard(paging: Paging): [User!]!
+		userPosition(username: String!): Int
+		problemPosition(ID: String!): Int
 		#user_count: [String]
 	}
 `
@@ -75,7 +76,6 @@ const Queue = {
 				$in: desc.map(x => x.id)
 			}
 		})
-
 		const challenges = await Challenge.find({
 			active: true,
 			queue:{
@@ -85,15 +85,23 @@ const Queue = {
 		return challenges
 	},
 
-	scoreboard: (queue, { paging = { page: 1, pageSize: 50 }}) => {
-		const { page, pageSize } = paging
-		const balance_specifier = 'balances.' + queue._id
-		const sort_params = { [balance_specifier]: 'desc' }
-		return User.find({[balance_specifier]: { $exists: true }}, USER_FIELDS + ' ' + balance_specifier)
-			.sort(sort_params)
-			.skip(pageSize * (page - 1))
-			.limit(pageSize)
-	}
+	problemPosition: async (queue, { problemId }) => {
+		const descendantQueues = await Queue.find().descendants({name:req.params.name},'_id')
+		const problem = await Problem.findOne({_id: req.params.problem})
+		return descendantQueues.find((descendantQueue) => descendantQueue._id.equals(problem.queue))
+			? await Problem.find({
+					queue:{
+						$in: descendantQueues.map(({ _id }) => _id)
+					},
+					root_queue_value: {
+						$gte: problem.root_queue_value
+					}
+				})
+			: null
+	},
+	// Migrate Away, or decide what to do
+	scoreboard: (queue, { paging = { page: 1, pageSize: 50 }}) => [],
+	userPosition: (queue, { username }) => 0
 }
 
 
