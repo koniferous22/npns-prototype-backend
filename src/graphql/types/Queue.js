@@ -6,20 +6,22 @@ const { QUEUE_FIELDS, CHALLENGE_FIELDS, USER_FIELDS } = require('../utils/queryF
 
 const queueSchema = `
 	type Queue {
-		# POSSIBLY NOT EXPOSE QUEUE IDS
-		#id: ID!
+		# Don't leave queue _ids exposed
 		name: String!
 		karmaValue: Int!
+		# related Qs
 		parent: Queue
 		children: [Queue]!
 		descendants: [Queue]!
 		ancestors: [Queue]!
-		challengePageCount(pageSize: Int): Int!
+
 		challenges(paging: Paging): [Challenge!]!
-		scoreboard(paging: Paging): [User!]!
-		userPosition(username: String!): Int
+		challengePageCount(pageSize: Int): Int!
 		challengePosition(ID: String!): Int
-		#user_count: [String]
+
+		scoreboard(paging: Paging): [User!]!
+		scoreboardPageCount(pageSize: Int): Int!
+		scoreboardUserPosition(username: String!): Int
 	}
 `
 
@@ -55,18 +57,6 @@ const Queue = {
 		return result
 	},
 
-	challengePageCount: async (queue, { pageSize = 50 }) => {
-		const desc = await QueueModel.find().descendants({name: queue.name},'id')
-		const challengesCount = await Challenge.countDocuments({
-			active: true,
-			queue:{
-				$in: desc.map(x => x.id)
-			}
-		})
-		const pagesCount = Math.floor(challengesCount / pageSize) + (challengesCount % pageSize > 0 ? 1 : 0)
-		return pagesCount
-	},
-
 	challenges: async (queue, { paging = { page: 1, pageSize: 50 } }) => {
 		const { page, pageSize } = paging
 		const desc = await QueueModel.find().descendants({name: queue.name},'id')
@@ -84,7 +74,17 @@ const Queue = {
 		}).sort({root_queue_value:'desc'}).skip(pageSize * (page - 1)).limit(pageSize)
 		return challenges
 	},
-
+	challengePageCount: async (queue, { pageSize = 50 }) => {
+		const desc = await QueueModel.find().descendants({name: queue.name},'id')
+		const challengesCount = await Challenge.countDocuments({
+			active: true,
+			queue:{
+				$in: desc.map(x => x.id)
+			}
+		})
+		const pagesCount = Math.floor(challengesCount / pageSize) + (challengesCount % pageSize > 0 ? 1 : 0)
+		return pagesCount
+	},
 	challengePosition: async (queue, { problemId }) => {
 		const descendantQueues = await Queue.find().descendants({name:req.params.name},'_id')
 		const problem = await Problem.findOne({_id: req.params.problem})
@@ -101,7 +101,8 @@ const Queue = {
 	},
 	// Migrate Away
 	scoreboard: (queue, { paging = { page: 1, pageSize: 50 }}) => [],
-	userPosition: (queue, { username }) => 0
+	scoreboardPageCount: (queue, { pageSize = 50}) => 1,
+	scoreboardUserPosition: (queue, { username }) => 0
 }
 
 
