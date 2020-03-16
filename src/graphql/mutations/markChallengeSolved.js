@@ -17,7 +17,7 @@ const markChallengeSolvedPayload = `
 	}
 `
 
-const markChallengeSolved = (_, {markChallengeSolvedInput}) => Promise.all([
+const markChallengeSolved = (_, { markChallengeSolvedInput }) => Promise.all([
 		authentication(markChallengeSolvedInput.token),
 		Challenge.findOne({_id: markChallengeSolvedInput.challengeId}, CHALLENGE_FIELDS).populate('submitted_by', USER_FIELDS).populate('queue', QUEUE_FIELDS),
 		Submission.findOne({_id: markChallengeSolvedInput.submissionId}, SUBMISSION_FIELDS).populate('submitted_by', USER_FIELDS)

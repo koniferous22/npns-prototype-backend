@@ -16,6 +16,10 @@ const {
 	createQueuePayload,
 	createQueue
 } = require('./createQueue')
+const {
+	keepAlivePayload,
+	keepAlive
+} = require('./keepAlive')
 const { logoutUser } = require('./logoutUser')
 const { logoutUserAllDevices } = require('./logoutUserAllDevices')
 const {
@@ -43,15 +47,19 @@ const {
 	requestProfileChange
 } = require('./requestProfileChange')
 const {
-	signInUserInput,
-	signInUserPayload,
-	signInUser
-} = require('./signInUser')
+	signUserInInput,
+	signUserInPayload,
+	signUserIn
+} = require('./signUserIn')
 const {
-	signUpUserInput,
-	signUpUserPayload,
-	signUpUser
-} = require('./signUpUser')
+	signUserUpInput,
+	signUserUpPayload,
+	signUserUp
+} = require('./signUserUp')
+const  {
+	verifyOperationTokenInput,
+	verifyOperationToken
+} = require('./verifyOperationToken')
 
 const mutationInputs = `
 	${boostChallengeInput}
@@ -63,19 +71,21 @@ const mutationInputs = `
 	${postReplyInput}
 	${postSubmissionInput}
 	${requestProfileChangeInput}
-	${signInUserInput}
-	${signUpUserInput}
+	${signUserInInput}
+	${signUserUpInput}
+	${verifyOperationTokenInput}
 `
 
 const mutationPayloads = `
 	${boostChallengePayload}
 	${createQueuePayload}
+	${keepAlivePayload}
 	${markChallengeSolvedPayload}
 	${postChallengePayload}
 	${postReplyPayload}
 	${postSubmissionPayload}
-	${signInUserPayload}
-	${signUpUserPayload}
+	${signUserInPayload}
+	${signUserUpPayload}
 `
 
 const mutationSchema = `
@@ -86,6 +96,7 @@ const mutationSchema = `
 		confirmPassword(confirmPasswordInput: ConfirmPasswordInput!): MessagePayload
 		confirmPasswordReset(confirmPasswordResetInput: ConfirmPasswordResetInput!): MessagePayload
 		createQueue(createQueueInput: CreateQueueInput!): CreateQueuePayload
+		keepAlive(keepAliveInput: TokenInput!): KeepAlivePayload
 		logoutUser(logoutInput: TokenInput!): MessagePayload
 		logoutUserAllDevices(logoutInput: TokenInput!): MessagePayload
 		markChallengeSolved(markChallengeSolvedInput: MarkChallengeSolvedInput!): MarkChallengeSolvedPayload
@@ -93,9 +104,11 @@ const mutationSchema = `
 		postSubmission(postSubmissionInput: PostSubmissionInput!): PostSubmissionPayload
 		postReply(postReplyInput: PostReplyInput!): PostReplyPayload
 		requestProfileChange(requestProfileChangeInput: RequestProfileChangeInput!): MessagePayload
-		signUpUser(signUpUserInput: SignUpUserInput!): SignUpUserPayload
-		signInUser(signInUserInput: SignInUserInput!): SignInUserPayload
+		signUserUp(signUserUpInput: SignUserUpInput!): SignUserUpPayload
+		signUserIn(signUserInInput: SignUserInInput!): SignUserInPayload
+		verifyOperationToken(verifyOperationTokenInput: VerifyOperationTokenInput!): MessagePayload
 	}
+
 `
 
 const Mutation = {
@@ -107,8 +120,8 @@ const Mutation = {
 	postChallenge,
 	postReply,
 	postSubmission,
-	signInUser,
-	signUpUser	
+	signUserIn,
+	signUserUp	
 }
 
 module.exports = {

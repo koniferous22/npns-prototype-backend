@@ -11,7 +11,8 @@ const confirmPasswordResetInput = `
 	}
 `
 
-const confirmPasswordReset = async (_, { emailToken, newPassword }) => {
+const confirmPasswordReset = async (_, { confirmPasswordResetInput }) => {
+	const { emailToken, newPassword } = confirmPasswordResetInput
 	const passwordResetToken = await PasswordResetToken.findOne({token: emailToken})
     const user = await User.findOne({_id: passwordResetToken.user})
     user.password = newPassword

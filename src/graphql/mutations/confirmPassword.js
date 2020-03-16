@@ -6,7 +6,7 @@ const confirmPasswordInput = `
 		password: String!
 	}
 `
-const confirmPassword = (_, {confirmPasswordInput}) => authentication(confirmPasswordInput.token)
+const confirmPassword = (_, { confirmPasswordInput }) => authentication(confirmPasswordInput.token)
 	.then(user => {
 		return user.validPassword(confirmPasswordInput.password)
 	})

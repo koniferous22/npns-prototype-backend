@@ -17,7 +17,7 @@ const boostChallengePayload = `
 	}
 `
 // TODO rewrite with async await
-const boostChallenge = (_, {boostChallengeInput}) => Promise.all([
+const boostChallenge = (_, { boostChallengeInput }) => Promise.all([
 		authentication(boostChallengeInput.token),
 		Challenge.findOne({_id: boostChallengeInput.challengeId}, CHALLENGE_FIELDS)
 	]).then(([user, challenge]) => {

@@ -1,21 +1,21 @@
 const User = require('../../models/user')
 const AuthToken = require('../../models/auth_token')
 
-const signInUserInput = `
-	input SignInUserInput {
+const signUserInInput = `
+	input SignUserInInput {
 		identifier: String!
 		password: String!
 	}
 `
 
-const signInUserPayload = `
-	type SignInUserPayload {
+const signUserInPayload = `
+	type SignUserInPayload {
 		user: User!
 		token: String!
 	}
 `
 
-const signInUser = (_, {signInUserInput}) => User.find().byCredentials(signInUserInput.identifier, signInUserInput.password).then(user => {
+const signUserIn = (_, { signUserInInput }) => User.find().byCredentials(signUserInInput.identifier, signUserInInput.password).then(user => {
 	if (!user) {
 		throw new Error('Login failed! Check authentication credentials')
 	}
@@ -29,7 +29,7 @@ const signInUser = (_, {signInUserInput}) => User.find().byCredentials(signInUse
 })
 
 module.exports = {
-	signInUserInput,
-	signInUserPayload,
-	signInUser
+	signUserInInput,
+	signUserInPayload,
+	signUserIn
 }

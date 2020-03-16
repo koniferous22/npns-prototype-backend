@@ -16,7 +16,7 @@ const postChallengePayload = `
 	}
 `
 
-const postChallenge = (_, {postChallengeInput}) => Promise.all([
+const postChallenge = (_, { postChallengeInput }) => Promise.all([
 		authentication(postChallengeInput.token), 
 		Queue.findOne({name: postChallengeInput.queueName})
 	]).then(([user, queue]) => {

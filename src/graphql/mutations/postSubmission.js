@@ -15,7 +15,7 @@ const postSubmissionPayload = `
 	}
 `
 
-const postSubmission = (_, {postSubmissionInput}) => Promise.all([
+const postSubmission = (_, { postSubmissionInput }) => Promise.all([
 		authentication(postSubmissionInput.token),
 		Challenge.findOne({_id: postSubmissionInput.relatedChallenge})
 	]).then(([user, challenge]) => {

@@ -9,6 +9,7 @@ const { pwdResetTemplate, emailChangeTemplate, usernameChangeTemplate } = requir
 
 const { authentication } = require('../../utils/authentication')
 
+// TODO reimplement payload as oneof
 const requestProfileChangeInput = `
 	input RequestProfileChangeInput {
 		operationType: String!,
@@ -46,7 +47,8 @@ const profileOperations = {
 	}
 }
 
-const requestProfileChange = async (_, { operationType, token, identifier, ...payload }) => {
+const requestProfileChange = async (_, { requestProfileChangeInput }) => {
+	const { operationType, token, identifier, ...payload } = requestProfileChangeInput
 	const profileOperation = profileOperations[operationType]
 	if (!profileOperation) {
 		throw new Error('Invalid profile operation')

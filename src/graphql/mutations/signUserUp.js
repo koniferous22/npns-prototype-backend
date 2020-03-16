@@ -1,8 +1,8 @@
 const User = require('../../models/user')
 const VerificationToken = require('../../models/verification_token/verification_token');
 
-const signUpUserInput = `
-	input SignUpUserInput {
+const signUserUpInput = `
+	input SignUserUpInput {
 		username: String!
 		password: String!
 		email: String!
@@ -11,15 +11,15 @@ const signUpUserInput = `
 	}
 `
 
-const signUpUserPayload = `
-	type SignUpUserPayload {
+const signUserUpPayload = `
+	type SignUserUpPayload {
 		createdUser: User
 	}
 `
 
-const signUpUser = (_, {signUpUserInput}) => {
-	const user = new User(signUpUserInput)
-	return User.find({$or: [{username: signUpUserInput.username}, {email: signupTemplate.email}]}).then(usersFound => {
+const signUserUp = (_, { signUserUpInput }) => {
+	const user = new User(signUserUpInput)
+	return User.find({$or: [{username: signUserUpInput.username}, {email: signupTemplate.email}]}).then(usersFound => {
 			if (usersFound.length > 0) {
 			throw new Error ('User with same identifier already exists')
 		}
@@ -38,7 +38,7 @@ const signUpUser = (_, {signUpUserInput}) => {
 }
 
 module.exports = {
-	signUpUserInput,
-	signUpUserPayload,
-	signUpUser
+	signUserUpInput,
+	signUserUpPayload,
+	signUserUp
 }

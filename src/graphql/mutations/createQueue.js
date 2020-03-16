@@ -15,7 +15,7 @@ const createQueuePayload = `
 	}
 `
 
-const createQueue = (_, {createQueueInput}) => Queue.findOne({name: createQueueInput.parentQueueName}, QUEUE_FIELDS).then((parentQueue) => {
+const createQueue = (_, { createQueueInput }) => Queue.findOne({name: createQueueInput.parentQueueName}, QUEUE_FIELDS).then((parentQueue) => {
 	const newQueue = new Queue({
 		parentId: parentQueue._id,
 		name: createQueueInput.queueName
