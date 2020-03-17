@@ -1,5 +1,5 @@
 const Challenge = require('../../models/post/challenge')
-const { authentication } = require('../../utils/authentication')
+	const { authentication } = require('../../utils/authentication')
  
 const { CHALLENGE_FIELDS } = require('../utils/queryFields')
 

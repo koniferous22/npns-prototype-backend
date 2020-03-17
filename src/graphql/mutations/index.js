@@ -17,6 +17,11 @@ const {
 	createQueue
 } = require('./createQueue')
 const {
+	editContentInput,
+	editContentPayload,
+	editContent
+} = require('./editContent')
+const {
 	keepAlivePayload,
 	keepAlive
 } = require('./keepAlive')
@@ -70,6 +75,7 @@ const mutationInputs = `
 	${createQueueInput}
 	${confirmPasswordInput}
 	${confirmPasswordResetInput}
+	${editContentInput}
 	${markChallengeSolvedInput}
 	${postChallengeInput}
 	${postReplyInput}
@@ -84,6 +90,7 @@ const mutationInputs = `
 const mutationPayloads = `
 	${boostChallengePayload}
 	${createQueuePayload}
+	${editContentPayload}
 	${keepAlivePayload}
 	${markChallengeSolvedPayload}
 	${postChallengePayload}
@@ -101,6 +108,7 @@ const mutationSchema = `
 		confirmPassword(confirmPasswordInput: ConfirmPasswordInput!): MessagePayload
 		confirmPasswordReset(confirmPasswordResetInput: ConfirmPasswordResetInput!): MessagePayload
 		createQueue(createQueueInput: CreateQueueInput!): CreateQueuePayload
+		editContent(editContentInput: EditContentInput!): EditContentPayload
 		keepAlive(keepAliveInput: TokenInput!): KeepAlivePayload
 		logoutUser(logoutInput: TokenInput!): MessagePayload
 		logoutUserAllDevices(logoutInput: TokenInput!): MessagePayload
