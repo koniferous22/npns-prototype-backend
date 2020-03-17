@@ -10,7 +10,6 @@ const signUserUpInput = `
 		lastName: String
 	}
 `
-
 const signUserUpPayload = `
 	type SignUserUpPayload {
 		createdUser: User
@@ -20,7 +19,7 @@ const signUserUpPayload = `
 const signUserUp = (_, { signUserUpInput }) => {
 	const user = new User(signUserUpInput)
 	return User.find({$or: [{username: signUserUpInput.username}, {email: signupTemplate.email}]}).then(usersFound => {
-			if (usersFound.length > 0) {
+		if (usersFound.length > 0) {
 			throw new Error ('User with same identifier already exists')
 		}
 		return user.save().then(savedUser => {
