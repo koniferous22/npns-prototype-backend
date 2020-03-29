@@ -11,10 +11,6 @@ router.post('/signup', async (req, res) => {
 		// Create a new user
 		try {
 			const user = new User(req.body)
-			const referred_by = await User.find({"username":req.body.referred_by})
-			if (referred_by.length == 0) {
-				return res.status(400).send({error: 'Referring user does not exist'})
-			}
 			await user.save()
 			const token = new VerificationToken({user: user._id})
 			await token.save((err,data) => {})
