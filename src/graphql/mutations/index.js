@@ -1,4 +1,12 @@
 const {
+	paging,
+	tokenInput
+} = require('./input');
+const {
+	messagePayload
+} = require('./payload');
+
+const {
 	boostChallengeInput,
 	boostChallengePayload,
 	boostChallenge
@@ -71,6 +79,8 @@ const  {
 } = require('./verifyOperationToken')
 
 const mutationInputs = `
+	${tokenInput}
+	${paging}
 	${boostChallengeInput}
 	${createQueueInput}
 	${confirmPasswordInput}
@@ -88,6 +98,7 @@ const mutationInputs = `
 `
 
 const mutationPayloads = `
+	${messagePayload}
 	${boostChallengePayload}
 	${createQueuePayload}
 	${editContentPayload}

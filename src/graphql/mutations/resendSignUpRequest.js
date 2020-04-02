@@ -1,4 +1,4 @@
-const User = require('../../models/user')
+const { UserMethods } = require('../types/User');
 const VerificationToken = require('../../models/verification_token/verification_token');
 
 const { signupTemplate } = require('../../nodemailer/templates')
@@ -10,7 +10,7 @@ const resendSignUpRequestInput = `
 `
 const resendSignUpRequest = async (_, { resendSignUpRequestInput }) => {
 	const { username } = resendSignUpRequestInput
-	const user = await User.find().byLogin(username)
+	const user = await UserMethods.findByIdentifier(username)
 	if (user.verified) {
 		throw new Error('User is verified')
 	}

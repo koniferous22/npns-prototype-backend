@@ -1,4 +1,4 @@
-const User = require('../../models/user')
+const { UserMethods } = require('../types/User');
 const VerificationToken = require('../../models/verification_token/verification_token');
 
 const signUserUpInput = `
@@ -16,23 +16,20 @@ const signUserUpPayload = `
 	}
 `
 
-const signUserUp = (_, { signUserUpInput }) => {
+const signUserUp = async (_, { signUserUpInput }) => {
+	const { username, email } = signUserUpInput;
+	const identifiersAvailable = await UserMethods.areIdentifiersAvailable(username, email);
 	const user = new User(signUserUpInput)
-	return User.find({$or: [{username: signUserUpInput.username}, {email: signupTemplate.email}]}).then(usersFound => {
-		if (usersFound.length > 0) {
-			throw new Error ('User with same identifier already exists')
-		}
-		return user.save().then(savedUser => {
-			const token = new VerificationToken({user: user._id})
-			return token.save()
-		}).then(savedToken => {
-			return user.sendEmail(signupTemplate, {token: savedToken.token})
-		}).then(mailInfo => {
-			return {createdUser: user}
-		}).catch(error => {
-			console.log('jebal pes')
-			throw error
-		})
+	return user.save().then(savedUser => {
+		const token = new VerificationToken({user: user._id})
+		return token.save()
+	}).then(savedToken => {
+		return user.sendEmail(signupTemplate, {token: savedToken.token})
+	}).then(mailInfo => {
+		return {createdUser: user}
+	}).catch(error => {
+		console.log('jebal pes')
+		throw error
 	})
 }
 

@@ -1,9 +1,8 @@
 const jwt = require('jsonwebtoken')
-const User = require('../models/user')
 const AuthToken = require('../models/auth_token')
 
 const { USER_FIELDS } = require('../graphql/utils/queryFields')
-
+// TODO migrate as user method somehow
 const authentication = token => new Promise((resolve, reject) => {
     const data = jwt.verify(token, process.env.JWT_KEY)
 	return AuthToken.findOne({token}).then(tokenRecord => {

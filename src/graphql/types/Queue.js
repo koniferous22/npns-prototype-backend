@@ -1,5 +1,4 @@
 const QueueModel = require('../../models/queue')
-const User = require('../../models/user')
 const Challenge = require('../../models/post/challenge')
 
 const { QUEUE_FIELDS, CHALLENGE_FIELDS, USER_FIELDS } = require('../utils/queryFields')

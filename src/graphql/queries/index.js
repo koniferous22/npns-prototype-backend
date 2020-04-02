@@ -1,8 +1,9 @@
 const validator = require('validator')
 
 const Queue = require('../../models/queue')
-const User = require('../../models/user')
 const Challenge = require('../../models/post/challenge')
+
+const { UserMethods } = require('../types/User');
 
 const { QUEUE_FIELDS } = require('../utils/queryFields')
 const { authentication } = require('../../utils/authentication')
@@ -12,8 +13,8 @@ const validateResolvers = {
 		if (!username || username === '') {
 			throw new Error('No username submitted')
 		}
-		const user_with_username = await User.find({username}).limit(1)
-		if (user_with_username.length > 0) {
+		const userWithUsername = await UserMethods.findByIdentifier(username);
+		if (!userWithUsername) {
 			throw new Error('Username taken')
 		}
 		return true
@@ -22,8 +23,8 @@ const validateResolvers = {
 		if (!email || !validator.isEmail(email)) {
 			throw new Error('Invalid email')
 		}
-		const user_with_email = await User.find({email}).limit(1)
-		if (user_with_email.length > 0) {
+		const userWithEmail = await UserMethod.findByIdentifier(email)
+		if (!userWithEmail) {
 			throw new Error('Email taken')
 		}
 		return true
@@ -44,11 +45,11 @@ const validateResolvers = {
 		return true
 	},
 	referredBy: async (referredBy, _) => {
-		if (!referred_by || referred_by === '') {
+		if (!referredBy || referredBy === '') {
 			throw new Error('No referal user specified')
 		}
-		const referal = await User.find({username: referred_by}).limit(1)
-		if (referal.length === 0) {
+		const referal = await UserMethod.findByIdentifier(referredBy)
+		if (!referal) {
 			throw new Error('Entered invalid referal')
 		}
 		return true
@@ -88,7 +89,7 @@ const Query = {
 	queues: async () => await Queue.find({}, QUEUE_FIELDS).sort({name: 'asc'}),
 	queue: async (_, {name}) => await Queue.findOne( {name} , QUEUE_FIELDS),
 
-	user: async (_, {username}) => await User.findOne().byLogin(username),
+	user: async (_, {username}) => await UserMethod.findByIdentifier(username),
 	challenge: async (_, {challengeId}) => await Challenge.viewProblem(challengeId),
 	validate: async (_, { validatedUserData, token }) => {
 		const { operation, ...data } = validatedUserData

@@ -1,4 +1,4 @@
-const User = require('../../models/user');
+const { UserMethods } = require('../types/User');
 
 const PasswordResetToken = require('../../models/verification_token/password_reset');
 const EmailChangeToken = require('../../models/verification_token/email_change');
@@ -54,7 +54,7 @@ const requestProfileChange = async (_, { requestProfileChangeInput }) => {
 		throw new Error('Invalid profile operation')
 	}
 	const { auth, createToken, mailTemplate, resolve } = profileOperation
-	const userRecord = await (auth ? authentication(token) : User.find().byLogin(identifier))
+	const userRecord = await (auth ? authentication(token) : UserMethods.findByIdentifier(identifier))
 	const user = userRecord._id
 	if (resolve) {
 		await resolve(payload)

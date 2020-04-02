@@ -1,4 +1,3 @@
-const User = require('../../models/user');
 const AuthToken = require('../../models/auth_token')
 
 const PasswordResetToken = require('../../models/verification_token/password_reset');
@@ -13,8 +12,8 @@ const confirmPasswordResetInput = `
 
 const confirmPasswordReset = async (_, { confirmPasswordResetInput }) => {
 	const { emailToken, newPassword } = confirmPasswordResetInput
-	const passwordResetToken = await PasswordResetToken.findOne({token: emailToken})
-    const user = await User.findOne({_id: passwordResetToken.user})
+	const passwordResetToken = await PasswordResetToken.findOne({token: emailToken}).populate('user')
+    const { user } = passwordResetToken
     user.password = newPassword
 	await user.save()
 	return Promise.all([

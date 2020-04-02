@@ -1,4 +1,4 @@
-const User = require('../../models/user')
+const { UserMethods } = require('../types/User');
 const AuthToken = require('../../models/auth_token')
 
 const signUserInInput = `
@@ -15,7 +15,10 @@ const signUserInPayload = `
 	}
 `
 
-const signUserIn = (_, { signUserInInput }) => User.find().byCredentials(signUserInInput.identifier, signUserInInput.password).then(user => {
+const signUserIn = async (_, { signUserInInput }) => {
+	const { identifier, password } = signUserInInput;
+	const user = await UserMethods.findByIdentifier(identifier, password);
+	console.log(JSON.stringify(user));
 	if (!user) {
 		throw new Error('Login failed! Check authentication credentials')
 	}
@@ -26,7 +29,7 @@ const signUserIn = (_, { signUserInInput }) => User.find().byCredentials(signUse
 		user,
 		token: token.token
 	}))
-})
+}
 
 module.exports = {
 	signUserInInput,
