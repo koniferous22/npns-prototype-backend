@@ -1,5 +1,5 @@
 const { UserMethods } = require('../types/User');
-const AuthToken = require('../../models/auth_token')
+const { AuthTokenMethods } = require('../types/AuthToken');
 
 const signUserInInput = `
 	input SignUserInInput {
@@ -24,10 +24,11 @@ const signUserIn = async (_, { signUserInInput }) => {
 	if (!user.verified) {
 		throw new Error('not verified, check your email')
 	}
-	return AuthToken.generate(user._id).then(token => ({
+	const { token } = await AuthTokenMethods.generate(user);
+	return {
 		user,
-		token: token.token
-	}))
+		token
+	};
 }
 
 module.exports = {

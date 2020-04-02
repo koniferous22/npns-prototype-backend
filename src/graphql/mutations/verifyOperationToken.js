@@ -1,4 +1,4 @@
-const AuthToken = require('../../models/auth_token')
+const { AuthTokenMethods } = require('../types/AuthToken');
 
 const VerificationToken = require('../../models/verification_token/verification_token');
 const PasswordResetToken = require('../../models/verification_token/password_reset');
@@ -62,7 +62,7 @@ const verifyOperationToken = async (_, { verifyOperationTokenInput }) => {
 	} = verifiedOperation
 	const user = (await findToken(emailToken).populate('user', USER_FIELDS)).user
 	if (forceLogout) {
-        await AuthToken.deleteMany({user})
+        await AuthTokenMethods.deleteAllBy(user)
 	}
 	if (cancelAllTokenOperation) {
 		await VerificationToken.deleteMany({user})

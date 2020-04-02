@@ -1,4 +1,4 @@
-const AuthToken = require('../../models/auth_token')
+const { AuthTokenMethods } = require('../types/AuthToken')
 
 const PasswordResetToken = require('../../models/verification_token/password_reset');
 const VerificationToken = require('../../models/verification_token/verification_token');
@@ -18,7 +18,7 @@ const confirmPasswordReset = async (_, { confirmPasswordResetInput }) => {
 	await user.save()
 	return Promise.all([
 		VerificationToken.deleteMany({user:user._id}),
-		AuthToken.deleteMany({user:user._id})
+		AuthTokenMethods.deleteAllBy(user)
 	]).then(() => ({message: 'Password changed, continue to login'}))
 }
 

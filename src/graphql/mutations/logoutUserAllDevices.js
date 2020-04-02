@@ -1,8 +1,8 @@
-const AuthToken = require('../../models/auth_token')
+const { AuthTokenModel } = require('../types/AuthToken')
 const { authentication } = require('../../utils/authentication')
 
 const logoutUserAllDevices = (_, { logoutInput }) => authentication(logoutInput.token)
-	.then(user => AuthToken.deleteMany({user: user._id}))
+	.then(user => AuthTokenModel.deleteAllBY(user))
 	.then(() => ({message: 'Logged out!'}))
 
 module.exports = {

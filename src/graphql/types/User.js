@@ -11,6 +11,20 @@ const Reply = require('../../models/post/reply')
 
 const { QUEUE_FIELDS, USER_FIELDS } = require('../utils/queryFields')
 
+const AuthTokenDbSchema = mongoose.Schema({
+	token: {
+		type: String,
+		required: true,
+		unique: true,
+		index: true
+	},
+	created_at: {
+    	type: Date,
+    	default: Date.now,
+    	expires: 12000
+    }
+})
+
 const UserDbSchema = mongoose.Schema({
 	username: {
 		type: String,
@@ -99,12 +113,6 @@ const UserMethods = {
 	getField: async (user, field, populatePath) => (await user.populate(populatePath || field).execPopulate())[field],
 	isPasswordValid: (user, comparedPassword) => bcrypt.compare(user.password, comparedPassword),
 
-	generateAuthToken: async (user) => {
-		const token = jwt.sign({_id: user._id}, process.env.JWT_KEY)
-    	user.tokens.push({ token })
-    	await user.save()
-    	return token
-	},
 	setUserVerified: async (user) => {
 		if (!!user.verified) {
 			throw new Error({error: 'User already verified'})

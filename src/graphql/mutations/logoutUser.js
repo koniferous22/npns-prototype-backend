@@ -1,8 +1,8 @@
-const AuthToken = require('../../models/auth_token')
+const { AuthTokenMethods } = require('../types/AuthToken')
 const { authentication } = require('../../utils/authentication')
 
 const logoutUser = (_, { logoutInput }) => authentication(logoutInput.token)
-	.then(() => AuthToken.deleteOne({token: logoutInput.token}))
+	.then(() => AuthTokenMethods.deleteToken(logoutInput.token))
 	.then(() => ({message: 'Logged out!'}))
 
 module.exports = {
