@@ -3,13 +3,14 @@ const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 const validator = require('validator');
 
-const Transaction = require('../../models/transaction')
 const Post = require('../../models/post/post')
 const Challenge = require('../../models/post/challenge')
 const Submission = require('../../models/post/submission')
 const Reply = require('../../models/post/reply')
 
+
 const { QueueMethods, QUEUE_FIELDS } = require('./Queue')
+const { TransactionDbSchema } = require('./Transaction')
 const { calculatePageCount } = require('../../utils')
 
 const AuthTokenDbSchema = mongoose.Schema({
@@ -23,45 +24,6 @@ const AuthTokenDbSchema = mongoose.Schema({
 		type: Date,
 		default: Date.now,
 		expires: 12000
-	}
-})
-
-const TransactionDbSchema = mongoose.Schema({
-	type: {
-		type: String,
-		required: true
-	},
-	from: {
-		type: mongoose.Schema.Types.ObjectId,
-		ref: 'User',
-		default: null
-	},
-	to: {
-		type: mongoose.Schema.Types.ObjectId,
-		ref: 'User',
-		default: null
-	},
-	amount: {
-		type: Number,
-		// refactor with currency enum
-		default: 0
-	},
-	karmaAmount: {
-		type: Number,
-		default: 0
-	},
-	createdAt: {
-		type: Date,
-		default: Date.now,
-		index: true,
-		max: Date.now
-	},
-	meta: {
-		// TODO define custom validator, that would for each transaction type validate correct transaction meta
-		relatedQueue: {
-			type: mongoose.Schema.Types.ObjectId,
-			ref: 'Queue'
-		}
 	}
 })
 
@@ -130,73 +92,78 @@ const UserDbSchema = mongoose.Schema({
 	}
 })
 
-const UserModel = mongoose.model('User', UserDbSchema, 'User');
-
 const USER_FIELDS = 'username password email firstName lastName wallet referredBy verified transactions karmaEntries allowNsfw'
 
-const UserMethods = {
-	findByIdentifier: (identifier) => {
-		const predicate = validator.isEmail(identifier) ? {email:identifier} : {username:identifier}
-		return UserModel.findOne(predicate, USER_FIELDS)
-	},
-	signIn: async (identifier, password) => {
-		const user = await findByIdentifier(identifier)	
-		if (!user) {
-			throw new Error('Invalid login credentials')
-		}
-		const hasValidPassword = await isPasswordValid(user,password);
-		if (!hasValidPassword) {
-			throw new Error('Invalid login credentials')
-		}
+UserDbSchema.statics.findByIdentifier = function (identifier) {
+	const predicate = validator.isEmail(identifir) ? {email:identifier} : {username:identifier}
+	return this.findOne(predicate, USER_FIELDS)
+}
+UserDbSchema.statics.signIn = async function (identifier, password) {
+	const user = await this.findByIdentifier(identifier)	
+	if (!user) {
+		throw new Error('Invalid login credentials')
+	}
+	const hasValidPassword = await user.isPasswordValid(password);
+	if (!hasValidPassword) {
+		throw new Error('Invalid login credentials')
+	}
 
-		return user
-	},
-	generatePasswordHash: (pwd) => bcrypt.hashSync(pwd, bcrypt.genSaltSync(8), null),
-	areIdentifiersAvailable: (username, email) => UserModel.exists({
+	return user
+}
+UserDbSchema.statics.generatePasswordHash = function (pwd) {
+	return bcrypt.hashSync(pwd, bcrypt.genSaltSync(8), null)
+}
+UserDbSchema.statics.areIdentifiersAvailable = function (username, email) {
+	return this.exists({
 		$or: [
 			{username},
 			{email}
 		]
-	}),
-
-	getField: async (user, field, populatePath) => (await user.populate(populatePath || field).execPopulate())[field],
-	isPasswordValid: (user, comparedPassword) => bcrypt.compare(user.password, comparedPassword),
-
-	setUserVerified: (user) => {
-		if (!!user.verified) {
-			throw new Error({error: 'User already verified'})
-		}
-		user.verified = true
-		return user
-	},
-	addTransaction: (user, type, { from, to }, amount, karmaAmount, meta) => {
-		user.transactions.push({
-			type,
-			from,
-			to,
-			amount,
-			karmaAmount,
-			createdAt,
-			meta
-		});
-		return user
-	},
-	addBalance: async (user, queueName, amount, karmaAmount) => {
-		const challengeQueue = await QueueMethods.findByName(queueName)
-		let karmaEntry = user.karmaEntries.find(({ queue }) => queue === relatedQueue.id)
-		if (!karmaEntry) {
-			karmaEntry = {
-				queue: relatedQueue.id,
-				karma: karmaAmount
-			}
-			user.karmaEntries.push(karmaEntry)
-		} else {
-			karmaEntry.karma += karmaAmount
-		}
-		user.wallet += amount
-		return user	
-	}
+	})
 }
+UserDbSchema.methods.getField = async function (field, populatePath) {
+	return (await this.populate(populatePath || field).execPopulate())[field]
+} 
+UserDbSchema.methods.isPasswordValid = function (comparedPassword) {
+	return bcrypt.compare(this.password, comparedPassword)
+}
+
+UserDbSchema.methods.setUserVerified = function () {
+	if (!!this.verified) {
+		throw new Error({error: 'User already verified'})
+	}
+	this.verified = true
+	return this
+}
+UserDbSchema.methods.addTransaction = function (type, { from, to }, amount, karmaAmount, meta) {
+	this.transactions.push({
+		type,
+		from,
+		to,
+		amount,
+		karmaAmount,
+		createdAt,
+		meta
+	});
+	return this
+}
+UserDbSchema.methods.addBalance = async function (queueName, amount, karmaAmount) {
+	const challengeQueue = await QueueMethods.findByName(queueName)
+	let karmaEntry = this.karmaEntries.find(({ queue }) => queue === relatedQueue.id)
+	if (!karmaEntry) {
+		karmaEntry = {
+			queue: relatedQueue.id,
+			karma: karmaAmount
+		}
+		this.karmaEntries.push(karmaEntry)
+	} else {
+		karmaEntry.karma += karmaAmount
+	}
+	this.wallet += amount
+	return this	
+}
+
+const User = mongoose.model('User', UserDbSchema, 'User');
 
 const UserSchema = `
 	type KarmaEntry {
@@ -232,7 +199,7 @@ const UserSchema = `
 	}
 `
 
-const User = {
+const UserResolvers = {
 	referredBy: async user => UserMethods.getField(user, 'referredBy'),
 	// TODO: added default params, make sure that typescript allows non-negative params in functions
 	transactions: async (user, { paging = { page: 1, pageSize: 50 }, authToken }) => {
@@ -248,7 +215,7 @@ const User = {
 	},
 	postPageCount: async (user, { pageSize = 50 }) => {
 		const postCount = await Post.countDocuments({submitted_by: user._id});
-		const pageCount = Math.floor(postCount / pageSize) + (postCount % pageSize > 0 ? 1 : 0)
+		const pageCount = calculatePageCount(postCount, pageSize)
 		return pageCount
 	},
 
@@ -259,7 +226,7 @@ const User = {
 
 module.exports = {
 	USER_FIELDS,
-	UserMethods,
+	User,
 	UserSchema,
-	User
+	UserResolvers
 }

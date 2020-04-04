@@ -25,6 +25,7 @@ const QueueDbSchema = mongoose.Schema({
 
 QueueDbSchema.plugin(nestedSetPlugin)
 
+// h4xx0rz to overwrite shema of plugin parentId
 QueueDbSchema.add({
 	parentId: {
 		type: mongoose.Schema.Types.ObjectId,
@@ -34,16 +35,20 @@ QueueDbSchema.add({
 	}
 });
 
-QueueModel = mongoose.model('Queue', QueueDbSchema, 'Queue')
-
 const QUEUE_FIELDS = 'id name parentId karmaValue lft rgt depth'
 const ROOT_NAME = 'All'
 
-const QueueMethods = {
-	findByName: (name) => QueueModel.findOne({ name }, QUEUE_FIELDS),
-	findRoot: () => this.findByName(ROOT_NAME),
-	findAll: () => QueueModel.find({}, QUEUE_FIELDS),
-	createQueue: async (name, parentName) => this.findByName(parentName).then((parentQueue) => {
+QueueDbSchema.statics.findByName = function (name) {
+	return this.findOne({ name }, QUEUE_FIELDS)
+}
+QueueDbSchema.statics.findRoot = function () {
+	return this.findByName(ROOT_NAME)
+}
+QueueDbSchema.statics.findAll = function () {
+	return this.find({}, QUEUE_FIELDS)
+}
+QueueDbSchema.statics.createQueue = function (name, parentName) {
+	return this.findByName(parentName).then((parentQueue) => {
 		const newQueue = new Queue({
 			parentId: parentQueue._id,
 			name: name
@@ -51,6 +56,8 @@ const QueueMethods = {
 		return newQueue.save()
 	})
 }
+
+Queue = mongoose.model('Queue', QueueDbSchema, 'Queue')
 
 const QueueSchema = `
 	type Queue {
@@ -73,9 +80,9 @@ const QueueSchema = `
 	}
 `
 
-const Queue = {
+const QueueResolvers = {
 	parent: async queue => (await queue.populate({path: 'parentId', select: QUEUE_FIELDS}).execPopulate()).parent,
-	children: async queue => await QueueModel.find({parentId: queue._id}, QUEUE_FIELDS),
+	children: async queue => await Queue.find({parentId: queue._id}, QUEUE_FIELDS),
 	
 	// Ineffective method when querying multiple queues and get descendant for each
 	descendants: async queue => {
@@ -88,7 +95,7 @@ const Queue = {
 			}
 		}
 
-		const result = await QueueModel.find(filter, QUEUE_FIELDS)
+		const result = await Queue.find(filter, QUEUE_FIELDS)
 		return result
 	},
 
@@ -101,13 +108,13 @@ const Queue = {
 				$gt: queue.rgt
 			}
 		}
-		const result = await QueueModel.find(filter, QUEUE_FIELDS)
+		const result = await Queue.find(filter, QUEUE_FIELDS)
 		return result
 	},
 
 	challenges: async (queue, { paging = { page: 1, pageSize: 50 } }) => {
 		const { page, pageSize } = paging
-		const desc = await QueueModel.find().descendants({name: queue.name},'id')
+		const desc = await Queue.find().descendants({name: queue.name},'id')
 		const size = await Challenge.countDocuments({
 			active: true,
 			queue:{
@@ -123,7 +130,7 @@ const Queue = {
 		return challenges
 	},
 	challengePageCount: async (queue, { pageSize = 50 }) => {
-		const desc = await QueueModel.find().descendants({name: queue.name},'id')
+		const desc = await Queue.find().descendants({name: queue.name},'id')
 		const challengesCount = await Challenge.countDocuments({
 			active: true,
 			queue:{
@@ -156,7 +163,7 @@ const Queue = {
 
 module.exports = {
 	QUEUE_FIELDS,
-	QueueMethods,
+	Queue,
 	QueueSchema,
-	Queue
+	QueueResolvers
 }

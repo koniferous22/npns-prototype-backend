@@ -1,4 +1,4 @@
-const { QueueMethods, QUEUE_FIELDS } = require('../types/Queue')
+const { Queue, QUEUE_FIELDS } = require('../types/Queue')
 
 const createQueueInput = `
 	input CreateQueueInput {
@@ -13,7 +13,7 @@ const createQueuePayload = `
 	}
 `
 
-const createQueue = (_, { createQueueInput }) => QueueMethods.createQueue(createQueueInput.queueName, createQueueInput.parentQueueName)
+const createQueue = (_, { createQueueInput }) => Queue.createQueue(createQueueInput.queueName, createQueueInput.parentQueueName)
 
 module.exports = {
 	createQueueInput,

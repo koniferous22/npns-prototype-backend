@@ -4,7 +4,7 @@ const { authentication } = require('../../utils/authentication')
  
 const { CHALLENGE_FIELDS, SUBMISSION_FIELDS } = require('../utils/queryFields')
 const { QUEUE_FIELDS } = require('../types/Queue')
-const { USER_FIELDS, UserMethods } = require('../types/User')
+const { USER_FIELDS } = require('../types/User')
 
 const markChallengeSolvedInput = `
 	input MarkChallengeSolvedInput {
@@ -33,9 +33,10 @@ const markChallengeSolved = (_, { markChallengeSolvedInput }) => Promise.all([
 
 		// TODO for challenge poster, add update boost transaction metadata
 		const karmaValue = 1
+		// TODO populate submission poster
 		let winner = submission.submitted_by
-		winner = UserMethods.addTransaction(winner, 'KOKOT', { from: 'NPNS_team.biz'}, challenge.bounty || 0, karmaValue, { relatedQueue: challenge.queue })
-		winner = UserMethods.addBalance(winner, challenge.queue, challenge.bounty, karmaValue)
+		winner.addTransaction('KOKOT', { from: 'NPNS_team.biz'}, challenge.bounty || 0, karmaValue, { relatedQueue: challenge.queue })
+		winner.addBalance(challenge.queue, challenge.bounty, karmaValue)
 
 		return Promise.all([transaction.save(), winner.save(), challenge.save()]).then(() => transaction);
 	})

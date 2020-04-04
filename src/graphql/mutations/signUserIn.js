@@ -1,4 +1,4 @@
-const { UserMethods } = require('../types/User');
+const { User } = require('../types/User');
 const { AuthTokenMethods } = require('../types/AuthToken');
 
 const signUserInInput = `
@@ -17,7 +17,7 @@ const signUserInPayload = `
 
 const signUserIn = async (_, { signUserInInput }) => {
 	const { identifier, password } = signUserInInput;
-	const user = await UserMethods.findByIdentifier(identifier, password);
+	const user = await User.findByIdentifier(identifier, password);
 	if (!user) {
 		throw new Error('Login failed! Check authentication credentials')
 	}

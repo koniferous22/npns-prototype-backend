@@ -1,27 +1,62 @@
-const { QUEUE_FIELDS } = require('./Queue')
-const { USER_FIELDS } = require('./Queue')
+const mongoose = require('mongoose');
 
-const transactionSchema = `
-	# add custom validation, either one of those two has to be non-null
-	type Transaction {
-		sender: User
-		recipient: User
-		queue: Queue
-		karmaValue: Float!
-		monetaryValue: Float!
-		created: Date
-		description: String!
+const TransactionDbSchema = mongoose.Schema({
+	type: {
+		type: String,
+		required: true
+	},
+	from: {
+		type: mongoose.Schema.Types.ObjectId,
+		ref: 'User',
+		default: null
+	},
+	to: {
+		type: mongoose.Schema.Types.ObjectId,
+		ref: 'User',
+		default: null
+	},
+	amount: {
+		type: Number,
+		// refactor with currency enum
+		default: 0
+	},
+	karmaAmount: {
+		type: Number,
+		default: 0
+	},
+	createdAt: {
+		type: Date,
+		default: Date.now,
+		index: true,
+		max: Date.now
+	},
+	meta: {
+		// TODO define custom validator, that would for each transaction type validate correct transaction meta
+		relatedQueue: {
+			type: mongoose.Schema.Types.ObjectId,
+			ref: 'Queue'
+		}
 	}
+})
+
+const TransactionSchema = `
+	type Transaction {
+		type: String!,
+		from: User,
+		to: User,
+		amount: Int!,
+		karmaAmount: Int!,
+		meta: String
+	}
+
 `
 
-const Transaction = {
-	sender: async transaction => (await transaction.populate({path: 'sender', select: USER_FIELDS}).execPopulate()).sender,
-	recipient: async transaction => (await transaction.populate({path: 'recipient', select: USER_FIELDS}).execPopulate()).recipient,
-	queue: async transaction => (await transaction.populate({path: 'queue', select: QUEUE_FIELDS}).execPopulate()).queue
+const TransactionResolvers = {
 
 }
 
 module.exports = {
-	transactionSchema,
-	Transaction
+	TransactionDbSchema,
+	TransactionSchema,
+	TransactionResolvers
 }

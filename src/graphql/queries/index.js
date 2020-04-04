@@ -1,6 +1,6 @@
 const validator = require('validator')
 
-const { QueueMethods } = require('../types/Queue')
+const { Queue } = require('../types/Queue')
 const Challenge = require('../../models/post/challenge')
 
 const { UserMethods } = require('../types/User');
@@ -84,8 +84,8 @@ const querySchema = `
 `
 
 const Query = {
-	queues: async () => await QueueMethods.findAll(),
-	queue: async (_, {name}) => await QueueMethods.findByName(name),
+	queues: async () => await Queue.findAll(),
+	queue: async (_, {name}) => await Queue.findByName(name),
 
 	user: async (_, {username}) => await UserMethod.findByIdentifier(username),
 	challenge: async (_, {challengeId}) => await Challenge.viewProblem(challengeId),
