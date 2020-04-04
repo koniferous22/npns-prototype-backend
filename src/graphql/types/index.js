@@ -1,12 +1,12 @@
 const { postSchemas, postAccessors } = require('./post')
-const { queueSchema, Queue } = require('./Queue')
+const { QueueSchema, Queue } = require('./Queue')
 const { UserSchema, User } = require('./User')
 const { transactionSchema, Transaction } = require('./Transaction')
 
 const types = `
 	${postSchemas}
 
-	${queueSchema}
+	${QueueSchema}
 	${UserSchema}
 	${transactionSchema}
 `

@@ -13,7 +13,7 @@ const AuthTokenDbSchema = new mongoose.Schema({
 		unique: true,
 		index: true
 	},
-	created_at: {
+	createdAt: {
     	type: Date,
     	default: Date.now,
     	expires: 12000

@@ -1,11 +1,9 @@
 const validator = require('validator')
 
-const Queue = require('../../models/queue')
+const { QueueMethods } = require('../types/Queue')
 const Challenge = require('../../models/post/challenge')
 
 const { UserMethods } = require('../types/User');
-
-const { QUEUE_FIELDS } = require('../utils/queryFields')
 const { authentication } = require('../../utils/authentication')
 
 const validateResolvers = {
@@ -86,8 +84,8 @@ const querySchema = `
 `
 
 const Query = {
-	queues: async () => await Queue.find({}, QUEUE_FIELDS).sort({name: 'asc'}),
-	queue: async (_, {name}) => await Queue.findOne( {name} , QUEUE_FIELDS),
+	queues: async () => await QueueMethods.findAll(),
+	queue: async (_, {name}) => await QueueMethods.findByName(name),
 
 	user: async (_, {username}) => await UserMethod.findByIdentifier(username),
 	challenge: async (_, {challengeId}) => await Challenge.viewProblem(challengeId),

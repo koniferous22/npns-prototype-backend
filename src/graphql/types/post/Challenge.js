@@ -1,7 +1,10 @@
 const Submission = require('../../../models/post/submission')
 const Reply = require('../../../models/post/reply')
 
-const { QUEUE_FIELDS, USER_FIELDS, SUBMISSION_FIELDS } = require('../../utils/queryFields')
+const { QUEUE_FIELDS } = require('../Queue')
+const { USER_FIELDS } = require('../User')
+
+const { SUBMISSION_FIELDS } = require('../../utils/queryFields')
 
 const challengeSchema =`
 	type Boost {

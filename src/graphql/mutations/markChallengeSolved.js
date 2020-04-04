@@ -2,7 +2,9 @@ const Challenge = require('../../models/post/challenge')
 const Submission = require('../../models/post/submission')
 const { authentication } = require('../../utils/authentication')
  
-const { CHALLENGE_FIELDS, SUBMISSION_FIELDS, USER_FIELDS } = require('../utils/queryFields')
+const { CHALLENGE_FIELDS, SUBMISSION_FIELDS } = require('../utils/queryFields')
+const { QUEUE_FIELDS } = require('../types/Queue')
+const { USER_FIELDS, UserMethods } = require('../types/User')
 
 const markChallengeSolvedInput = `
 	input MarkChallengeSolvedInput {
@@ -29,16 +31,11 @@ const markChallengeSolved = (_, { markChallengeSolvedInput }) => Promise.all([
 		}
 		challenge.acceptSubmission(submission._id)
 
-		const transaction = new Transaction({
-			recipient: submission.submitted_by,
-			queue: challenge.queue,
-			karma_value: 1,
-			monetary_value: challenge.bounty,
-			description: 'Correct solution reward form challenge ' + challenge._id
-		})
-
-		const winner = submission.submitted_by
-		winner.addBalance(challenge.queue._id.toString(), transaction.karma_value)
+		// TODO for challenge poster, add update boost transaction metadata
+		const karmaValue = 1
+		let winner = submission.submitted_by
+		winner = UserMethods.addTransaction(winner, 'KOKOT', { from: 'NPNS_team.biz'}, challenge.bounty || 0, karmaValue, { relatedQueue: challenge.queue })
+		winner = UserMethods.addBalance(winner, challenge.queue, challenge.bounty, karmaValue)
 
 		return Promise.all([transaction.save(), winner.save(), challenge.save()]).then(() => transaction);
 	})

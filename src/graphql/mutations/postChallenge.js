@@ -1,4 +1,4 @@
-const Queue = require('../../models/queue')
+const { QueueMethods } = require('../types/Queue')
 const Challenge = require('../../models/post/challenge')
 const { authentication } = require('../../utils/authentication')
 
@@ -17,8 +17,8 @@ const postChallengePayload = `
 `
 
 const postChallenge = (_, { postChallengeInput }) => Promise.all([
-		authentication(postChallengeInput.token), 
-		Queue.findOne({name: postChallengeInput.queueName})
+		authentication(postChallengeInput.token),
+		QueueMethods.findByName(postChallengeInput.queueName)
 	]).then(([user, queue]) => {
 		const challenge = new Challenge({
 			title: postChallengeInput.title,

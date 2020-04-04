@@ -1,9 +1,58 @@
-const QueueModel = require('../../models/queue')
+const mongoose = require('mongoose')
+const nestedSetPlugin = require('mongoose-nested-set')
+
 const Challenge = require('../../models/post/challenge')
 
-const { QUEUE_FIELDS, CHALLENGE_FIELDS, USER_FIELDS } = require('../utils/queryFields')
+const { CHALLENGE_FIELDS } = require('../utils/queryFields')
+const { USER_FIELDS } = require('./User')
 
-const queueSchema = `
+const QueueDbSchema = mongoose.Schema({
+	name: {
+    	type: String,
+    	unique: true,
+    	trim: true,
+    	required: true
+	},
+	depth: {
+		type: Number,
+		default: 0
+	},
+	karmaValue: {
+		type: Number,
+		default: 0
+	}
+});
+
+QueueDbSchema.plugin(nestedSetPlugin)
+
+QueueDbSchema.add({
+	parentId: {
+		type: mongoose.Schema.Types.ObjectId,
+		required: true,
+		ref: 'Queue',
+		index:true
+	}
+});
+
+QueueModel = mongoose.model('Queue', QueueDbSchema, 'Queue')
+
+const QUEUE_FIELDS = 'id name parentId karmaValue lft rgt depth'
+const ROOT_NAME = 'All'
+
+const QueueMethods = {
+	findByName: (name) => QueueModel.findOne({ name }, QUEUE_FIELDS),
+	findRoot: () => this.findByName(ROOT_NAME),
+	findAll: () => QueueModel.find({}, QUEUE_FIELDS),
+	createQueue: async (name, parentName) => this.findByName(parentName).then((parentQueue) => {
+		const newQueue = new Queue({
+			parentId: parentQueue._id,
+			name: name
+		})
+		return newQueue.save()
+	})
+}
+
+const QueueSchema = `
 	type Queue {
 		# Don't leave queue _ids exposed
 		name: String!
@@ -106,6 +155,8 @@ const Queue = {
 
 
 module.exports = {
-	queueSchema,
+	QUEUE_FIELDS,
+	QueueMethods,
+	QueueSchema,
 	Queue
 }

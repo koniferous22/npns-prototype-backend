@@ -1,6 +1,4 @@
-const Queue = require('../../models/queue')
-
-const { QUEUE_FIELDS } = require('../utils/queryFields')
+const { QueueMethods, QUEUE_FIELDS } = require('../types/Queue')
 
 const createQueueInput = `
 	input CreateQueueInput {
@@ -15,13 +13,7 @@ const createQueuePayload = `
 	}
 `
 
-const createQueue = (_, { createQueueInput }) => Queue.findOne({name: createQueueInput.parentQueueName}, QUEUE_FIELDS).then((parentQueue) => {
-	const newQueue = new Queue({
-		parentId: parentQueue._id,
-		name: createQueueInput.queueName
-	})
-	return newQueue.save()
-})
+const createQueue = (_, { createQueueInput }) => QueueMethods.createQueue(createQueueInput.queueName, createQueueInput.parentQueueName)
 
 module.exports = {
 	createQueueInput,

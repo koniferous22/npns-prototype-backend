@@ -1,4 +1,5 @@
-const { QUEUE_FIELDS, USER_FIELDS } = require('../utils/queryFields')
+const { QUEUE_FIELDS } = require('./Queue')
+const { USER_FIELDS } = require('./Queue')
 
 const transactionSchema = `
 	# add custom validation, either one of those two has to be non-null
