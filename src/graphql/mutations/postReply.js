@@ -1,5 +1,5 @@
-const SubmissionAPI = require('../../models/post/submission')
-const ReplyAPI = require('../../models/post/reply')
+const Submission = require('../types/Challenge/Submission')
+const Reply = require('../types/Challenge/Reply')
 
 const { authentication } = require('../../utils/authentication')
 
@@ -18,16 +18,16 @@ const postReplyPayload = `
 
 const postReply = (_, {postReplyInput}) => Promise.all([
 		authentication(postReplyInput.token),
-		SubmissionAPI.findOne({_id: postReplyInput.relatedSubmission})
+		Submission.findOne({_id: postReplyInput.relatedSubmission})
 	]).then(([user, submission]) => {
-		const reply = new ReplyAPI({
+		const reply = new Reply({
 			content: postReplyInput.content,
 			submitted_by: user._id,
 			submission: submission._id
 		})
 		return Promise.all([
 			reply.save(),
-			SubmissionAPI.updateOne(
+			Submission.updateOne(
 	        	{ _id: challenge._id},
 	        	{
 	        		$push: {

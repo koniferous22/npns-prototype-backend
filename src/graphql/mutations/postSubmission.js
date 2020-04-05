@@ -1,6 +1,6 @@
 const { authentication } = require('../../utils/authentication')
-const Challenge = require('../../models/post/challenge')
-const Submission = require('../../models/post/submission')
+const { Challenge } = require('../types/Challenge')
+const { Submission } = require('../types/Challenge/Submission')
 
 const postSubmissionInput = `
 	input PostSubmissionInput {

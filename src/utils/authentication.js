@@ -1,7 +1,6 @@
 const jwt = require('jsonwebtoken')
-const { AuthTokenMethods } = require('../graphql/types/AuthToken')
+const { AuthTokenMethods } = require('../graphql/types/User/AuthToken')
 
-const { USER_FIELDS } = require('../graphql/utils/queryFields')
 // TODO migrate as user method somehow
 const authentication = token => new Promise((resolve, reject) => {
     const data = jwt.verify(token, process.env.JWT_KEY)
@@ -9,7 +8,7 @@ const authentication = token => new Promise((resolve, reject) => {
 		if (!tokenRecord) {
 			return reject(new Error("Invalid token"));
 		}
-		return tokenRecord.populate('user', USER_FIELDS).execPopulate()
+		return tokenRecord.populate('user').execPopulate()
 	}).then(populatedTokenRecord => {
 		if (!populatedTokenRecord) {
 			return reject(new Error('User not found'))

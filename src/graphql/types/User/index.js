@@ -3,17 +3,16 @@ const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 const validator = require('validator');
 
-const Post = require('../../models/post/post')
-const Challenge = require('../../models/post/challenge')
-const Submission = require('../../models/post/submission')
-const Reply = require('../../models/post/reply')
+const { Challenge } = require('../Challenge')
+const { Submission } = require('../Challenge/Submission')
+const { Reply } = require('../Challenge/Reply')
 
+const { QueueMethods } = require('../Queue')
 
-const { QueueMethods, QUEUE_FIELDS } = require('./Queue')
-const { TransactionDbSchema } = require('./Transaction')
-const { calculatePageCount } = require('../../utils')
+const { TransactionDbSchema, TransactionSchema, TransactionResolvers } = require('./Transaction')
+const { calculatePageCount } = require('../../../utils')
 
-const AuthTokenDbSchema = mongoose.Schema({
+const AuthTokenDbSchema = new mongoose.Schema({
 	token: {
 		type: String,
 		required: true,
@@ -27,7 +26,7 @@ const AuthTokenDbSchema = mongoose.Schema({
 	}
 })
 
-const KarmaEntryDbSchema = mongoose.Schema({
+const KarmaEntryDbSchema = new mongoose.Schema({
 	queue: {
 		type: mongoose.Schema.Types.ObjectId,
 		required: true,
@@ -39,7 +38,7 @@ const KarmaEntryDbSchema = mongoose.Schema({
 		min: 0
 	}
 })
-const UserDbSchema = mongoose.Schema({
+const UserDbSchema = new mongoose.Schema({
 	username: {
 		type: String,
 		required: true,
@@ -92,11 +91,9 @@ const UserDbSchema = mongoose.Schema({
 	}
 })
 
-const USER_FIELDS = 'username password email firstName lastName wallet referredBy verified transactions karmaEntries allowNsfw'
-
 UserDbSchema.statics.findByIdentifier = function (identifier) {
 	const predicate = validator.isEmail(identifir) ? {email:identifier} : {username:identifier}
-	return this.findOne(predicate, USER_FIELDS)
+	return this.findOne(predicate)
 }
 UserDbSchema.statics.signIn = async function (identifier, password) {
 	const user = await this.findByIdentifier(identifier)	
@@ -166,6 +163,8 @@ UserDbSchema.methods.addBalance = async function (queueName, amount, karmaAmount
 const User = mongoose.model('User', UserDbSchema, 'User');
 
 const UserSchema = `
+	${TransactionSchema}
+
 	type KarmaEntry {
 		queue: Queue!
 		karma: Int!
@@ -224,9 +223,13 @@ const UserResolvers = {
 	numberOfReplies: user => Reply.countDocuments({submitted_by: user._id})
 }
 
+const UserNestedResolvers = {
+	Transaction: TransactionResolvers
+}
+
 module.exports = {
-	USER_FIELDS,
 	User,
 	UserSchema,
-	UserResolvers
+	UserResolvers,
+	UserNestedResolvers
 }

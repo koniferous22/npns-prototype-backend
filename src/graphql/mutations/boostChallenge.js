@@ -1,7 +1,5 @@
-const Challenge = require('../../models/post/challenge')
-	const { authentication } = require('../../utils/authentication')
- 
-const { CHALLENGE_FIELDS } = require('../utils/queryFields')
+const { Challenge } = require('../types/Challenge')
+const { authentication } = require('../../utils/authentication')
 
 const boostChallengeInput = `
 	input BoostChallengeInput {
@@ -19,7 +17,7 @@ const boostChallengePayload = `
 // TODO rewrite with async await
 const boostChallenge = (_, { boostChallengeInput }) => Promise.all([
 		authentication(boostChallengeInput.token),
-		Challenge.findOne({_id: boostChallengeInput.challengeId}, CHALLENGE_FIELDS)
+		Challenge.findOne({_id: boostChallengeInput.challengeId})
 	]).then(([user, challenge]) => {
 		if (challenge.accepted_submission != null) {
 			throw new Error({message:'Cannot boost solved challenge'})

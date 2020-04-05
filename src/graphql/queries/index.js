@@ -1,9 +1,9 @@
 const validator = require('validator')
 
 const { Queue } = require('../types/Queue')
-const Challenge = require('../../models/post/challenge')
+const { Challenge } = require('../types/Challenge')
 
-const { UserMethods } = require('../types/User');
+const { User } = require('../types/User');
 const { authentication } = require('../../utils/authentication')
 
 const validateResolvers = {
@@ -11,7 +11,7 @@ const validateResolvers = {
 		if (!username || username === '') {
 			throw new Error('No username submitted')
 		}
-		const userWithUsername = await UserMethods.findByIdentifier(username);
+		const userWithUsername = await User.findByIdentifier(username);
 		if (!userWithUsername) {
 			throw new Error('Username taken')
 		}
@@ -21,7 +21,7 @@ const validateResolvers = {
 		if (!email || !validator.isEmail(email)) {
 			throw new Error('Invalid email')
 		}
-		const userWithEmail = await UserMethod.findByIdentifier(email)
+		const userWithEmail = await User.findByIdentifier(email)
 		if (!userWithEmail) {
 			throw new Error('Email taken')
 		}
@@ -46,7 +46,7 @@ const validateResolvers = {
 		if (!referredBy || referredBy === '') {
 			throw new Error('No referal user specified')
 		}
-		const referal = await UserMethod.findByIdentifier(referredBy)
+		const referal = await User.findByIdentifier(referredBy)
 		if (!referal) {
 			throw new Error('Entered invalid referal')
 		}
@@ -87,8 +87,8 @@ const Query = {
 	queues: async () => await Queue.findAll(),
 	queue: async (_, {name}) => await Queue.findByName(name),
 
-	user: async (_, {username}) => await UserMethod.findByIdentifier(username),
-	challenge: async (_, {challengeId}) => await Challenge.viewProblem(challengeId),
+	user: (_, {username}) => User.findByIdentifier(username),
+	challenge: (_, {challengeId}) => Challenge.viewChallenge(challengeId),
 	validate: async (_, { validatedUserData, token }) => {
 		const { operation, ...data } = validatedUserData
 		const validationPromises = Object.entries(data)

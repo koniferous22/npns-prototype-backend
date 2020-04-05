@@ -1,10 +1,7 @@
-const Challenge = require('../../models/post/challenge')
-const Submission = require('../../models/post/submission')
+const { Challenge } = require('../types/Challenge')
+const { Submission } = require('../types/Challenge/Submission')
+
 const { authentication } = require('../../utils/authentication')
- 
-const { CHALLENGE_FIELDS, SUBMISSION_FIELDS } = require('../utils/queryFields')
-const { QUEUE_FIELDS } = require('../types/Queue')
-const { USER_FIELDS } = require('../types/User')
 
 const markChallengeSolvedInput = `
 	input MarkChallengeSolvedInput {
@@ -21,8 +18,8 @@ const markChallengeSolvedPayload = `
 
 const markChallengeSolved = (_, { markChallengeSolvedInput }) => Promise.all([
 		authentication(markChallengeSolvedInput.token),
-		Challenge.findOne({_id: markChallengeSolvedInput.challengeId}, CHALLENGE_FIELDS).populate('submitted_by', USER_FIELDS).populate('queue', QUEUE_FIELDS),
-		Submission.findOne({_id: markChallengeSolvedInput.submissionId}, SUBMISSION_FIELDS).populate('submitted_by', USER_FIELDS)
+		Challenge.findOne({_id: markChallengeSolvedInput.challengeId}).populate('submitted_by').populate('queue'),
+		Submission.findOne({_id: markChallengeSolvedInput.submissionId}).populate('submitted_by')
 	]).then(([user, challenge, submission]) => {
 		// in case of challenges try mongoose equals method, prior to this shit had challenges with strings
 		// also migrate this if into models

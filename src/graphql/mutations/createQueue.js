@@ -1,4 +1,4 @@
-const { Queue, QUEUE_FIELDS } = require('../types/Queue')
+const { Queue } = require('../types/Queue')
 
 const createQueueInput = `
 	input CreateQueueInput {

@@ -1,12 +1,9 @@
 const mongoose = require('mongoose')
 const nestedSetPlugin = require('mongoose-nested-set')
 
-const Challenge = require('../../models/post/challenge')
+const Challenge = require('./Challenge')
 
-const { CHALLENGE_FIELDS } = require('../utils/queryFields')
-const { USER_FIELDS } = require('./User')
-
-const QueueDbSchema = mongoose.Schema({
+const QueueDbSchema = new mongoose.Schema({
 	name: {
     	type: String,
     	unique: true,
@@ -35,17 +32,16 @@ QueueDbSchema.add({
 	}
 });
 
-const QUEUE_FIELDS = 'id name parentId karmaValue lft rgt depth'
 const ROOT_NAME = 'All'
 
 QueueDbSchema.statics.findByName = function (name) {
-	return this.findOne({ name }, QUEUE_FIELDS)
+	return this.findOne({ name })
 }
 QueueDbSchema.statics.findRoot = function () {
 	return this.findByName(ROOT_NAME)
 }
 QueueDbSchema.statics.findAll = function () {
-	return this.find({}, QUEUE_FIELDS)
+	return this.find({})
 }
 QueueDbSchema.statics.createQueue = function (name, parentName) {
 	return this.findByName(parentName).then((parentQueue) => {
@@ -81,8 +77,8 @@ const QueueSchema = `
 `
 
 const QueueResolvers = {
-	parent: async queue => (await queue.populate({path: 'parentId', select: QUEUE_FIELDS}).execPopulate()).parent,
-	children: async queue => await Queue.find({parentId: queue._id}, QUEUE_FIELDS),
+	parent: async queue => (await queue.populate({path: 'parentId'}).execPopulate()).parent,
+	children: async queue => await Queue.find({parentId: queue._id}),
 	
 	// Ineffective method when querying multiple queues and get descendant for each
 	descendants: async queue => {
@@ -95,7 +91,7 @@ const QueueResolvers = {
 			}
 		}
 
-		const result = await Queue.find(filter, QUEUE_FIELDS)
+		const result = await Queue.find(filter)
 		return result
 	},
 
@@ -108,7 +104,7 @@ const QueueResolvers = {
 				$gt: queue.rgt
 			}
 		}
-		const result = await Queue.find(filter, QUEUE_FIELDS)
+		const result = await Queue.find(filter)
 		return result
 	},
 
@@ -162,7 +158,6 @@ const QueueResolvers = {
 
 
 module.exports = {
-	QUEUE_FIELDS,
 	Queue,
 	QueueSchema,
 	QueueResolvers

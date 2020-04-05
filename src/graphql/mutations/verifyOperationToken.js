@@ -1,11 +1,9 @@
-const { AuthTokenMethods } = require('../types/AuthToken');
+const { AuthToken } = require('../types/User/AuthToken');
 
 const VerificationToken = require('../../models/verification_token/verification_token');
 const PasswordResetToken = require('../../models/verification_token/password_reset');
 const EmailChangeToken = require('../../models/verification_token/email_change');
 const UsernameChangeToken = require('../../models/verification_token/username_change');
-
-const { USER_FIELDS } = require('../utils/queryFields')
 
 const { signupTemplate } = require('../../nodemailer/templates')
 
@@ -60,9 +58,9 @@ const verifyOperationToken = async (_, { verifyOperationTokenInput }) => {
 		userCallback,
 		responseMessage
 	} = verifiedOperation
-	const user = (await findToken(emailToken).populate('user', USER_FIELDS)).user
+	const user = (await findToken(emailToken).populate('user')).user
 	if (forceLogout) {
-        await AuthTokenMethods.deleteAllBy(user)
+        await AuthToken.deleteAllBy(user)
 	}
 	if (cancelAllTokenOperation) {
 		await VerificationToken.deleteMany({user})
