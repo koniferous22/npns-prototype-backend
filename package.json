@@ -3,17 +3,6 @@
   "version": "1.0.0",
   "description": "toto je backend",
   "main": "src/index.js",
-  "nodemonConfig": {
-    "exec": "npm run start",
-    "watch": [
-      "src/*"
-    ],
-    "ignore": [
-      "**/__tests__/**",
-      "*.test.js",
-      "*.spec.js"
-    ]
-  },
   "scripts": {
     "build": "webpack",
     "server": "node ./dist/index.js",
