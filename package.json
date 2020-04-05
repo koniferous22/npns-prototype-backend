@@ -3,8 +3,22 @@
   "version": "1.0.0",
   "description": "toto je backend",
   "main": "src/index.js",
+  "nodemonConfig": {
+    "exec": "npm run start",
+    "watch": [
+      "src/*"
+    ],
+    "ignore": [
+      "**/__tests__/**",
+      "*.test.js",
+      "*.spec.js"
+    ]
+  },
   "scripts": {
-    "start": "nodemon src/index.js"
+    "build": "webpack",
+    "server": "node ./dist/index.js",
+    "start": "npm run build && npm run server",
+    "dev": "webpack-dev-server"
   },
   "keywords": [
     "nic"
@@ -15,6 +29,7 @@
     "apollo-server-express": "^2.11.0",
     "bcrypt": "^3.0.8",
     "bcrypt-nodejs": "0.0.3",
+    "core-js": "^3.6.4",
     "cors": "^2.8.5",
     "custom-env": "^2.0.1",
     "dotenv": "^8.2.0",
@@ -24,11 +39,19 @@
     "mongoose": "^5.9.7",
     "mongoose-nested-set": "0.0.7",
     "nodemailer": "^6.4.6",
-    "path": "^0.12.7",
-    "static-favicon": "^2.0.0-alpha",
+    "regenerator-runtime": "^0.13.5",
     "validator": "^11.1.0"
   },
   "devDependencies": {
-    "nodemon": "^2.0.2"
+    "@babel/cli": "^7.8.4",
+    "@babel/core": "^7.9.0",
+    "@babel/preset-env": "^7.9.0",
+    "babel-loader": "^8.1.0",
+    "eslint": "^6.8.0",
+    "path": "^0.12.7",
+    "webpack": "^4.42.1",
+    "webpack-cli": "^3.3.11",
+    "webpack-dev-server": "^3.10.3",
+    "webpack-node-externals": "^1.7.2"
   }
 }

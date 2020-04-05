@@ -1,3 +1,5 @@
-module.exports = {
-	'url' : 'mongodb://localhost/npns_db'
+const url = 'mongodb://localhost/npns_db'
+
+export default {
+	url
 }
