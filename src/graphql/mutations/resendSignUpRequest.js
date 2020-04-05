@@ -1,7 +1,7 @@
 const { User } = require('../types/User');
 const { VerificationToken } = require('../types/User/VerificationToken');
 
-const { signupTemplate } = require('../../nodemailer/templates')
+const nodemailer = require('../../external/nodemailer')
 
 const resendSignUpRequestInput = `
 	input ResendSignUpRequestInput {
@@ -16,7 +16,7 @@ const resendSignUpRequest = async (_, { resendSignUpRequestInput }) => {
 	}
 	await VerificationToken.deleteMany({user: user._id})
     const token = new VerificationToken({user: user._id})
-    return Promise.all([token.save(), user.sendEmail(signupTemplate, {token})])
+    return Promise.all([token.save(), nodemailer.sendEmail(nodemailer.tempaltes.signupTemplate, { token })])
     	.then(() => ({
     		message: 'Request resent, check email'
     	}))

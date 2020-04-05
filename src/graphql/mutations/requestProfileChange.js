@@ -1,8 +1,7 @@
 const { User } = require('../types/User');
 
 const { VerificationToken } = require('../types/User/VerificationToken');
-
-const { pwdResetTemplate, emailChangeTemplate, usernameChangeTemplate } = require('../../nodemailer/templates');
+const nodemailer = require('../../external/nodemailer')
 
 const { authentication } = require('../../utils/authentication')
 
@@ -23,12 +22,12 @@ const profileOperations = {
 	emailChange: {
 		auth: true,
 		createToken: (user, { newEmail }) => new VerificationToken({user, newEmail}),
-		mailTemplate: emailChangeTemplate
+		mailTemplate: nodemailer.templates.emailChange
 	},
 	usernameChange: {
 		auth: true,
 		createToken: (user, { newUsername }) => new VerificationToken({user, newUsername}),
-		mailTemplate: usernameChangeTemplate
+		mailTemplate: nodemailer.templates.usernameChange
 	},
 	passwordReset: {
 		auth: false,
@@ -61,7 +60,7 @@ const requestProfileChange = async (_, { requestProfileChangeInput }) => {
 		await operationToken.save()
 	}
 	if (mailTemplate) {
-		await userRecord.sendMail(mailTemplate, payload)
+		await nodemailer.sendMail(mailTemplate, payload)
 	}
 	return {
 		message: 'Profile updated'

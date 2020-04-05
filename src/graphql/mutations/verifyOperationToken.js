@@ -2,7 +2,7 @@ const { AuthToken } = require('../types/User/AuthToken');
 
 const { VerificationToken } = require('../types/User/VerificationToken');
 
-const { signupTemplate } = require('../../nodemailer/templates')
+// const { signupTemplate } = require('../../external/nodemailer/templates')
 
 const verifiedOperations = {
 	signUp: {
