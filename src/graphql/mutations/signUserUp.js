@@ -1,5 +1,5 @@
 const { User } = require('../types/User');
-const VerificationToken = require('../../models/verification_token/verification_token');
+const { VerificationToken } = require('../types/User/VerificationToken')
 
 const signUserUpInput = `
 	input SignUserUpInput {
@@ -17,9 +17,8 @@ const signUserUpPayload = `
 `
 
 const signUserUp = async (_, { signUserUpInput }) => {
-	const { username, email } = signUserUpInput;
-	const identifiersAvailable = await User.areIdentifiersAvailable(username, email);
-	const user = new User(signUserUpInput)
+	const { username, password, email, firstName, lastName } = signUserUpInput;
+	const user = User.signUp(username, password, email, firstName, lastName)
 	return user.save().then(savedUser => {
 		const token = new VerificationToken({user: user._id})
 		return token.save()

@@ -12,6 +12,11 @@ const { QueueMethods } = require('../Queue')
 const { TransactionDbSchema, TransactionSchema, TransactionResolvers } = require('./Transaction')
 const { calculatePageCount } = require('../../../utils')
 
+const {
+	PasswordSchemaTypeCreator,
+	EmailSchemaTypeCreator
+} = require('../utils/schemaTypeCreators')
+
 const AuthTokenDbSchema = new mongoose.Schema({
 	token: {
 		type: String,
@@ -46,23 +51,8 @@ const UserDbSchema = new mongoose.Schema({
 		trim: true,
 		index: true
 	},
-	password: {
-		type: String,
-		required: true,
-		minLength: 8
-	},
-	email: {
-		type: String,
-		required: true,
-		unique: true,
-		index: true,
-		lowercase: true,
-		validate: value => {
-			if (!validator.isEmail(value)) {
-				throw new Error({error: 'Invalid Email address'})
-			}
-		}
-	},
+	password: PasswordSchemaTypeCreator(),
+	email: EmailSchemaTypeCreator(),
 	firstName: {
 		type: String,
 		default: ''
@@ -94,6 +84,9 @@ const UserDbSchema = new mongoose.Schema({
 UserDbSchema.statics.findByIdentifier = function (identifier) {
 	const predicate = validator.isEmail(identifir) ? {email:identifier} : {username:identifier}
 	return this.findOne(predicate)
+}
+UserDbSchema.statics.signUp = function (username, password, email, firstName, lastName) {
+	return new this({ username, password, email, firstName, lastName })
 }
 UserDbSchema.statics.signIn = async function (identifier, password) {
 	const user = await this.findByIdentifier(identifier)	

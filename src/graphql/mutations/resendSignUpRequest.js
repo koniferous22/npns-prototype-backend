@@ -1,5 +1,5 @@
 const { User } = require('../types/User');
-const VerificationToken = require('../../models/verification_token/verification_token');
+const { VerificationToken } = require('../types/User/VerificationToken');
 
 const { signupTemplate } = require('../../nodemailer/templates')
 

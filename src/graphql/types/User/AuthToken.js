@@ -9,9 +9,11 @@ const AuthTokenDbSchema = new mongoose.Schema({
 	},
 	token: {
 		type: String,
-		required: true,
 		unique: true,
-		index: true
+		index: true,
+		default: function() {
+			return jwt.sign({_id: this.user}, process.env.JWT_KEY)
+		} 
 	},
 	createdAt: {
     	type: Date,
@@ -21,8 +23,7 @@ const AuthTokenDbSchema = new mongoose.Schema({
 })
 
 AuthTokenDbSchema.statics.generate = async function (user) {
-	const token = jwt.sign({_id: user}, process.env.JWT_KEY)
-	const authTokenRecord = new this({ token, user })
+	const authTokenRecord = new this({ user })
 	await authTokenRecord.save()
 	return authTokenRecord	
 }

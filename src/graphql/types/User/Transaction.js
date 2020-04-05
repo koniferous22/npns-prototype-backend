@@ -1,5 +1,7 @@
 const mongoose = require('mongoose');
 
+const { TimestampSchemaTypeCreator } = require('../utils/schemaTypeCreators')
+
 const TransactionDbSchema = new mongoose.Schema({
 	type: {
 		type: String,
@@ -24,12 +26,7 @@ const TransactionDbSchema = new mongoose.Schema({
 		type: Number,
 		default: 0
 	},
-	createdAt: {
-		type: Date,
-		default: Date.now,
-		index: true,
-		max: Date.now
-	},
+	createdAt: TimestampSchemaTypeCreator(),
 	meta: {
 		// TODO define custom validator, that would for each transaction type validate correct transaction meta
 		relatedQueue: {

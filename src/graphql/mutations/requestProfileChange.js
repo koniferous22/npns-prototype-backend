@@ -1,9 +1,6 @@
 const { User } = require('../types/User');
 
-const PasswordResetToken = require('../../models/verification_token/password_reset');
-const EmailChangeToken = require('../../models/verification_token/email_change');
-const UsernameChangeToken = require('../../models/verification_token/username_change');
-const VerificationToken = require('../../models/verification_token/verification_token');
+const { VerificationToken } = require('../types/User/VerificationToken');
 
 const { pwdResetTemplate, emailChangeTemplate, usernameChangeTemplate } = require('../../nodemailer/templates');
 
@@ -25,17 +22,17 @@ const requestProfileChangeInput = `
 const profileOperations = {
 	emailChange: {
 		auth: true,
-		createToken: (user, { newEmail }) => new EmailChangeToken({user, newEmail}),
+		createToken: (user, { newEmail }) => new VerificationToken({user, newEmail}),
 		mailTemplate: emailChangeTemplate
 	},
 	usernameChange: {
 		auth: true,
-		createToken: (user, { newUsername }) => new UsernameChangeToken({user, newUsername}),
+		createToken: (user, { newUsername }) => new VerificationToken({user, newUsername}),
 		mailTemplate: usernameChangeTemplate
 	},
 	passwordReset: {
 		auth: false,
-		createToken: (user, _) => new PasswordResetToken({user})
+		createToken: (user, _) => new VerificationToken({user})
 	},
 	namesChange: {
 		auth: true,

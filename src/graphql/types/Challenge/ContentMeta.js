@@ -1,4 +1,7 @@
 const mongoose = require('mongoose')
+const {
+	TimestampSchemaTypeCreator
+} = require('../utils/schemaTypeCreators')
 
 const ContentMetaDbSchema = new mongoose.Schema({
 	submittedBy: {
@@ -6,12 +9,7 @@ const ContentMetaDbSchema = new mongoose.Schema({
 		required: true,
 		ref: 'User'
 	},
-	createdAt: {
-		type: Date,
-		default: Date.now,
-		index: true,
-		max: Date.now
-	},
+	createdAt: TimestampSchemaTypeCreator(),
 	isActive: {
 		type: Boolean,
 		default: true

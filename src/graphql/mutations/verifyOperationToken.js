@@ -1,9 +1,6 @@
 const { AuthToken } = require('../types/User/AuthToken');
 
-const VerificationToken = require('../../models/verification_token/verification_token');
-const PasswordResetToken = require('../../models/verification_token/password_reset');
-const EmailChangeToken = require('../../models/verification_token/email_change');
-const UsernameChangeToken = require('../../models/verification_token/username_change');
+const { VerificationToken } = require('../types/User/VerificationToken');
 
 const { signupTemplate } = require('../../nodemailer/templates')
 
@@ -19,19 +16,19 @@ const verifiedOperations = {
 		responseMessage: 'Cunt'
 	},
 	passwordReset: {
-		findToken: async (token) => PasswordResetToken.findOne({token}),
+		findToken: async (token) => VerificationToken.findOne({token}),
 		cancelAllTokenOperation: false,
 		forceLogout: true,
 		responseMessage: 'Fuck off'
 	},
 	emailChange: {
-		findToken: async (token) => EmailChangeToken.findOne({token}),
+		findToken: async (token) => VerificationToken.findOne({token}),
 		cancelAllTokenOperation: true,
 		forceLogout: true,
 		responseMessage: 'fuckingdie'
 	},
 	usernameChange: {
-		findToken: async (token) => UsernameChangeToken.findOne({token}),
+		findToken: async (token) => VerificationToken.findOne({token}),
 		cancelAllTokenOperation: true,
 		forceLogout: true,
 		responseMessage:'aaaaaaaaa'
