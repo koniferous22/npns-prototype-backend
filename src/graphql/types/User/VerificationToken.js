@@ -1,13 +1,14 @@
-const mongoose = require('mongoose');
-const jwt = require('jsonwebtoken');
+import mongoose  from 'mongoose';
+import jwt  from 'jsonwebtoken';
+
+import {
+	EmailSchemaTypeCreator
+} from '../utils/schemaTypeCreators'
 
 const USERNAME_UPDATE = 'USER_UPDATE_USERNAME'
 const PASSWORD_RESET = 'USER_PASSWORD_RESET'
 const EMAIL_UPDATE = 'USER_UPDATE_EMAIL'
 
-const {
-	EmailSchemaTypeCreator
-} = require('../utils/schemaTypeCreators')
 
 const VerificationTokenDbSchema = new mongoose.Schema({
 	type: {
@@ -50,8 +51,4 @@ const VerificationTokenDbSchema = new mongoose.Schema({
 
 })
 
-const VerificationToken = mongoose.model('VerificationToken', VerificationTokenDbSchema, 'VerificationToken')
-
-module.exports = {
-	VerificationToken
-}
+export const VerificationToken = mongoose.model('VerificationToken', VerificationTokenDbSchema, 'VerificationToken')

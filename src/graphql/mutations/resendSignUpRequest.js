@@ -1,14 +1,14 @@
-const { User } = require('../types/User');
-const { VerificationToken } = require('../types/User/VerificationToken');
+import { User } from '../types/User';
+import { VerificationToken } from '../types/User/VerificationToken';
 
-const nodemailer = require('../../external/nodemailer')
+import nodemailer  from '../../external/nodemailer'
 
-const resendSignUpRequestInput = `
+export const resendSignUpRequestInput = `
 	input ResendSignUpRequestInput {
 		username: String!
 	}
 `
-const resendSignUpRequest = async (_, { resendSignUpRequestInput }) => {
+export const resendSignUpRequest = async (_, { resendSignUpRequestInput }) => {
 	const { username } = resendSignUpRequestInput
 	const user = await User.findByIdentifier(username)
 	if (user.verified) {
@@ -20,9 +20,4 @@ const resendSignUpRequest = async (_, { resendSignUpRequestInput }) => {
     	.then(() => ({
     		message: 'Request resent, check email'
     	}))
-}
-
-module.exports = {
-	resendSignUpRequestInput,
-	resendSignUpRequest
 }

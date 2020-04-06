@@ -1,22 +1,17 @@
-const mongoose = require('mongoose')
+import mongoose  from 'mongoose'
 
-const { ContentMetaDbSchema } = require('./ContentMeta')
-const { EditDbSchema } = require('./Edit')
+import { ContentMetaDbSchema } from './ContentMeta'
+import { EditDbSchema } from './Edit'
 
-const ReplyDbSchema = new mongoose.Schema({
+export const ReplyDbSchema = new mongoose.Schema({
 	contentMeta: ContentMetaDbSchema,
 	edits: [EditDbSchema]
 })
 
 // ? related challenge
-const ReplySchema = `
+export const ReplySchema = `
 	type Reply {
 		contentMeta: ContentMeta!
 		edits: [Edit!]!
 	}
 `
-
-module.exports = {
-	ReplyDbSchema,
-	ReplySchema
-}

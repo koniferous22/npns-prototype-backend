@@ -1,21 +1,21 @@
-const mongoose = require('mongoose');
-const bcrypt = require('bcrypt');
-const jwt = require('jsonwebtoken');
-const validator = require('validator');
+import mongoose  from 'mongoose';
+import bcrypt  from 'bcrypt';
+import jwt  from 'jsonwebtoken';
+import validator  from 'validator';
 
-const { Challenge } = require('../Challenge')
-const { Submission } = require('../Challenge/Submission')
-const { Reply } = require('../Challenge/Reply')
+import { Challenge } from '../Challenge'
+import { Submission } from '../Challenge/Submission'
+import { Reply } from '../Challenge/Reply'
 
-const { QueueMethods } = require('../Queue')
+import { Queue } from '../Queue'
 
-const { TransactionDbSchema, TransactionSchema, TransactionResolvers } = require('./Transaction')
-const { calculatePageCount } = require('../../../utils')
+import { TransactionDbSchema, TransactionSchema, TransactionResolvers } from './Transaction'
+import { calculatePageCount } from '../../../utils'
 
-const {
+import {
 	PasswordSchemaTypeCreator,
 	EmailSchemaTypeCreator
-} = require('../utils/schemaTypeCreators')
+} from '../utils/schemaTypeCreators'
 
 const AuthTokenDbSchema = new mongoose.Schema({
 	token: {
@@ -138,7 +138,7 @@ UserDbSchema.methods.addTransaction = function (type, { from, to }, amount, karm
 	return this
 }
 UserDbSchema.methods.addBalance = async function (queueName, amount, karmaAmount) {
-	const challengeQueue = await QueueMethods.findByName(queueName)
+	const challengeQueue = await Queue.findByName(queueName)
 	let karmaEntry = this.karmaEntries.find(({ queue }) => queue === relatedQueue.id)
 	if (!karmaEntry) {
 		karmaEntry = {
@@ -153,9 +153,9 @@ UserDbSchema.methods.addBalance = async function (queueName, amount, karmaAmount
 	return this	
 }
 
-const User = mongoose.model('User', UserDbSchema, 'User');
+export const User = mongoose.model('User', UserDbSchema, 'User');
 
-const UserSchema = `
+export const UserSchema = `
 	${TransactionSchema}
 
 	type KarmaEntry {
@@ -191,7 +191,7 @@ const UserSchema = `
 	}
 `
 
-const UserResolvers = {
+export const UserResolvers = {
 	referredBy: async user => UserMethods.getField(user, 'referredBy'),
 	// TODO: added default params, make sure that typescript allows non-negative params in functions
 	transactions: async (user, { paging = { page: 1, pageSize: 50 }, authToken }) => {
@@ -216,13 +216,6 @@ const UserResolvers = {
 	numberOfReplies: user => Reply.countDocuments({submitted_by: user._id})
 }
 
-const UserNestedResolvers = {
+export const UserNestedResolvers = {
 	Transaction: TransactionResolvers
-}
-
-module.exports = {
-	User,
-	UserSchema,
-	UserResolvers,
-	UserNestedResolvers
 }

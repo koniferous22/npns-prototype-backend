@@ -1,8 +1,8 @@
-const mongoose = require('mongoose');
+import mongoose  from 'mongoose';
 
-const { TimestampSchemaTypeCreator } = require('../utils/schemaTypeCreators')
+import { TimestampSchemaTypeCreator } from '../utils/schemaTypeCreators'
 
-const TransactionDbSchema = new mongoose.Schema({
+export const TransactionDbSchema = new mongoose.Schema({
 	type: {
 		type: String,
 		required: true
@@ -36,7 +36,7 @@ const TransactionDbSchema = new mongoose.Schema({
 	}
 })
 
-const TransactionSchema = `
+export const TransactionSchema = `
 	type Transaction {
 		type: String!,
 		from: User,
@@ -48,12 +48,6 @@ const TransactionSchema = `
 
 `
 
-const TransactionResolvers = {
+export const TransactionResolvers = {
 
-}
-
-module.exports = {
-	TransactionDbSchema,
-	TransactionSchema,
-	TransactionResolvers
 }

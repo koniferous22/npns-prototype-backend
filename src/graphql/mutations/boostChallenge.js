@@ -1,7 +1,7 @@
-const { Challenge } = require('../types/Challenge')
-const { authentication } = require('../../utils/authentication')
+import { Challenge } from '../types/Challenge'
+import { authentication } from '../../utils/authentication'
 
-const boostChallengeInput = `
+export const boostChallengeInput = `
 	input BoostChallengeInput {
 		token: String!
 		challengeId: ID!
@@ -9,13 +9,13 @@ const boostChallengeInput = `
 	}
 `
 
-const boostChallengePayload = `
+export const boostChallengePayload = `
 	type BoostChallengePayload {
 		boostedChallenge: Challenge
 	}
 `
 // TODO rewrite with async await
-const boostChallenge = (_, { boostChallengeInput }) => Promise.all([
+export const boostChallenge = (_, { boostChallengeInput }) => Promise.all([
 		authentication(boostChallengeInput.token),
 		Challenge.findOne({_id: boostChallengeInput.challengeId})
 	]).then(([user, challenge]) => {
@@ -28,9 +28,3 @@ const boostChallenge = (_, { boostChallengeInput }) => Promise.all([
 		challenge.boost(user._id, boostChallengeInput.boostedValue)
 		return challenge.save()
 	})
-
-module.exports = {
-	boostChallengeInput,
-	boostChallengePayload,
-	boostChallenge
-}

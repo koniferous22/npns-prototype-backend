@@ -1,78 +1,78 @@
-const {
+import {
 	paging,
 	tokenInput
-} = require('./input');
-const {
+} from './input';
+import {
 	messagePayload
-} = require('./payload');
+} from './payload';
 
-const {
+import {
 	boostChallengeInput,
 	boostChallengePayload,
 	boostChallenge
-} = require('./boostChallenge')
-const {
+} from './boostChallenge'
+import {
 	confirmPasswordInput,
 	confirmPassword
-} = require('./confirmPassword')
-const {
+} from './confirmPassword'
+import {
 	confirmPasswordResetInput,
 	confirmPasswordReset
-} = require('./confirmPasswordReset')
-const {
+} from './confirmPasswordReset'
+import {
 	createQueueInput,
 	createQueuePayload,
 	createQueue
-} = require('./createQueue')
-/*const {
+} from './createQueue'
+/*import {
 	editContentInput,
 	editContentPayload,
 	editContent
-} = require('./editContent')*/
-const {
+} from './editContent'*/
+import {
 	keepAlivePayload,
 	keepAlive
-} = require('./keepAlive')
-const { logoutUser } = require('./logoutUser')
-const { logoutUserAllDevices } = require('./logoutUserAllDevices')
-const {
+} from './keepAlive'
+import { logoutUser } from './logoutUser'
+import { logoutUserAllDevices } from './logoutUserAllDevices'
+import {
 	markChallengeSolvedInput,
 	markChallengeSolvedPayload,
 	markChallengeSolved
-} = require('./markChallengeSolved')
-const {
+} from './markChallengeSolved'
+import {
 	postChallengeInput,
 	postChallengePayload,
 	postChallenge
-} = require('./postChallenge')
-const {
+} from './postChallenge'
+import {
 	postReplyInput,
 	postReplyPayload,
 	postReply
-} = require('./postReply')
-const {
+} from './postReply'
+import {
 	postSubmissionInput,
 	postSubmissionPayload,
 	postSubmission
-} = require('./postSubmission')
-const {
+} from './postSubmission'
+import {
 	resendSignUpRequestInput,
 	reseneSignUpRequest
-} = require('./resendSignUpRequest')
-const {
+} from './resendSignUpRequest'
+import {
 	requestProfileChangeInput,
 	requestProfileChange
-} = require('./requestProfileChange')
-const {
+} from './requestProfileChange'
+import {
 	signUserInInput,
 	signUserInPayload,
 	signUserIn
-} = require('./signUserIn')
-const {
+} from './signUserIn'
+import {
 	signUserUpInput,
 	signUserUpPayload,
 	signUserUp
-} = require('./signUserUp')
+} from './signUserUp'
 const  {
 	verifyOperationTokenInput,
 	verifyOperationToken
@@ -111,7 +111,7 @@ const mutationPayloads = `
 	${signUserUpPayload}
 `
 
-const mutationSchema = `
+export const mutationSchema = `
 	${mutationInputs}
 	${mutationPayloads}
 	type Mutation {
@@ -136,7 +136,7 @@ const mutationSchema = `
 
 `
 
-const Mutation = {
+export const Mutation = {
 	boostChallenge,
 	confirmPassword,
 	logoutUser,
@@ -147,9 +147,4 @@ const Mutation = {
 	postSubmission,
 	signUserIn,
 	signUserUp	
-}
-
-module.exports = {
-	Mutation,
-	mutationSchema
 }

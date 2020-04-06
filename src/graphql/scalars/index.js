@@ -4,4 +4,5 @@ const SCALARS = `
 	scalar DateTime
 	
 `
-module.exports = SCALARS
+
+export default SCALARS

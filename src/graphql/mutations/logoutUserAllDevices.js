@@ -1,10 +1,6 @@
-const { AuthToken } = require('../types/User/AuthToken')
-const { authentication } = require('../../utils/authentication')
+import { AuthToken } from '../types/User/AuthToken'
+import { authentication } from '../../utils/authentication'
 
-const logoutUserAllDevices = (_, { logoutInput }) => authentication(logoutInput.token)
+export const logoutUserAllDevices = (_, { logoutInput }) => authentication(logoutInput.token)
 	.then(user => AuthToken.deleteAllBY(user))
 	.then(() => ({message: 'Logged out!'}))
-
-module.exports = {
-	logoutUserAllDevices
-}

@@ -1,22 +1,22 @@
-const { Challenge } = require('../types/Challenge')
-const { Submission } = require('../types/Challenge/Submission')
+import { Challenge } from '../types/Challenge'
+import { Submission } from '../types/Challenge/Submission'
 
-const { authentication } = require('../../utils/authentication')
+import { authentication } from '../../utils/authentication'
 
-const markChallengeSolvedInput = `
+export const markChallengeSolvedInput = `
 	input MarkChallengeSolvedInput {
 		token: String!
 		challengeId: ID!
 		submissionId: ID!
 	}
 `
-const markChallengeSolvedPayload = `
+export const markChallengeSolvedPayload = `
 	type MarkChallengeSolvedPayload {
 		transaction: Transaction!
 	}
 `
 
-const markChallengeSolved = (_, { markChallengeSolvedInput }) => Promise.all([
+export const markChallengeSolved = (_, { markChallengeSolvedInput }) => Promise.all([
 		authentication(markChallengeSolvedInput.token),
 		Challenge.findOne({_id: markChallengeSolvedInput.challengeId}).populate('submitted_by').populate('queue'),
 		Submission.findOne({_id: markChallengeSolvedInput.submissionId}).populate('submitted_by')
@@ -37,9 +37,3 @@ const markChallengeSolved = (_, { markChallengeSolvedInput }) => Promise.all([
 
 		return Promise.all([transaction.save(), winner.save(), challenge.save()]).then(() => transaction);
 	})
-
-module.exports = {
-	markChallengeSolvedInput,
-	markChallengeSolvedPayload,
-	markChallengeSolved
-}

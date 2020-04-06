@@ -1,22 +1,16 @@
-const { Queue } = require('../types/Queue')
+import { Queue } from '../types/Queue'
 
-const createQueueInput = `
+export const createQueueInput = `
 	input CreateQueueInput {
 		parentQueueName: String!
 		queueName: String!
 	}
 `
 
-const createQueuePayload = `
+export const createQueuePayload = `
 	type CreateQueuePayload {
 		newQueue: Queue
 	}
 `
 
-const createQueue = (_, { createQueueInput }) => Queue.createQueue(createQueueInput.queueName, createQueueInput.parentQueueName)
-
-module.exports = {
-	createQueueInput,
-	createQueuePayload,
-	createQueue
-}
+export const createQueue = (_, { createQueueInput }) => Queue.createQueue(createQueueInput.queueName, createQueueInput.parentQueueName)

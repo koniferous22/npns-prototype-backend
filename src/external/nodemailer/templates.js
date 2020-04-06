@@ -1,4 +1,4 @@
-const signupTemplate = ({ frontendAdress, token }) => {
+export const signupTemplate = ({ frontendAdress, token }) => {
 	const fullAdress = frontendAdress + "confirm/registration/" + token
 	return {
 		subject: 'NPNS Regoostration code',
@@ -7,7 +7,7 @@ const signupTemplate = ({ frontendAdress, token }) => {
 	}
 }
 
-const pwdResetTemplate = ({ frontendAdress, token }) => {
+export const pwdResetTemplate = ({ frontendAdress, token }) => {
 	const fullAdress = frontendAdress + "confirm/passwordChange/" + token
 	return {
 		subject: 'NPNS Password Reset Link',
@@ -16,7 +16,7 @@ const pwdResetTemplate = ({ frontendAdress, token }) => {
 	}
 }
 
-const emailChangeTemplate = ({ frontendAdress, token }) => {
+export const emailChangeTemplate = ({ frontendAdress, token }) => {
 	const fullAdress = frontendAdress + "confirm/emailChange/" + token
 	return {
 		subject: 'NPNS Email Change Link',
@@ -25,18 +25,11 @@ const emailChangeTemplate = ({ frontendAdress, token }) => {
 	}
 }
 
-const usernameChangeTemplate = ({ frontendAdress, token }) => {
+export const usernameChangeTemplate = ({ frontendAdress, token }) => {
 	const fullAdress = frontendAdress + "confirm/usernameChange/" + token
 	return {
 		subject: 'NPNS Username Change Link',
 		text: 'Copy following address to confirm your new username:\n' + fullAdress,
 		html: '<p>Click <a href="' + fullAdress + '">here</a> to confirm your new finely chosen username adventurer</p>'
 	}
-}
-
-module.exports = {
-	signupTemplate,
-	pwdResetTemplate,
-	emailChangeTemplate,
-	usernameChangeTemplate
 }

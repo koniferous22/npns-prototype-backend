@@ -1,21 +1,16 @@
-const { ChallengeSchema, ChallengeResolvers, ChallengeNestedResolvers } = require('./Challenge')
-const { QueueSchema, QueueResolvers } = require('./Queue')
-const { UserSchema, UserResolvers, UserNestedResolvers } = require('./User')
+import { ChallengeSchema, ChallengeResolvers, ChallengeNestedResolvers } from './Challenge'
+import { QueueSchema, QueueResolvers } from './Queue'
+import { UserSchema, UserResolvers, UserNestedResolvers } from './User'
 
-const types = `
+export const types = `
 	${ChallengeSchema}
 	${QueueSchema}
 	${UserSchema}
 `
-const accessors = {
+export const accessors = {
 	...ChallengeNestedResolvers,
 	Challenge: ChallengeResolvers,
 	Queue: QueueResolvers,
 	...UserNestedResolvers,
 	User: UserResolvers
-}
-
-module.exports = {
-	accessors,
-	types
 }

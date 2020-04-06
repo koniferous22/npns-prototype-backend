@@ -1,7 +1,7 @@
-const templates = require('./templates')
-const transporter = require('./transporter')
+import templates from './templates'
+import transporter from './transporter'
 
-module.exports = {
+export default {
 	templates,
 	sendMail: (recipient, template, params) => {
 		const email = {

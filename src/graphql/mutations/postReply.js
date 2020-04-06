@@ -1,22 +1,22 @@
-const Submission = require('../types/Challenge/Submission')
-const Reply = require('../types/Challenge/Reply')
+import Submission  from '../types/Challenge/Submission'
+import Reply  from '../types/Challenge/Reply'
 
-const { authentication } = require('../../utils/authentication')
+import { authentication } from '../../utils/authentication'
 
-const postReplyInput = `
+export const postReplyInput = `
 	input PostReplyInput {
 		token: String!
 		relatedSubmission: ID!
 		content: String!
 	}
 `
-const postReplyPayload = `
+export const postReplyPayload = `
 	type PostReplyPayload {
 		reply: Reply!
 	}
 `
 
-const postReply = (_, {postReplyInput}) => Promise.all([
+export const postReply = (_, {postReplyInput}) => Promise.all([
 		authentication(postReplyInput.token),
 		Submission.findOne({_id: postReplyInput.relatedSubmission})
 	]).then(([user, submission]) => {
@@ -37,9 +37,3 @@ const postReply = (_, {postReplyInput}) => Promise.all([
         	)
 		]).then(() => ({reply}));
 	})
-
-module.exports = {
-	postReplyInput,
-	postReplyPayload,
-	postReply
-}

@@ -1,8 +1,8 @@
-const { AuthToken } = require('../types/User/AuthToken');
+import { AuthToken } from '../types/User/AuthToken';
 
-const { VerificationToken } = require('../types/User/VerificationToken');
+import { VerificationToken } from '../types/User/VerificationToken';
 
-// const { signupTemplate } = require('../../external/nodemailer/templates')
+// import { signupTemplate } from '../../external/nodemailer/templates'
 
 const verifiedOperations = {
 	signUp: {
@@ -35,14 +35,14 @@ const verifiedOperations = {
 	}
 }
 
-const verifyOperationTokenInput = `
+export const verifyOperationTokenInput = `
 	input VerifyOperationTokenInput {
 		emailToken: String!
 		operationType: String!
 	}
 `
 
-const verifyOperationToken = async (_, { verifyOperationTokenInput }) => {
+export const verifyOperationToken = async (_, { verifyOperationTokenInput }) => {
 	const { emailToken, operationType } = verifyOperationTokenInput
 	const verifiedOperation = verifiedOperations[operationType]
 	if (!verifiedOperation) {
@@ -68,9 +68,4 @@ const verifyOperationToken = async (_, { verifyOperationTokenInput }) => {
 	return {
 		message: responseMessage
 	}
-}
-
-module.exports = {
-	verifyOperationTokenInput,
-	verifyOperationToken	
 }

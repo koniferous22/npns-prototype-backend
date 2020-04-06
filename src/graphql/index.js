@@ -1,24 +1,19 @@
-const { gql } = require('apollo-server-express')
+import { gql } from 'apollo-server-express'
 
-const { querySchema, Query } = require('./queries')
-const { mutationSchema, Mutation } = require('./mutations')
-const { accessors, types } = require('./types')
-const scalars = require('./scalars')
+import { querySchema, Query } from './queries'
+import { mutationSchema, Mutation } from './mutations'
+import { accessors, types } from './types'
+import scalars  from './scalars'
 
-const typeDefs = gql`
+export const typeDefs = gql`
 	${scalars}
 	${types}
 	${querySchema}
 	${mutationSchema}
 `
 
-const resolvers = {
+export const resolvers = {
 	...accessors,
 	Query,
 	Mutation
-}
-
-module.exports = {
-	typeDefs,
-	resolvers
 }

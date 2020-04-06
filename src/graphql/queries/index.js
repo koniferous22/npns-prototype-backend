@@ -1,10 +1,10 @@
-const validator = require('validator')
+import validator  from 'validator'
 
-const { Queue } = require('../types/Queue')
-const { Challenge } = require('../types/Challenge')
+import { Queue } from '../types/Queue'
+import { Challenge } from '../types/Challenge'
 
-const { User } = require('../types/User');
-const { authentication } = require('../../utils/authentication')
+import { User } from '../types/User';
+import { authentication } from '../../utils/authentication'
 
 const validateResolvers = {
 	username: async (username, _) => {
@@ -55,7 +55,7 @@ const validateResolvers = {
 
 }
 
-const querySchema = `
+export const querySchema = `
 	# NOTE: none of the data is actually mandatory, there for no exclamation marks
 	enum ValidationCombinator {
 		AND,
@@ -83,7 +83,7 @@ const querySchema = `
 
 `
 
-const Query = {
+export const Query = {
 	queues: async () => await Queue.findAll(),
 	queue: async (_, {name}) => await Queue.findByName(name),
 
@@ -97,9 +97,4 @@ const Query = {
 		// TODO: Test this shit pls
 		return operation === 'OR' ? Promise.any(validationPromises) : Promise.all(validationPromises)
 	}
-}
-
-module.exports = {
-	querySchema,
-	Query
 }

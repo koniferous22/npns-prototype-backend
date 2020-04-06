@@ -1,10 +1,10 @@
-const PasswordSchemaTypeCreator = () => ({
+export const PasswordSchemaTypeCreator = () => ({
 	type: String,
 	required: true,
 	minLength: 8
 })
 
-const EmailSchemaTypeCreator = (requiredFlagOrCallback = true, shouldHaveUniqueIndex = true, ) => ({
+export const EmailSchemaTypeCreator = (requiredFlagOrCallback = true, shouldHaveUniqueIndex = true, ) => ({
 	type: String,
 	required: requiredFlagOrCallback,
 	unique: shouldHaveUniqueIndex,
@@ -16,15 +16,9 @@ const EmailSchemaTypeCreator = (requiredFlagOrCallback = true, shouldHaveUniqueI
     }
 })
 
-const TimestampSchemaTypeCreator = () => ({
+export const TimestampSchemaTypeCreator = () => ({
 	type: Date,
 	default: Date.now,
 	index: true,
 	max: Date.now
 })
-
-module.exports = {
-	PasswordSchemaTypeCreator,
-	EmailSchemaTypeCreator,
-	TimestampSchemaTypeCreator
-}

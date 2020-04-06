@@ -1,21 +1,21 @@
-const { authentication } = require('../../utils/authentication')
-const { Challenge } = require('../types/Challenge')
-const { Submission } = require('../types/Challenge/Submission')
+import { authentication } from '../../utils/authentication'
+import { Challenge } from '../types/Challenge'
+import { Submission } from '../types/Challenge/Submission'
 
-const postSubmissionInput = `
+export const postSubmissionInput = `
 	input PostSubmissionInput {
 		token: String!
 		relatedChallenge: ID!
 		content: String!
 	}
 `
-const postSubmissionPayload = `
+export const postSubmissionPayload = `
 	type PostSubmissionPayload {
 		submission: Submission!
 	}
 `
 
-const postSubmission = (_, { postSubmissionInput }) => Promise.all([
+export const postSubmission = (_, { postSubmissionInput }) => Promise.all([
 		authentication(postSubmissionInput.token),
 		Challenge.findOne({_id: postSubmissionInput.relatedChallenge})
 	]).then(([user, challenge]) => {
@@ -36,9 +36,3 @@ const postSubmission = (_, { postSubmissionInput }) => Promise.all([
 			)
 		]).then(() => ({submission}));
 	})
-
-module.exports = {
-	postSubmissionInput,
-	postSubmissionPayload,
-	postSubmission
-}

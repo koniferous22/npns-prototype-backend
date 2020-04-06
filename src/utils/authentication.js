@@ -1,10 +1,11 @@
-const jwt = require('jsonwebtoken')
-const { AuthTokenMethods } = require('../graphql/types/User/AuthToken')
+import jwt from 'jsonwebtoken'
+
+import { AuthToken } from '../graphql/types/User/AuthToken'
 
 // TODO migrate as user method somehow
-const authentication = token => new Promise((resolve, reject) => {
+export const authentication = token => new Promise((resolve, reject) => {
     const data = jwt.verify(token, process.env.JWT_KEY)
-	return AuthTokenMethods.findRecord(token).then(tokenRecord => {
+	return AuthToken.findRecord(token).then(tokenRecord => {
 		if (!tokenRecord) {
 			return reject(new Error("Invalid token"));
 		}
@@ -18,5 +19,3 @@ const authentication = token => new Promise((resolve, reject) => {
 		return reject(error)
 	})
 })
-
-module.exports = authentication

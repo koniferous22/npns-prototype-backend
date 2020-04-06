@@ -1,9 +1,5 @@
-const messagePayload = `
+export const messagePayload = `
 	type MessagePayload {
 		message: String!
 	}
 `
-
-module.exports = {
-	messagePayload
-}

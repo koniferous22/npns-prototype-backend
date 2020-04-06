@@ -1,18 +1,13 @@
-const mongoose = require('mongoose')
+import mongoose  from 'mongoose'
 
-const { ContentMetaDbSchema, ContentMetaSchema } = require('./ContentMeta')
+import { ContentMetaDbSchema, ContentMetaSchema } from './ContentMeta'
 
-const EditDbSchema = new mongoose.Schema({
+export const EditDbSchema = new mongoose.Schema({
 	contentMeta: ContentMetaDbSchema,
 })
 
-const EditSchema = `
+export const EditSchema = `
 	type Edit {
 		contentMeta: ContentMeta!
 	}
 `
-
-module.exports = {
-	EditDbSchema,
-	EditSchema
-}

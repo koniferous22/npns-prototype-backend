@@ -1,12 +1,12 @@
-const { User } = require('../types/User');
+import { User } from '../types/User';
 
-const { VerificationToken } = require('../types/User/VerificationToken');
-const nodemailer = require('../../external/nodemailer')
+import { VerificationToken } from '../types/User/VerificationToken';
+import nodemailer  from '../../external/nodemailer'
 
-const { authentication } = require('../../utils/authentication')
+import { authentication } from '../../utils/authentication'
 
 // TODO reimplement payload as oneof
-const requestProfileChangeInput = `
+export const requestProfileChangeInput = `
 	input RequestProfileChangeInput {
 		operationType: String!,
 		token: String,
@@ -43,7 +43,7 @@ const profileOperations = {
 	}
 }
 
-const requestProfileChange = async (_, { requestProfileChangeInput }) => {
+export const requestProfileChange = async (_, { requestProfileChangeInput }) => {
 	const { operationType, token, identifier, ...payload } = requestProfileChangeInput
 	const profileOperation = profileOperations[operationType]
 	if (!profileOperation) {
@@ -65,9 +65,4 @@ const requestProfileChange = async (_, { requestProfileChangeInput }) => {
 	return {
 		message: 'Profile updated'
 	}
-}
-
-module.exports = {
-	requestProfileChangeInput,
-	requestProfileChange
 }

@@ -1,8 +1,8 @@
-const { Queue } = require('../types/Queue')
-const { Challenge } = require('../types/Challenge')
-const { authentication } = require('../../utils/authentication')
+import { Queue } from '../types/Queue'
+import { Challenge } from '../types/Challenge'
+import { authentication } from '../../utils/authentication'
 
-const postChallengeInput = `
+export const postChallengeInput = `
 	input PostChallengeInput {
 		token: String!
 		queueName: String!
@@ -10,13 +10,13 @@ const postChallengeInput = `
 		description: String!
 	}
 `
-const postChallengePayload = `
+export const postChallengePayload = `
 	type PostChallengePayload {
 		challenge: Challenge!
 	}
 `
 
-const postChallenge = (_, { postChallengeInput }) => Promise.all([
+export const postChallenge = (_, { postChallengeInput }) => Promise.all([
 		authentication(postChallengeInput.token),
 		Queue.findByName(postChallengeInput.queueName)
 	]).then(([user, queue]) => {
@@ -29,9 +29,3 @@ const postChallenge = (_, { postChallengeInput }) => Promise.all([
 		})
 		return challenge.save().then(() => ({challenge}));
 	})
-
-module.exports = {
-	postChallengeInput,
-	postChallengePayload,
-	postChallenge
-}

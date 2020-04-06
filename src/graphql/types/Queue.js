@@ -1,7 +1,7 @@
-const mongoose = require('mongoose')
-const nestedSetPlugin = require('mongoose-nested-set')
+import mongoose  from 'mongoose'
+import nestedSetPlugin  from 'mongoose-nested-set'
 
-const Challenge = require('./Challenge')
+import Challenge  from './Challenge'
 
 const QueueDbSchema = new mongoose.Schema({
 	name: {
@@ -53,9 +53,9 @@ QueueDbSchema.statics.createQueue = function (name, parentName) {
 	})
 }
 
-Queue = mongoose.model('Queue', QueueDbSchema, 'Queue')
+export const Queue = mongoose.model('Queue', QueueDbSchema, 'Queue')
 
-const QueueSchema = `
+export const QueueSchema = `
 	type Queue {
 		# Don't leave queue _ids exposed
 		name: String!
@@ -76,7 +76,7 @@ const QueueSchema = `
 	}
 `
 
-const QueueResolvers = {
+export const QueueResolvers = {
 	parent: async queue => (await queue.populate({path: 'parentId'}).execPopulate()).parent,
 	children: async queue => await Queue.find({parentId: queue._id}),
 	
@@ -156,9 +156,3 @@ const QueueResolvers = {
 	scoreboardUserPosition: (queue, { username }) => 0
 }
 
-
-module.exports = {
-	Queue,
-	QueueSchema,
-	QueueResolvers
-}

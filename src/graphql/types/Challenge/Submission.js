@@ -1,10 +1,10 @@
-const mongoose = require('mongoose')
+import mongoose  from 'mongoose'
 
-const { ContentMetaDbSchema } = require('./ContentMeta')
-const { EditDbSchema } = require('./Edit')
-const { ReplyDbSchema } = require('./Reply')
+import { ContentMetaDbSchema } from './ContentMeta'
+import { EditDbSchema } from './Edit'
+import { ReplyDbSchema } from './Reply'
 
-const SubmissionDbSchema = new mongoose.Schema({
+export const SubmissionDbSchema = new mongoose.Schema({
 	contentMeta: ContentMetaDbSchema,
 	edits: [EditDbSchema],
 	replies: [ReplyDbSchema]
@@ -12,15 +12,10 @@ const SubmissionDbSchema = new mongoose.Schema({
 
 // RELATED CHALLENGE
 
-const SubmissionSchema = `
+export const SubmissionSchema = `
 	type Submission {
 		contentMeta: ContentMeta!
 		edits: [Edit!]!
 		replies: [Reply!]!
 	}
 `
-
-module.exports = {
-	SubmissionDbSchema,
-	SubmissionSchema
-}

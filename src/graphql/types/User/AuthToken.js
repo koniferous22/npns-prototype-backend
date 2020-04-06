@@ -1,5 +1,5 @@
-const mongoose = require('mongoose');
-const jwt = require('jsonwebtoken');
+import mongoose  from 'mongoose';
+import jwt  from 'jsonwebtoken';
 
 const AuthTokenDbSchema = new mongoose.Schema({
 	user: {
@@ -37,8 +37,4 @@ AuthTokenDbSchema.statics.deleteAllBy = function ({ _id: user }) {
 	return this.deleteMany({ user })
 }
 
-AuthToken = mongoose.model('AuthToken', AuthTokenDbSchema, 'AuthToken')
-
-module.exports = {
-	AuthToken
-}
+export const AuthToken = mongoose.model('AuthToken', AuthTokenDbSchema, 'AuthToken')

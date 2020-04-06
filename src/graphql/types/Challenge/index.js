@@ -1,11 +1,11 @@
-const mongoose = require('mongoose')
+import mongoose  from 'mongoose'
 
-const { ContentMetaDbSchema, ContentMetaSchema, ContentMetaResolvers } = require('./ContentMeta')
-const { EditDbSchema, EditSchema } = require('./Edit')
-const { ReplySchema } = require('./Reply')
-const { SubmissionDbSchema, SubmissionSchema } = require('./Submission')
+import { ContentMetaDbSchema, ContentMetaSchema, ContentMetaResolvers } from './ContentMeta'
+import { EditDbSchema, EditSchema } from './Edit'
+import { ReplySchema } from './Reply'
+import { SubmissionDbSchema, SubmissionSchema } from './Submission'
 
-const { calculatePageCount } = require('../../../utils')
+import { calculatePageCount } from '../../../utils'
 
 const BoostDbSchema = new mongoose.Schema({
 	boostAmount: {
@@ -76,9 +76,9 @@ ChallengeDbSchema.statics.viewChallenge = async function (id) {
 	return challenge
 }
 
-const Challenge = mongoose.model('Challenge', ChallengeDbSchema, 'Challenge')
+export const Challenge = mongoose.model('Challenge', ChallengeDbSchema, 'Challenge')
 
-const ChallengeSchema =`
+export const ChallengeSchema =`
 	${ContentMetaSchema}
 	${EditSchema}
 	${ReplySchema}
@@ -108,18 +108,11 @@ const ChallengeSchema =`
 	}
 `
 
-const ChallengeResolvers = {
+export const ChallengeResolvers = {
 	queue: async challenge => (await challenge.populate('queue').execPopulate()).queue,
 	submissionPageCount: (challenge, {pageSize = 50}) => calculatePageCount(chalenge.submissions.length, pageSize),
 }
 
-const ChallengeNestedResolvers = {
+export const ChallengeNestedResolvers = {
 	ContentMeta: ContentMetaResolvers
-}
-
-module.exports = {
-	Challenge,
-	ChallengeSchema,
-	ChallengeResolvers,
-	ChallengeNestedResolvers
 }

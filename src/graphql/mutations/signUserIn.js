@@ -1,21 +1,21 @@
-const { User } = require('../types/User');
-const { AuthToken } = require('../types/User/AuthToken');
+import { User } from '../types/User';
+import { AuthToken } from '../types/User/AuthToken';
 
-const signUserInInput = `
+export const signUserInInput = `
 	input SignUserInInput {
 		identifier: String!
 		password: String!
 	}
 `
 
-const signUserInPayload = `
+export const signUserInPayload = `
 	type SignUserInPayload {
 		user: User!
 		token: String!
 	}
 `
 
-const signUserIn = async (_, { signUserInInput }) => {
+export const signUserIn = async (_, { signUserInInput }) => {
 	const { identifier, password } = signUserInInput;
 	const user = await User.findByIdentifier(identifier, password);
 	if (!user) {
@@ -29,10 +29,4 @@ const signUserIn = async (_, { signUserInInput }) => {
 		user,
 		token
 	};
-}
-
-module.exports = {
-	signUserInInput,
-	signUserInPayload,
-	signUserIn
 }

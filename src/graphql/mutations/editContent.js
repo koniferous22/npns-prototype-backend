@@ -1,7 +1,7 @@
-const Content = require('../../models/post/post')
-const { authentication } = require('../../utils/authentication')
+import Content  from '../../models/post/post'
+import { authentication } from '../../utils/authentication'
 
-const editContentInput = `
+export const editContentInput = `
 	input EditContentInput {
 		contentId: ID!
 		token: String!
@@ -9,13 +9,13 @@ const editContentInput = `
 	}
 `
 
-const editContentPayload = `
+export const editContentPayload = `
 	type EditContentPayload {
 		Content: Challenge!
 	}
 `
 
-const editContent = async (_, { editContentInput }) => {
+export const editContent = async (_, { editContentInput }) => {
 	const { contentId, token, editedContent } = editContentInput
 	if (!editedContent) {
 		throw new Error('Edit cannot be empty')
@@ -34,10 +34,4 @@ const editContent = async (_, { editContentInput }) => {
 				}
 			)
 		})
-}
-
-module.exports = {
-	editContentInput,
-	editContentPayload,
-	editContent
 }

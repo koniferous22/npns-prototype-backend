@@ -1,9 +1,9 @@
-const mongoose = require('mongoose')
-const {
+import mongoose  from 'mongoose'
+import {
 	TimestampSchemaTypeCreator
-} = require('../utils/schemaTypeCreators')
+} from '../utils/schemaTypeCreators'
 
-const ContentMetaDbSchema = new mongoose.Schema({
+export const ContentMetaDbSchema = new mongoose.Schema({
 	submittedBy: {
 		type: mongoose.Schema.Types.ObjectId,
 		required: true,
@@ -23,7 +23,7 @@ const ContentMetaDbSchema = new mongoose.Schema({
 	}]
 })
 
-const ContentMetaSchema = `
+export const ContentMetaSchema = `
 	type ContentMeta {
 		submittedBy: User!
 		createdAt: Date!
@@ -33,12 +33,6 @@ const ContentMetaSchema = `
 	}
 `
 
-const ContentMetaResolvers = {
+export const ContentMetaResolvers = {
 	submittedBy: async (contentMeta) => (await contentMeta.populate('submittedBy')).submittedBy
-}
-
-module.exports = {
-	ContentMetaDbSchema,
-	ContentMetaSchema,
-	ContentMetaResolvers
 }

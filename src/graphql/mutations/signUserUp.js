@@ -1,7 +1,7 @@
-const { User } = require('../types/User');
-const { VerificationToken } = require('../types/User/VerificationToken')
+import { User } from '../types/User';
+import { VerificationToken } from '../types/User/VerificationToken'
 
-const signUserUpInput = `
+export const signUserUpInput = `
 	input SignUserUpInput {
 		username: String!
 		password: String!
@@ -10,13 +10,13 @@ const signUserUpInput = `
 		lastName: String
 	}
 `
-const signUserUpPayload = `
+export const signUserUpPayload = `
 	type SignUserUpPayload {
 		createdUser: User
 	}
 `
 
-const signUserUp = async (_, { signUserUpInput }) => {
+export const signUserUp = async (_, { signUserUpInput }) => {
 	const { username, password, email, firstName, lastName } = signUserUpInput;
 	const user = User.signUp(username, password, email, firstName, lastName)
 	return user.save().then(savedUser => {
@@ -30,10 +30,4 @@ const signUserUp = async (_, { signUserUpInput }) => {
 		console.log('jebal pes')
 		throw error
 	})
-}
-
-module.exports = {
-	signUserUpInput,
-	signUserUpPayload,
-	signUserUp
 }

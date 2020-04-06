@@ -1,4 +1,4 @@
-const nodemailer = require('nodemailer')
+import nodemailer from 'nodemailer'
 
 const transporter = (process.env.NODE_ENV === 'production') ? 
 		nodemailer.createTransport({
@@ -18,4 +18,4 @@ const transporter = (process.env.NODE_ENV === 'production') ?
 		    }
 		 });
 
-module.exports = transporter
+export default transporter
