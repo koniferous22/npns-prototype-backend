@@ -25,7 +25,7 @@ const BoostDbSchema = new mongoose.Schema({
 })
 
 const ChallengeDbSchema = new mongoose.Schema({
-	// contentMeta: ContentMetaDbSchema,
+	contentMeta: ContentMetaDbSchema,
 	queue: {
 		type: mongoose.Schema.Types.ObjectId,
 		required: true,
@@ -68,6 +68,17 @@ const ChallengeDbSchema = new mongoose.Schema({
 
 })
 
+ChallengeDbSchema.statics.postChallenge = function (queue, submittedBy, title, content) {
+	return new Challenge({
+		contentMeta: {
+			submittedBy: submittedBy,
+			content: content
+		},
+		queue: queue,
+		title: title
+	})
+}
+
 ChallengeDbSchema.statics.viewChallenge = async function (id) {
 	const challenge = await this.findOne({ _id: id })
 	// TODO read about fetching subdocuments in mongoose
@@ -102,8 +113,8 @@ export const ChallengeSchema =`
 		submissionPageCount(pageCount: Int): Int!
 		submissions: [Submission!]!
 
-		totalBoostAmount: Int!,
-		bounty: Int!,
+		totalBoostAmount: Int!
+		bounty: Int!
 		isSolved: Boolean!
 	}
 `

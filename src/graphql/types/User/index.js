@@ -3,13 +3,11 @@ import bcrypt  from 'bcrypt';
 import jwt  from 'jsonwebtoken';
 import validator  from 'validator';
 
-import { Challenge } from '../Challenge'
-import { Submission } from '../Challenge/Submission'
-import { Reply } from '../Challenge/Reply'
+import { TransactionDbSchema, TransactionSchema, TransactionResolvers } from './Transaction'
 
+import { Challenge } from '../Challenge'
 import { Queue } from '../Queue'
 
-import { TransactionDbSchema, TransactionSchema, TransactionResolvers } from './Transaction'
 import { calculatePageCount } from '../../../utils'
 
 import {
@@ -137,9 +135,8 @@ UserDbSchema.methods.addTransaction = function (type, { from, to }, amount, karm
 	});
 	return this
 }
-UserDbSchema.methods.addBalance = async function (queueName, amount, karmaAmount) {
-	const challengeQueue = await Queue.findByName(queueName)
-	let karmaEntry = this.karmaEntries.find(({ queue }) => queue === relatedQueue.id)
+UserDbSchema.methods.addBalance = function (queueId, amount, karmaAmount) {
+	let karmaEntry = this.karmaEntries.find(({ queue }) => queue === queueId)
 	if (!karmaEntry) {
 		karmaEntry = {
 			queue: relatedQueue.id,
@@ -181,13 +178,7 @@ export const UserSchema = `
 		transactions(paging: Paging, authToken: String!): [Transaction!]!
 		transactionPageCount(pageSize: Int, authToken: String!): Int!
 
-		# related posts		
-		posts(paging: Paging): [Challenge!]!
-		postPageCount(pageSize: Int): Int!
-		# misc statistics
-		numberOfChallenges: Int!
-		numberOfSubmissions: Int!
-		numberOfReplies: Int!
+		# todo define activity
 	}
 `
 
@@ -199,21 +190,6 @@ export const UserResolvers = {
 		return user.transactions
 	},
 	transactionPageCount: async (user, { pageSize = 50 }) => calculatePageCount(user.transactions.length, pageSize),
-
-	posts: async (user, { paging = { page: 1, pageSize: 50 }}) => {
-		const { page, pageSize } = paging
-		const userPosts = await Post.find({submitted_by: user._id}).skip(pageSize * (page - 1)).limit(pageSize)
-		return userPosts
-	},
-	postPageCount: async (user, { pageSize = 50 }) => {
-		const postCount = await Post.countDocuments({submitted_by: user._id});
-		const pageCount = calculatePageCount(postCount, pageSize)
-		return pageCount
-	},
-
-	numberOfChallenges: user => Challenge.countDocuments({submitted_by: user._id}),
-	numberOfSubmissions: user => Submission.countDocuments({submitted_by: user._id}),
-	numberOfReplies: user => Reply.countDocuments({submitted_by: user._id})
 }
 
 export const UserNestedResolvers = {

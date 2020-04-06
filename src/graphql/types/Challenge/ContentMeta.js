@@ -9,14 +9,14 @@ export const ContentMetaDbSchema = new mongoose.Schema({
 		required: true,
 		ref: 'User'
 	},
+	content: {
+		type: String,
+		required: true
+	},
 	createdAt: TimestampSchemaTypeCreator(),
 	isActive: {
 		type: Boolean,
 		default: true
-	},
-	content: {
-		type: String,
-		required: true
 	},
 	attachmentUrls: [{
 		type: String

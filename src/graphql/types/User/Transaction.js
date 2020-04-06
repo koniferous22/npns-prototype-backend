@@ -37,13 +37,18 @@ export const TransactionDbSchema = new mongoose.Schema({
 })
 
 export const TransactionSchema = `
+	type TransactionMeta {
+		relatedQueue: Queue
+	}
+
 	type Transaction {
-		type: String!,
-		from: User,
-		to: User,
-		amount: Int!,
-		karmaAmount: Int!,
-		meta: String
+		type: String!
+		from: User
+		to: User
+		amount: Int!
+		karmaAmount:Int!
+		createdAt: Date!
+		meta: TransactionMeta
 	}
 
 `

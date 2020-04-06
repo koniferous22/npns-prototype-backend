@@ -16,16 +16,11 @@ export const postChallengePayload = `
 	}
 `
 
-export const postChallenge = (_, { postChallengeInput }) => Promise.all([
-		authentication(postChallengeInput.token),
-		Queue.findByName(postChallengeInput.queueName)
-	]).then(([user, queue]) => {
-		const challenge = new Challenge({
-			title: postChallengeInput.title,
-			content: postChallengeInput.description,
-			submitted_by: user._id,
-			queue: queue._id
-
-		})
-		return challenge.save().then(() => ({challenge}));
-	})
+export const postChallenge = async (_, { postChallengeInput }) => {
+	const { token, queueName, title, description } = postChallengeInput
+	const user = await authentication(token)
+	const queue = await Queue.findByName(queueName)
+	const challenge = Challenge.postChallenge(queue._id, user._id, title, description)
+	await challenge.save()
+	return challenge
+}
