@@ -40,6 +40,7 @@ module.exports = {
   mode: NODE_ENV,
   target: 'node',
   externals: [nodeExternals()],
+  watch: true,
   entry: './src/index.js',
   output: {
     path: path.resolve(__dirname, 'dist'),

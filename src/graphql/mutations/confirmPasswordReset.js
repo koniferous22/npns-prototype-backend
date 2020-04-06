@@ -1,6 +1,6 @@
 import { AuthToken } from '../types/User/AuthToken'
 
-import VerificationToken  from '../types/User/VerificationToken'
+import { VerificationToken }  from '../types/User/VerificationToken'
 
 export const confirmPasswordResetInput = `
 	input ConfirmPasswordResetInput {
