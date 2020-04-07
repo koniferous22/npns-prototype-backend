@@ -1,7 +1,7 @@
 import mongoose  from 'mongoose'
 import nestedSetPlugin  from 'mongoose-nested-set'
 
-import Challenge  from './Challenge'
+import { Challenge } from './Challenge'
 
 const QueueDbSchema = new mongoose.Schema({
 	name: {

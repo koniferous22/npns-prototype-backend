@@ -1,12 +1,12 @@
-import Submission  from '../types/Challenge/Submission'
-import Reply  from '../types/Challenge/Reply'
+import { Challenge } from '../types/Challenge'
 
 import { authentication } from '../../utils/authentication'
 
 export const postReplyInput = `
 	input PostReplyInput {
 		token: String!
-		relatedSubmission: ID!
+		challenge :ID!
+		submission: ID!
 		content: String!
 	}
 `
@@ -16,24 +16,13 @@ export const postReplyPayload = `
 	}
 `
 
-export const postReply = (_, {postReplyInput}) => Promise.all([
-		authentication(postReplyInput.token),
-		Submission.findOne({_id: postReplyInput.relatedSubmission})
-	]).then(([user, submission]) => {
-		const reply = new Reply({
-			content: postReplyInput.content,
-			submitted_by: user._id,
-			submission: submission._id
-		})
-		return Promise.all([
-			reply.save(),
-			Submission.updateOne(
-	        	{ _id: challenge._id},
-	        	{
-	        		$push: {
-	        			replies: {reply: reply._id}
-	        		}
-	        	}
-        	)
-		]).then(() => ({reply}));
-	})
+export const postReply = async (_, { postReplyInput }) => {
+	const user = await authentication(postReplyInput.token)
+	const challenge = await Challenge.findById(postReplyInput.challenge)
+	const submission = challenge.getSubmission(postReplyInput.submission)
+	const reply = submission.postReply(user._id, postReplyInput.content)
+	await challenge.save()
+	return {
+		reply
+	}
+}

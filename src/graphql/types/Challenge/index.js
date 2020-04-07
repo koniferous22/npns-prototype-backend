@@ -68,6 +68,10 @@ const ChallengeDbSchema = new mongoose.Schema({
 
 })
 
+ChallengeDbSchema.statics.findById = function (id) {
+	return this.findOne({ id })
+}
+
 ChallengeDbSchema.statics.postChallenge = function (queue, submittedBy, title, content) {
 	return new Challenge({
 		contentMeta: {
@@ -83,9 +87,51 @@ ChallengeDbSchema.statics.viewChallenge = async function (id) {
 	const challenge = await this.findOne({ _id: id })
 	// TODO read about fetching subdocuments in mongoose
 	challenge.view_count++
+	// low priority operation
 	await challenge.save()
 	return challenge
 }
+
+ChallengeDbSchema.methods.markSolved = function (acceptedSubmission) {
+	const submission = this.getSubmission(acceptedSubmission)
+	if (!submission) {
+		throw new Error('No such submission found')	
+	}
+	this.acceptedSubmission = submission
+	this.isSolved = true
+	return this
+}
+
+ChallengeDbSchema.methods.getSubmission = function (submissionId) {
+	return this.submissions.id(submissionId)
+}
+
+ChallengeDbSchema.methods.postSubmission = function (submittedBy, content) {
+	const newSubmission = this.submissions.create({
+		contentMeta: {
+			submittedBy,
+			content	
+		}
+	})
+	this.submissions.push(newSubmission);
+	return newSubmission
+}
+
+ChallengeDbSchema.methods.getEdit = function (editId) {
+	return this.edits.id(editId)
+}
+
+ChallengeDbSchema.methods.postEdit = function (submittedBy, content) {
+	const newEdit = this.edits.create({
+		contentMeta: {
+			submittedBy,
+			content	
+		}
+	})
+	this.edits.push(newEdit);
+	return newEdit
+}
+
 
 export const Challenge = mongoose.model('Challenge', ChallengeDbSchema, 'Challenge')
 

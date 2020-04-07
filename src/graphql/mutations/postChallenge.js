@@ -22,5 +22,7 @@ export const postChallenge = async (_, { postChallengeInput }) => {
 	const queue = await Queue.findByName(queueName)
 	const challenge = Challenge.postChallenge(queue._id, user._id, title, description)
 	await challenge.save()
-	return challenge
+	return {
+		challenge
+	}
 }
