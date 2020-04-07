@@ -18,6 +18,17 @@ const babelrc = {
   ] 
 }
 
+const typescriptLoader = {
+  test: /\.(t|j)s$/,
+  include: [
+    path.resolve(__dirname, "src")
+  ],
+  exclude: [
+    path.resolve(__dirname, "node_modules")
+  ],
+  use: 'ts-loader'
+}
+
 const babelLoader = {
   test: /\.m?js$/,
   include: [
@@ -33,7 +44,7 @@ const babelLoader = {
 }
 
 const webpackRules = [
-  babelLoader
+  typescriptLoader
 ]
 
 module.exports = {
@@ -41,7 +52,7 @@ module.exports = {
   target: 'node',
   externals: [nodeExternals()],
   watch: true,
-  entry: './src/index.js',
+  entry: './src/index.ts',
   output: {
     path: path.resolve(__dirname, 'dist'),
     filename: 'index.js'
@@ -49,6 +60,7 @@ module.exports = {
   resolve: {
     extensions: ['.ts', '.js'],
   },
+  devtool: "inline-source-map",
   module: {
     rules: webpackRules
   },
