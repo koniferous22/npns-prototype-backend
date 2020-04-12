@@ -1,9 +1,17 @@
-import mongoose  from 'mongoose'
+import mongoose from 'mongoose'
 import {
 	TimestampSchemaTypeCreator
-} from '../utils/schemaTypeCreators'
+} from '../../utils/subSchemaCreators'
 
-export const ContentMetaDbSchema = new mongoose.Schema({
+export interface ContentMetaType extends mongoose.Types.Subdocument {
+	submittedBy: mongoose.Types.ObjectId;
+	content: string;
+	createdAt: Date;
+	isActive: boolean;
+	attachmentUrls?: string[];
+}
+
+const ContentMetaDbSchema = new mongoose.Schema({
 	submittedBy: {
 		type: mongoose.Schema.Types.ObjectId,
 		required: true,
@@ -34,5 +42,9 @@ export const ContentMetaSchema = `
 `
 
 export const ContentMetaResolvers = {
-	submittedBy: async (contentMeta) => (await contentMeta.populate('submittedBy')).submittedBy
+	submittedBy: async (contentMeta: ContentMetaType) => (await contentMeta.populate('submittedBy')).submittedBy
+}
+
+export {
+	ContentMetaDbSchema
 }

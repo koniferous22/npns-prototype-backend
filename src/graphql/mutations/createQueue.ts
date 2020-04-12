@@ -1,4 +1,9 @@
-import { Queue } from '../types/Queue'
+import Queue from '../models/Queue'
+
+type CreateQueueInputType = {
+	parentQueueName: string;
+	queueName: string;
+}
 
 export const createQueueInput = `
 	input CreateQueueInput {
@@ -13,4 +18,5 @@ export const createQueuePayload = `
 	}
 `
 
-export const createQueue = (_, { createQueueInput }) => Queue.createQueue(createQueueInput.queueName, createQueueInput.parentQueueName)
+export const createQueue = (_: void, { createQueueInput }: { createQueueInput: CreateQueueInputType } ) =>
+	Queue.createQueue(createQueueInput.queueName, createQueueInput.parentQueueName)

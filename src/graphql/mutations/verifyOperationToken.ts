@@ -1,37 +1,52 @@
-import { AuthToken } from '../types/User/AuthToken';
+import { UserType } from '../models/User'
+import AuthToken, { AuthTokenType } from '../models/User/AuthToken';
 
-import { VerificationToken } from '../types/User/VerificationToken';
+import VerificationToken, { VerificationTokenType } from '../models/User/VerificationToken';
 
-// import { signupTemplate } from '../../external/nodemailer/templates'
+type VerifiedOperation = {
+	findToken: (token: string) => Promise<VerificationTokenType>;
+	forceLogout: boolean;
+	cancelAllTokenOperation: boolean;
+	responseMessage: string;
+	userCallback?: (user: UserType) => Promise<UserType>;
+}
 
-const verifiedOperations = {
-	signUp: {
-		findToken: async (token) => VerificationToken.findOne({token}),
-		forceLogout: false,
-		cancelAllTokenOperation: false,
-		userCallback: async (user) => {
-			user.setVerifiedFlag()
-			return user.save()
-		},
-		responseMessage: 'Cunt'
-	},
-	passwordReset: {
-		findToken: async (token) => VerificationToken.findOne({token}),
-		cancelAllTokenOperation: false,
-		forceLogout: true,
-		responseMessage: 'Fuck off'
-	},
-	emailChange: {
-		findToken: async (token) => VerificationToken.findOne({token}),
-		cancelAllTokenOperation: true,
-		forceLogout: true,
-		responseMessage: 'fuckingdie'
-	},
-	usernameChange: {
-		findToken: async (token) => VerificationToken.findOne({token}),
-		cancelAllTokenOperation: true,
-		forceLogout: true,
-		responseMessage:'aaaaaaaaa'
+const getVerifiedOperation: (type: string) => VerifiedOperation = (type) => {
+	switch (type) {
+		case 'signUp':
+			return {
+				findToken: async (token: string) => VerificationToken.findOne({token}),
+				forceLogout: false,
+				cancelAllTokenOperation: false,
+				userCallback: async (user: UserType) => {
+					user.setUserVerified()
+					return user.save()
+				},
+				responseMessage: 'Cunt'
+			}
+		case 'passwordReset': 
+			return {
+				findToken: async (token: string) => VerificationToken.findOne({token}),
+				cancelAllTokenOperation: false,
+				forceLogout: true,
+				responseMessage: 'Fuck off'
+			}
+		case 'emailChange':
+			return {
+				findToken: async (token: string) => VerificationToken.findOne({token}),
+				cancelAllTokenOperation: true,
+				forceLogout: true,
+				responseMessage: 'fuckingdie'
+			}
+		case 'usernameChange':
+			return {
+				findToken: async (token: string) => VerificationToken.findOne({token}),
+				cancelAllTokenOperation: true,
+				forceLogout: true,
+				responseMessage:'aaaaaaaaa'
+			}
+		default:
+			throw new Error('Invalid type')
 	}
 }
 
@@ -42,11 +57,16 @@ export const verifyOperationTokenInput = `
 	}
 `
 
-export const verifyOperationToken = async (_, { verifyOperationTokenInput }) => {
+type VerifyOperationTokenInputType = {
+	emailToken: string;
+	operationType: string;
+}
+
+export const verifyOperationToken = async (_: void, { verifyOperationTokenInput }: { verifyOperationTokenInput: VerifyOperationTokenInputType }) => {
 	const { emailToken, operationType } = verifyOperationTokenInput
-	const verifiedOperation = verifiedOperations[operationType]
+	const verifiedOperation = getVerifiedOperation(operationType)
 	if (!verifiedOperation) {
-		throw new Error('Invalid token operation')
+		throw new Error('Invalid (token: string) operation')
 	}
 	const {
 		findToken,
@@ -55,12 +75,13 @@ export const verifyOperationToken = async (_, { verifyOperationTokenInput }) => 
 		userCallback,
 		responseMessage
 	} = verifiedOperation
-	const user = (await findToken(emailToken).populate('user')).user
+	const token = await findToken(emailToken)
+	const user = await token.getUser()
 	if (forceLogout) {
-        await AuthToken.deleteAllBy(user)
+        await AuthToken.deleteAllBy(user.id)
 	}
 	if (cancelAllTokenOperation) {
-		await VerificationToken.deleteMany({user})
+		await VerificationToken.deleteAllBy(user.id)
 	}
 	if (userCallback) {
 		return userCallback(user)

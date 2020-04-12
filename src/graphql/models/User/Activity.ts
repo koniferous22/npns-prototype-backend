@@ -1,6 +1,6 @@
 import mongoose from 'mongoose'
 
-import { TimestampSchemaTypeCreator } from '../utils/schemaTypeCreators'
+import { TimestampSchemaTypeCreator } from '../../utils/subSchemaCreators'
 
 const POST_CHALLENGE = 'POST_CHALLENGE'
 const POST_SUBMISSION = 'POST_SUBMISSION'
@@ -9,6 +9,23 @@ const EDIT_CHALLENGE = 'EDIT_CHALLENGE'
 const EDIT_SUBMISSION = 'EDIT_SUBMISSION'
 const EDIT_REPLY = 'EDIT_REPLY'
 
+interface ActivityMetaIdentifiersType {
+	challenge?: mongoose.Types.ObjectId;
+	submission?: mongoose.Types.ObjectId;
+	reply?: mongoose.Types.ObjectId;
+	edit?: mongoose.Types.ObjectId;
+}
+
+interface ActivityMetaType {
+	identifiers?: ActivityMetaIdentifiersType
+}
+
+export interface ActivityType extends mongoose.Types.Subdocument {
+	type: string;
+	createdAt: Date;
+	meta: ActivityMetaType;
+
+}
 
 export const ActivityDbSchema = new mongoose.Schema({
 	type: {
@@ -18,7 +35,9 @@ export const ActivityDbSchema = new mongoose.Schema({
 			POST_CHALLENGE,
 			POST_REPLY,
 			POST_SUBMISSION,
-			EDIT
+			EDIT_CHALLENGE,
+			EDIT_SUBMISSION,
+			EDIT_REPLY
 		]
 	},
 	createdAt: TimestampSchemaTypeCreator(),

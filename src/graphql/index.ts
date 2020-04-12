@@ -2,7 +2,7 @@ import { gql } from 'apollo-server-express'
 
 import { querySchema, Query } from './queries'
 import { mutationSchema, Mutation } from './mutations'
-import { accessors, types } from './types'
+import { accessors, types } from './models'
 import scalars  from './scalars'
 
 export const typeDefs = gql`

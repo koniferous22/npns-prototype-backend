@@ -1,6 +1,20 @@
 import mongoose  from 'mongoose';
 
-import { TimestampSchemaTypeCreator } from '../utils/schemaTypeCreators'
+import { TimestampSchemaTypeCreator } from '../../utils/subSchemaCreators';
+
+export type TransactionMetaType = {
+	relatedQueue?: mongoose.Types.ObjectId;
+}
+
+export interface TransactionType extends mongoose.Types.Subdocument {
+	type: string;
+	from: mongoose.Types.ObjectId | string;
+	to: mongoose.Types.ObjectId;
+	amount: number;
+	karmaAmount: number;
+	createdAt: Date;
+	meta: TransactionMetaType;
+}
 
 export const TransactionDbSchema = new mongoose.Schema({
 	type: {

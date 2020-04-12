@@ -1,6 +1,9 @@
-import { AuthToken } from '../types/User/AuthToken'
+import AuthToken from '../models/User/AuthToken'
 import { authentication } from '../../utils/authentication'
+import { TokenInputType } from '../utils/types'
 
-export const logoutUser = (_, { logoutInput }) => authentication(logoutInput.token)
-	.then(() => AuthToken.deleteToken(logoutInput.token))
-	.then(() => ({message: 'Logged out!'}))
+export const logoutUser = async (_: void, { logoutInput }: { logoutInput: TokenInputType }) => {
+	await authentication(logoutInput.token)
+	await AuthToken.deleteToken(logoutInput.token)
+	return 'Logged out!'
+}

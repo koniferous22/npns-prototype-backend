@@ -1,1 +1,2 @@
-export const calculatePageCount = (documentCount, pageSize) => Math.floor(documentCount / pageSize) + (documentCount % pageSize > 0 ? 1 : 0)
+export const calculatePageCount = (documentCount: number, pageSize: number): number =>
+	Math.floor(documentCount / pageSize) + (documentCount % pageSize > 0 ? 1 : 0)

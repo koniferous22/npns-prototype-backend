@@ -1,6 +1,10 @@
-import { AuthToken } from '../types/User/AuthToken'
+import AuthToken from '../models/User/AuthToken'
+import VerificationToken from '../models/User/VerificationToken'
 
-import { VerificationToken }  from '../types/User/VerificationToken'
+type ConfirmPasswordResetInputType = {
+	emailToken: string;
+	newPassword: string;
+}
 
 export const confirmPasswordResetInput = `
 	input ConfirmPasswordResetInput {
@@ -9,14 +13,14 @@ export const confirmPasswordResetInput = `
 	}
 `
 
-export const confirmPasswordReset = async (_, { confirmPasswordResetInput }) => {
+export const confirmPasswordReset = async (_: void, { confirmPasswordResetInput }: { confirmPasswordResetInput: ConfirmPasswordResetInputType}) => {
 	const { emailToken, newPassword } = confirmPasswordResetInput
-	const passwordResetToken = await VerificationToken.findOne({token: emailToken}).populate('user')
-    const { user } = passwordResetToken
+	const passwordResetToken = await VerificationToken.findRecord(emailToken)
+	const user = await passwordResetToken.getUser()
     user.password = newPassword
 	await user.save()
 	return Promise.all([
-		VerificationToken.deleteMany({user:user._id}),
-		AuthToken.deleteAllBy(user)
+		VerificationToken.deleteAllBy(user._id),
+		AuthToken.deleteAllBy(user._id)
 	]).then(() => ({message: 'Password changed, continue to login'}))
 }

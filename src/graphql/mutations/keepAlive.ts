@@ -1,4 +1,5 @@
 import { authentication } from '../../utils/authentication'
+import { TokenInputType } from '../utils/types'
 
 export const keepAlivePayload = `
 	type KeepAlivePayload {
@@ -7,7 +8,11 @@ export const keepAlivePayload = `
 	}
 `
 
-export const keepAlive = async (_, { keepAliveInput }) => authentication(keepAliveInput.token).then((user) => ({
-	token,
-	user
-}))
+export const keepAlive = async (_: void, { keepAliveInput }: { keepAliveInput: TokenInputType } ) => {
+	const { token } = keepAliveInput
+	const user = await authentication(keepAliveInput.token)
+	return {
+		token,
+		user
+	}
+}

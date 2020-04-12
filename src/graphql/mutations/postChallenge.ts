@@ -1,6 +1,13 @@
-import { Queue } from '../types/Queue'
-import { Challenge } from '../types/Challenge'
+import Queue from '../models/Queue'
+import Challenge from '../models/Challenge'
 import { authentication } from '../../utils/authentication'
+
+type PostChallengeInputType = {
+	token: string;
+	queueName: string;
+	title: string;
+	description: string;
+}
 
 export const postChallengeInput = `
 	input PostChallengeInput {
@@ -16,7 +23,7 @@ export const postChallengePayload = `
 	}
 `
 
-export const postChallenge = async (_, { postChallengeInput }) => {
+export const postChallenge = async (_: void, { postChallengeInput }: { postChallengeInput: PostChallengeInputType }) => {
 	const { token, queueName, title, description } = postChallengeInput
 	const user = await authentication(token)
 	const queue = await Queue.findByName(queueName)

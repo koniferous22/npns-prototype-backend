@@ -1,11 +1,8 @@
 import {
 	paging,
-	tokenInput
-} from './input';
-import {
+	tokenInput,
 	messagePayload
-} from './payload';
-
+} from '../utils/types';
 import {
 	boostChallengeInput,
 	boostChallengePayload,
@@ -24,11 +21,6 @@ import {
 	createQueuePayload,
 	createQueue
 } from './createQueue'
-/*import {
-	editContentInput,
-	editContentPayload,
-	editContent
-} from './editContent'*/
 import {
 	keepAlivePayload,
 	keepAlive
@@ -57,7 +49,7 @@ import {
 } from './postSubmission'
 import {
 	resendSignUpRequestInput,
-	reseneSignUpRequest
+	resendSignUpRequest
 } from './resendSignUpRequest'
 import {
 	requestProfileChangeInput,
@@ -78,7 +70,6 @@ const  {
 	verifyOperationToken
 } = require('./verifyOperationToken')
 
-//${editContentInput}
 const mutationInputs = `
 	${tokenInput}
 	${paging}
@@ -119,7 +110,6 @@ export const mutationSchema = `
 		confirmPassword(confirmPasswordInput: ConfirmPasswordInput!): MessagePayload
 		confirmPasswordReset(confirmPasswordResetInput: ConfirmPasswordResetInput!): MessagePayload
 		createQueue(createQueueInput: CreateQueueInput!): CreateQueuePayload
-		# editContent(editContentInput: EditContentInput!): EditContentPayload
 		keepAlive(keepAliveInput: TokenInput!): KeepAlivePayload
 		logoutUser(logoutInput: TokenInput!): MessagePayload
 		logoutUserAllDevices(logoutInput: TokenInput!): MessagePayload

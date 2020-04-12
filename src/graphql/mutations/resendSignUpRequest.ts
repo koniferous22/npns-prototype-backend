@@ -1,14 +1,18 @@
-import { User } from '../types/User';
-import { VerificationToken } from '../types/User/VerificationToken';
+import User from '../models/User';
+import VerificationToken from '../models/User/VerificationToken';
 
 import nodemailer  from '../../external/nodemailer'
+
+type ResendSignUpRequestInputType = {
+	username: string;
+}
 
 export const resendSignUpRequestInput = `
 	input ResendSignUpRequestInput {
 		username: String!
 	}
 `
-export const resendSignUpRequest = async (_, { resendSignUpRequestInput }) => {
+export const resendSignUpRequest = async (_: void, { resendSignUpRequestInput }: { resendSignUpRequestInput: ResendSignUpRequestInputType }) => {
 	const { username } = resendSignUpRequestInput
 	const user = await User.findByIdentifier(username)
 	if (user.verified) {
@@ -16,7 +20,7 @@ export const resendSignUpRequest = async (_, { resendSignUpRequestInput }) => {
 	}
 	await VerificationToken.deleteMany({user: user._id})
     const token = new VerificationToken({user: user._id})
-    return Promise.all([token.save(), nodemailer.sendEmail(nodemailer.tempaltes.signupTemplate, { token })])
+    return Promise.all([token.save(), nodemailer.sendMail(user.email, nodemailer.templates.signUpTemplate, { token: token.token })])
     	.then(() => ({
     		message: 'Request resent, check email'
     	}))

@@ -1,73 +1,76 @@
+import { Types } from 'mongoose'
 import validator  from 'validator'
 
-import { Queue } from '../types/Queue'
-import { Challenge } from '../types/Challenge'
+import Queue from '../models/Queue'
+import Challenge from '../models/Challenge'
 
-import { User } from '../types/User';
+import User from '../models/User';
 import { authentication } from '../../utils/authentication'
 
-const validateResolvers = {
-	username: async (username, _) => {
-		if (!username || username === '') {
-			throw new Error('No username submitted')
-		}
-		const userWithUsername = await User.findByIdentifier(username);
-		if (!userWithUsername) {
-			throw new Error('Username taken')
-		}
-		return true
-	},
-	email: async (email, _) => {
-		if (!email || !validator.isEmail(email)) {
-			throw new Error('Invalid email')
-		}
-		const userWithEmail = await User.findByIdentifier(email)
-		if (!userWithEmail) {
-			throw new Error('Email taken')
-		}
-		return true
-	},
-	password: async (password, token) => {
-		if (!password) {
-			throw new Error('No password specified')
-		}
-		if (password.length < 8) {
-			throw new Error('Too short')
-		}
-		if (token) {
-			const isPasswordUsed = await authentication(token).then(user => user.validPassword(password))
-			if (isPasswordUsed) {
-				throw new Error('Password is same as previous one')
-			}
-		}
-		return true
-	},
-	referredBy: async (referredBy, _) => {
-		if (!referredBy || referredBy === '') {
-			throw new Error('No referal user specified')
-		}
-		const referal = await User.findByIdentifier(referredBy)
-		if (!referal) {
-			throw new Error('Entered invalid referal')
-		}
-		return true
-	}
+type ValidatorType = (value: string, token: string) => Promise<boolean>;
 
+const getValidatedResolver: (type: string) => ValidatorType = (type: string) => {
+	switch (type) {
+		case 'username':
+			return async (username: string, _: string) => {
+				if (!username || username === '') {
+					throw new Error('No username submitted')
+				}
+				const userWithUsername = await User.findByIdentifier(username);
+				if (!userWithUsername) {
+					throw new Error('Username taken')
+				}
+				return true
+			};
+		case 'email':
+			return async (email: string, _: string) => {
+				if (!email || !validator.isEmail(email)) {
+					throw new Error('Invalid email')
+				}
+				const userWithEmail = await User.findByIdentifier(email)
+				if (!userWithEmail) {
+					throw new Error('Email taken')
+				}
+				return true
+			}
+		case 'password':
+			return async (password: string, token: string) => {
+				if (!password) {
+					throw new Error('No password specified')
+				}
+				if (password.length < 8) {
+					throw new Error('Too short')
+				}
+				if (token) {
+					const isPasswordUsed = await authentication(token).then(user => user.isPasswordValid(password))
+					if (isPasswordUsed) {
+						throw new Error('Password is same as previous one')
+					}
+				}
+				return true
+			}
+		case 'referredBy':
+			return async (referredBy: string, _: string) => {
+				if (!referredBy || referredBy === '') {
+					throw new Error('No referal user specified')
+				}
+				const referal = await User.findByIdentifier(referredBy)
+				if (!referal) {
+					throw new Error('Entered invalid referal')
+				}
+				return true
+			}
+		default:
+			throw new Error('Invalid resolver type')
+	}
 }
 
 export const querySchema = `
-	# NOTE: none of the data is actually mandatory, there for no exclamation marks
-	enum ValidationCombinator {
-		AND,
-		OR
-	}
-
 	input ValidatedUserData {
 		username: String,
 		email: String,
 		password: String,
 		referredBy: ID,
-		operation: ValidationCombinator
 	}
 
 	type Query {
@@ -83,18 +86,24 @@ export const querySchema = `
 
 `
 
+type ValidatedUserDataType = {
+	username: string;
+	email: string;
+	password: string;
+	referredBy: Types.ObjectId;
+}
+
+
 export const Query = {
 	queues: async () => await Queue.findAll(),
-	queue: async (_, {name}) => await Queue.findByName(name),
+	queue: async (_: void, {name}: { name: string }) => await Queue.findByName(name),
 
-	user: (_, {username}) => User.findByIdentifier(username),
-	challenge: (_, {challengeId}) => Challenge.viewChallenge(challengeId),
-	validate: async (_, { validatedUserData, token }) => {
-		const { operation, ...data } = validatedUserData
-		const validationPromises = Object.entries(data)
-			.filter(([validatedField, _]) => validateResolvers[validatedField])
-			.map(([validatedField, validatedValue]) => validateResolvers[validatedField](validatedValue, token))
+	user: (_: void, {username}: { username: string }) => User.findByIdentifier(username),
+	challenge: (_: void, { challengeId } : { challengeId: Types.ObjectId }) => Challenge.viewChallenge(challengeId),
+	validate: async (_: void, { validatedUserData, token }: { validatedUserData: ValidatedUserDataType; token: string }) => {
+		const validationPromises = Object.entries(validatedUserData)
+			.map(([validatedField, validatedValue]) => getValidatedResolver(validatedField)(validatedValue as string, token))
 		// TODO: Test this shit pls
-		return operation === 'OR' ? Promise.any(validationPromises) : Promise.all(validationPromises)
+		return Promise.all(validationPromises)
 	}
 }
