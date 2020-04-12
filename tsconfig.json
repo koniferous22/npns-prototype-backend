@@ -1,12 +1,13 @@
 {
   "compilerOptions": {
+    "rootDir": "src",
     "outDir": "./dist/",
-    "noImplicitAny": true,
+    // "noImplicitAny": true,
     "module": "es6",
     "target": "es5",
     "jsx": "react",
     "allowJs": true,
     "allowSyntheticDefaultImports": true,
-	"types": ["apollo-server-types", "kokot-pica"]
+	"types": ["apollo-server-types"]
   }
 }

@@ -40,6 +40,7 @@
     "@types/nodemailer": "^6.4.0",
     "apollo-server-types": "^0.3.0",
     "babel-loader": "^8.1.0",
+    "clean-webpack-plugin": "^3.0.0",
     "eslint": "^6.8.0",
     "path": "^0.12.7",
     "ts-loader": "^6.2.2",

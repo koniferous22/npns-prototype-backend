@@ -1,3 +1,4 @@
+import crypto from 'crypto';
 import mongoose  from 'mongoose';
 import jwt  from 'jsonwebtoken';
 
@@ -56,7 +57,9 @@ const VerificationTokenDbSchema = new mongoose.Schema({
 		userUpdate: {
 			newUsername: {
 				type: String,
-				required: () => (this as VerificationTokenType).type === USERNAME_UPDATE
+				required: function () {
+					return this.type === USERNAME_UPDATE
+				}
 			},
 			newEmail: EmailSchemaTypeCreator(
 				function() {

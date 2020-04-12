@@ -35,14 +35,14 @@ type UpdatedUserFields = {
 	newLastName?: string;
 }
 
-type ProfileOperation = {
+interface ProfileOperation {
 	auth: boolean;
-	createToken?: (user: UserType, updatedUserFields: UpdatedUserFields) => VerificationTokenType;
-	mailTemplate?: NodemailerTemplateType;
-	resolve?: (user: UserType, updatedUserFields: UpdatedUserFields) => Promise<void>;
+	createToken(user: UserType, updatedUserFields: UpdatedUserFields): VerificationTokenType;
+	mailTemplate: NodemailerTemplateType;
+	resolve(user: UserType, updatedUserFields: UpdatedUserFields): Promise<void>;
 }
 
-const getProfileOperation: (type: string) => ProfileOperation = (type) => {
+const getProfileOperation: (type: string) => ProfileOperation = (type: string) => {
 	switch (type) {
 		case 'emailChange':
 			return {
