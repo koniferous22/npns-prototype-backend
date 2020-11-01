@@ -1,0 +1,1042 @@
+{
+	"auto_complete":
+	{
+		"selected_items":
+		[
+			[
+				"repo",
+				"repo_id"
+			],
+			[
+				"repo_con",
+				"repo_config"
+			],
+			[
+				"config",
+				"config"
+			],
+			[
+				"confg",
+				"config_file"
+			],
+			[
+				"conf",
+				"config_name"
+			],
+			[
+				"confi",
+				"config_updated"
+			],
+			[
+				"get",
+				"getFedoraVersion"
+			],
+			[
+				"ver",
+				"version_contents"
+			],
+			[
+				"dnf",
+				"dnf_repo_ids"
+			],
+			[
+				"span_",
+				"span_text"
+			],
+			[
+				"span",
+				"span_text"
+			],
+			[
+				"cu",
+				"current_row_section_item"
+			],
+			[
+				"scraper",
+				"scraperName"
+			],
+			[
+				"re",
+				"resolved_repositories"
+			],
+			[
+				"resou",
+				"resource_file"
+			],
+			[
+				"rpo",
+				"repositories_blacklist"
+			],
+			[
+				"is",
+				"isRepositoryAllowed"
+			],
+			[
+				"list",
+				"listdir"
+			],
+			[
+				"repos",
+				"repositories"
+			],
+			[
+				"reposit",
+				"repositories_path"
+			],
+			[
+				"misc",
+				"misc_entries_cp_command"
+			],
+			[
+				"pack",
+				"package_lists"
+			],
+			[
+				"isP",
+				"isPackageTypo"
+			],
+			[
+				"pa",
+				"packages"
+			],
+			[
+				"package",
+				"package_lists"
+			],
+			[
+				"opera",
+				"operation_mask"
+			],
+			[
+				"un",
+				"undoneOperations"
+			],
+			[
+				"history",
+				"history_only"
+			],
+			[
+				"hit",
+				"history_only"
+			],
+			[
+				"pytho",
+				"python_input_file"
+			],
+			[
+				"awk",
+				"awk_script"
+			],
+			[
+				"py",
+				"python_input_file"
+			],
+			[
+				"python",
+				"python_input_file"
+			],
+			[
+				"pyhon",
+				"python_script"
+			],
+			[
+				"home",
+				"home_directory_cp_command"
+			],
+			[
+				"DES",
+				"DEST_HOME_DIRECTORIES"
+			],
+			[
+				"DEST",
+				"DEST_HOME_DIRECTORIES"
+			],
+			[
+				"Apo",
+				"ApolloServerExpressConfig"
+			],
+			[
+				"Ver",
+				"VerificationTokenDbSchema"
+			],
+			[
+				"boost",
+				"boostAmount"
+			],
+			[
+				"booste",
+				"boostedAmount"
+			],
+			[
+				"karma",
+				"karmaEntries"
+			],
+			[
+				"queue",
+				"queueId"
+			],
+			[
+				"User",
+				"UserType"
+			],
+			[
+				"Queue",
+				"QueueType"
+			],
+			[
+				"winner",
+				"winnerId"
+			],
+			[
+				"Con",
+				"ContentMetaDbSchema"
+			],
+			[
+				"Conte",
+				"ContentMetaDbSchema"
+			],
+			[
+				"post",
+				"postReply"
+			],
+			[
+				"Reply",
+				"ReplyType"
+			],
+			[
+				"new",
+				"newQueue"
+			],
+			[
+				"parent",
+				"parentName"
+			],
+			[
+				"find",
+				"findAll"
+			],
+			[
+				"conte",
+				"content"
+			],
+			[
+				"sb",
+				"submissionId"
+			],
+			[
+				"Chal",
+				"ChallengeType"
+			],
+			[
+				"Res",
+				"ResendSignUpRequestInputType"
+			],
+			[
+				"res",
+				"resendSignUpRequestInput"
+			],
+			[
+				"user",
+				"username"
+			],
+			[
+				"Rese",
+				"ResendSignUpRequestInput"
+			],
+			[
+				"sign",
+				"signUserUpInput"
+			],
+			[
+				"Vali",
+				"ValidatedUserData"
+			],
+			[
+				"valie",
+				"validatedUserData"
+			],
+			[
+				"populate",
+				"populatePath"
+			],
+			[
+				"Boost",
+				"BoostChallengeInputType"
+			],
+			[
+				"postCha",
+				"postChallengeInput"
+			],
+			[
+				"email",
+				"emailChange"
+			],
+			[
+				"Profile",
+				"ProfileOperation"
+			],
+			[
+				"update",
+				"updatedUserFields"
+			],
+			[
+				"Requ",
+				"RequestProfileChangeInputType"
+			],
+			[
+				"requ",
+				"requestProfileChangeInput"
+			],
+			[
+				"veri",
+				"verifyOperationTokenInput"
+			],
+			[
+				"valida",
+				"validatedField"
+			],
+			[
+				"Chall",
+				"ChallengeModelType"
+			],
+			[
+				"Mark",
+				"MarkChallengeSolvedInputType"
+			],
+			[
+				"Post",
+				"PostChallengeInputType"
+			],
+			[
+				"edit",
+				"editId"
+			],
+			[
+				"submi",
+				"submittedBy"
+			],
+			[
+				"sub",
+				"submissionId"
+			],
+			[
+				"Sign",
+				"SignUserInPayload"
+			],
+			[
+				"operat",
+				"operationType"
+			],
+			[
+				"refe",
+				"referredBy"
+			],
+			[
+				"Pag",
+				"PagingType"
+			],
+			[
+				"P",
+				"Paging"
+			],
+			[
+				"Paging",
+				"PagingSizeType"
+			],
+			[
+				"des",
+				"descendants"
+			],
+			[
+				"de",
+				"depth"
+			],
+			[
+				"anc",
+				"ancestors"
+			],
+			[
+				"ances",
+				"ancestor"
+			],
+			[
+				"max",
+				"maxRightIndex"
+			],
+			[
+				"Cha",
+				"ChallengeType"
+			],
+			[
+				"Challe",
+				"ChallengeType"
+			],
+			[
+				"chal",
+				"challengeId"
+			],
+			[
+				"page",
+				"pageSize"
+			],
+			[
+				"Create",
+				"CreateQueueInputType"
+			],
+			[
+				"create",
+				"createQueueInput"
+			],
+			[
+				"Veri",
+				"VerificationTokenType"
+			],
+			[
+				"pass",
+				"passwordResetToken"
+			],
+			[
+				"dele",
+				"deleteAllBy"
+			],
+			[
+				"Verifi",
+				"VerificationTokenDbSchema"
+			],
+			[
+				"Verif",
+				"VerificationTokenModelType"
+			],
+			[
+				"for",
+				"forceLogout"
+			],
+			[
+				"keep",
+				"keepAliveInput"
+			],
+			[
+				"N",
+				"NodemailerTemplateResult"
+			],
+			[
+				"No",
+				"NodemailerTemplateArgs"
+			],
+			[
+				"A",
+				"AuthTokenModelType"
+			],
+			[
+				"del",
+				"deleteAllBy"
+			],
+			[
+				"delete",
+				"deleteToken"
+			],
+			[
+				"AuthToek",
+				"AuthTokenType"
+			],
+			[
+				"Conf",
+				"ConfirmPasswordInputType"
+			],
+			[
+				"Obje",
+				"ObjectId"
+			],
+			[
+				"Qu",
+				"QueueType"
+			],
+			[
+				"Submi",
+				"SubmissionType"
+			],
+			[
+				"Content",
+				"ContentMeta"
+			],
+			[
+				"REply",
+				"ReplyType"
+			],
+			[
+				"R",
+				"ReplyType"
+			],
+			[
+				"Conten",
+				"ContentMetaType"
+			],
+			[
+				"Edit",
+				"EditType"
+			],
+			[
+				"Obej",
+				"ObjectId"
+			],
+			[
+				"content",
+				"contentMeta"
+			],
+			[
+				"Obj",
+				"ObjectId"
+			],
+			[
+				"Act",
+				"ActivityMetaType"
+			],
+			[
+				"Acti",
+				"ActivityMetaIdentifiers"
+			],
+			[
+				"Auth",
+				"AuthTokenType"
+			],
+			[
+				"con",
+				"content"
+			],
+			[
+				"Transa",
+				"TransactionType"
+			],
+			[
+				"Tran",
+				"TransactionMetaType"
+			],
+			[
+				"Karm",
+				"KarmaEntryType"
+			]
+		]
+	},
+	"buffers":
+	[
+		{
+			"file": "src/index.ts",
+			"settings":
+			{
+				"buffer_size": 0,
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "package.json",
+			"settings":
+			{
+				"buffer_size": 179,
+				"line_ending": "Unix"
+			}
+		}
+	],
+	"build_system": "",
+	"build_system_choices":
+	[
+	],
+	"build_varint": "",
+	"command_palette":
+	{
+		"height": 0.0,
+		"last_filter": "",
+		"selected_items":
+		[
+			[
+				":W",
+				":w - Save"
+			],
+			[
+				":w",
+				":w - Save"
+			],
+			[
+				":e",
+				":e - Revert"
+			],
+			[
+				":",
+				":$ - EOF"
+			],
+			[
+				":we",
+				":w - Save"
+			],
+			[
+				"Remove",
+				"Package Control: Remove Package"
+			],
+			[
+				"Insta",
+				"Package Control: Install Package"
+			],
+			[
+				"Settings",
+				"Preferences: Settings"
+			],
+			[
+				"typescript",
+				"Set Syntax: TypeScript"
+			],
+			[
+				":u",
+				"Permute Lines: Unique"
+			],
+			[
+				":wa",
+				":w - Save"
+			],
+			[
+				":q",
+				"Set Syntax: GraphQL"
+			],
+			[
+				":a",
+				":w - Save"
+			],
+			[
+				"Inst",
+				"Package Control: Install Package"
+			],
+			[
+				"Package",
+				"Package Control: Install Package"
+			],
+			[
+				"Install",
+				"Package Control: Install Package"
+			],
+			[
+				"Package Control: ",
+				"Package Control: Install Package"
+			],
+			[
+				"set",
+				"Set Syntax: HTML"
+			],
+			[
+				"Package Control:",
+				"Package Control: Install Package"
+			]
+		],
+		"width": 0.0
+	},
+	"console":
+	{
+		"height": 136.0,
+		"history":
+		[
+			"Package Control: Install Package",
+			"import urllib.request,os,hashlib; h = '6f4c264a24d933ce70df5dedcf1dcaee' + 'ebe013ee18cced0ef93d5f746d80ef60'; pf = 'Package Control.sublime-package'; ipp = sublime.installed_packages_path(); urllib.request.install_opener( urllib.request.build_opener( urllib.request.ProxyHandler()) ); by = urllib.request.urlopen( 'http://packagecontrol.io/' + pf.replace(' ', '%20')).read(); dh = hashlib.sha256(by).hexdigest(); print('Error validating download (got %s instead of %s), please try manual install' % (dh, h)) if dh != h else open(os.path.join( ipp, pf), 'wb' ).write(by)"
+		]
+	},
+	"distraction_free":
+	{
+		"menu_visible": true,
+		"show_minimap": false,
+		"show_open_files": false,
+		"show_tabs": false,
+		"side_bar_visible": false,
+		"status_bar_visible": false
+	},
+	"expanded_folders":
+	[
+		"/home/konyferous/Projects/npns/backend-new"
+	],
+	"file_history":
+	[
+		"/home/konyferous/Projects/npns/backend/webpack.config.js",
+		"/home/konyferous/Projects/npns/backend/tsconfig.json",
+		"/home/konyferous/Projects/npns/backend/src/index.ts",
+		"/home/konyferous/Projects/npns/backend/.gitignore",
+		"/home/konyferous/Projects/npns/backend/cfg/environments/.env.production",
+		"/home/konyferous/Projects/npns/backend/cfg/environments/.env.dev",
+		"/home/konyferous/Projects/npns/backend/cfg/environments/.env.",
+		"/home/konyferous/Projects/npns/backend/cfg/environments/*",
+		"/home/konyferous/Projects/npns/backend/package.json",
+		"/home/konyferous/Projects/npns/npx-test/package.json",
+		"/home/konyferous/Projects/npns/npx-test/tsconfig.json",
+		"/home/konyferous/Projects/npns/npx-test/src/index.ts",
+		"/home/konyferous/Projects/npns/npx-test/src/picus/index.ts",
+		"/home/konyferous/Projects/npns/backend/node_modules/apollo-server-express/src/index.ts",
+		"/home/konyferous/Projects/npns/backend/node_modules/apollo-server-plugin-base/LICENSE",
+		"/home/konyferous/Projects/npns/backend/node_modules/apollo-server-plugin-base/package.json",
+		"/home/konyferous/Projects/npns/backend/node_modules/apollo-server-plugin-base/src/index.ts",
+		"/home/konyferous/Projects/npns/backend/src/graphql/index.ts",
+		"/home/konyferous/Projects/npns/backend/src/db.ts",
+		"/home/konyferous/Own Shit/src/backupz/dnf_repo_gatherer.py",
+		"/home/konyferous/Own Shit/src/backupz/scrapers/__init__.py",
+		"/home/konyferous/Own Shit/src/backupz/dnf-repo-gatherer.config.json",
+		"/home/konyferous/Own Shit/src/backupz/scrapers/MongodbDnfRepo.py",
+		"/home/konyferous/Own Shit/src/backupz/backup.conf.json",
+		"/home/konyferous/Own Shit/src/backupz/backup.conf",
+		"/home/konyferous/Own Shit/src/backupz/backup_chain.py",
+		"/home/konyferous/Own Shit/src/backupz/scrapers/__",
+		"/home/konyferous/Own Shit/src/backupz/scrapers/_",
+		"/home/konyferous/Own Shit/src/backupz/scrapers/mongodb-dnf-repo.py",
+		"/home/konyferous/.local/lib/python3.7/site-packages/dnf.py",
+		"/home/konyferous/Own Shit/src/backupz/dnf_repo_util.py",
+		"/home/konyferous/Own Shit/src/backupz/backup",
+		"/home/konyferous/Own Shit/src/backupz/backup.txt",
+		"/home/konyferous/Own Shit/src/backupz/opt_resources.csv",
+		"/home/konyferous/Own Shit/src/backupz/opt_installer.py",
+		"/home/konyferous/Own Shit/src/backupz/opt_runners.csv",
+		"/home/konyferous/Own Shit/src/backupz/parse_dnf_history.py",
+		"/home/konyferous/Own Shit/src/backupz/backup.",
+		"/etc/yum.repos.d/rpmfusion-free.repo",
+		"/etc/yum.repos.d/rpmfusion-free-updates.repo",
+		"/etc/yum.repos.d/rpmfusion-free-updates-testing.repo",
+		"/etc/yum.repos.d/rpmfusion-nonfree.repo",
+		"/etc/yum.repos.d/rpmfusion-nonfree-updates.repo",
+		"/etc/yum.repos.d/rpmfusion-nonfree-updates-testing.repo",
+		"/home/konyferous/Own Shit/src/backupz/restore",
+		"/etc/yum.repos.d/fedora-updates-testing.repo",
+		"/etc/yum.repos.d/fedora-updates-testing-modular.repo",
+		"/etc/yum.repos.d/fedora-updates.repo",
+		"/etc/yum.repos.d/fedora-updates-modular.repo",
+		"/etc/yum.repos.d/fedora.repo",
+		"/etc/yum.repos.d/fedora-modular.repo",
+		"/etc/yum.repos.d/fedora-cisco-openh264.repo",
+		"/home/konyferous/Own Shit/resources/pandora/templates/work",
+		"/home/konyferous/Own Shit/resources/pandora/templates/permanent",
+		"/home/konyferous/Recipes/ESSENTIALS",
+		"/home/konyferous/Own Shit/bin/pandora",
+		"/home/konyferous/.bashrc",
+		"/home/konyferous/.bash_profile",
+		"/home/konyferous/.bash_logout",
+		"/home/konyferous/.bash_history",
+		"/home/konyferous/.bashrc_auth",
+		"/home/konyferous/Desktop/kokot.py",
+		"/home/konyferous/Own Shit/src/backupz/snakeanus",
+		"/home/konyferous/Desktop/sqlite-output",
+		"/home/konyferous/Desktop/test/kokot",
+		"/home/konyferous/Desktop/dnf-history-files",
+		"/home/konyferous/Own Shit/bin/cancer",
+		"/home/konyferous/Own Shit/src/pandora/monitor",
+		"/home/konyferous/Own Shit/bin/mp3-repeat",
+		"/home/konyferous/Own Shit/bin/ytfuckoff",
+		"/home/konyferous/Own Shit/bin/weather",
+		"/home/konyferous/Own Shit/bin/vocap",
+		"/home/konyferous/Own Shit/bin/tts",
+		"/home/konyferous/Own Shit/bin/stopwatch",
+		"/home/konyferous/Own Shit/bin/shave-resolve",
+		"/home/konyferous/Own Shit/bin/shave-notify",
+		"/home/konyferous/Own Shit/bin/killbrowsers",
+		"/home/konyferous/Own Shit/bin/dungeon",
+		"/home/konyferous/Own Shit/bin/countdown",
+		"/home/konyferous/Own Shit/bin/copypasta",
+		"/home/konyferous/Own Shit/bin/call",
+		"/home/konyferous/Desktop/msg-nerds",
+		"/home/konyferous/Recipes/culinary-cook-useful-links",
+		"/home/konyferous/Notes/chase-amante/x-factor.txt",
+		"/home/konyferous/Recipes/bread",
+		"/home/konyferous/Notes/chase-amante/x-factor-notes.txt",
+		"/home/konyferous/Recipes/ESSE",
+		"/home/konyferous/Recipes/aioli",
+		"/home/konyferous/Recipes/ragout",
+		"/home/konyferous/Notes/chase-amante/casuality.txt",
+		"/home/konyferous/Notes/Hydra/post-vienna.txt",
+		"/home/konyferous/Recipes/francuzska-cibulacka",
+		"/home/konyferous/Recipes/ADVANCED",
+		"/home/konyferous/Recipes/bechamel",
+		"/home/konyferous/Recipes/chicken_ceasar_salat",
+		"/home/konyferous/Recipes/creme-de-celeri",
+		"/home/konyferous/Recipes/yeast",
+		"/home/konyferous/Recipes/chicken_stock",
+		"/home/konyferous/Recipes/CHRISTMAS RECIPE - Christmas Beef Wellington.mkv",
+		"/home/konyferous/Recipes/ROUXBE_NOTES.txt",
+		"/home/konyferous/Recipes/Gordon Ramsay How to Make a Classic Vinaigrette   YouTube.mkv",
+		"/home/konyferous/Recipes/Gordon Ramsay's Huevos Rancheros Recipe.mp4",
+		"/home/konyferous/Recipes/pizza",
+		"/home/konyferous/Recipes/porterhouse-steak",
+		"/home/konyferous/Recipes/ramsay-steak",
+		"/home/konyferous/Recipes/RESEARCH",
+		"/home/konyferous/Recipes/semolina-pasta",
+		"/home/konyferous/Recipes/veloute",
+		"/home/konyferous/Recipes/vinaigrette",
+		"/home/konyferous/Recipes/zemiakove_placky",
+		"/home/konyferous/Notes/music-recommendations/personalities.txt",
+		"/home/konyferous/Notes/music-recommendations/TO_BUY_discogs-djberoslaw",
+		"/home/konyferous/Notes/music-recommendations/bandcamp-to-buy.txt",
+		"/home/konyferous/Notes/music-recommendations/volpe.txt",
+		"/home/konyferous/Notes/music-recommendations/discogs-24hour2post.txt",
+		"/home/konyferous/Notes/music-recommendations/discogs-andriusireland.txt",
+		"/home/konyferous/Notes/music-recommendations/discogs-hunt.txt",
+		"/home/konyferous/Notes/music-recommendations/discogs-RebelP.txt",
+		"/home/konyferous/Notes/music-recommendations/discogs-transdanubier.txt",
+		"/home/konyferous/Notes/music-recommendations/good-shit-from-bandcamp.txt",
+		"/home/konyferous/Notes/music-recommendations/good-shit-in-general.txt",
+		"/home/konyferous/Notes/music-recommendations/lofi.txt",
+		"/home/konyferous/Notes/music-recommendations/MBV-loveless-vinyl-price.txt",
+		"/home/konyferous/Notes/music-recommendations/discogs-tj.le.dj",
+		"/home/konyferous/Desktop/Brno-prakticki lekari.ods",
+		"/home/konyferous/Notes/music-recommendations/discogs-",
+		"/home/konyferous/Desktop/znamy-lekar.py",
+		"/home/konyferous/Own Shit/cfg/pandora/allow/ewahahahah"
+	],
+	"find":
+	{
+		"height": 21.0
+	},
+	"find_in_files":
+	{
+		"height": 98.0,
+		"where_history":
+		[
+		]
+	},
+	"find_state":
+	{
+		"case_sensitive": true,
+		"find_history":
+		[
+		],
+		"highlight": true,
+		"in_selection": false,
+		"preserve_case": false,
+		"regex": false,
+		"replace_history":
+		[
+		],
+		"reverse": false,
+		"show_context": true,
+		"use_buffer2": true,
+		"whole_word": false,
+		"wrap": true
+	},
+	"groups":
+	[
+		{
+			"selected": 1,
+			"sheets":
+			[
+				{
+					"buffer": 0,
+					"file": "src/index.ts",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 0,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								0,
+								0
+							]
+						],
+						"settings":
+						{
+							"open_with_edit": true,
+							"syntax": "Packages/Naomi/syntaxes/naomi.fjsx15.sublime-syntax",
+							"vintage_lines.line": -1
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 1,
+					"type": "text"
+				},
+				{
+					"buffer": 1,
+					"file": "package.json",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 179,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								0,
+								0
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/JavaScript/JSON.sublime-syntax",
+							"vintage_lines.line": -1
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 0,
+					"type": "text"
+				}
+			]
+		}
+	],
+	"incremental_find":
+	{
+		"height": 18.0
+	},
+	"input":
+	{
+		"height": 30.0
+	},
+	"layout":
+	{
+		"cells":
+		[
+			[
+				0,
+				0,
+				1,
+				1
+			]
+		],
+		"cols":
+		[
+			0.0,
+			1.0
+		],
+		"rows":
+		[
+			0.0,
+			1.0
+		]
+	},
+	"menu_visible": true,
+	"output.doc":
+	{
+		"height": 0.0
+	},
+	"output.errorlist":
+	{
+		"height": 257.0
+	},
+	"output.exec":
+	{
+		"height": 108.0
+	},
+	"output.find_results":
+	{
+		"height": 0.0
+	},
+	"output.unsaved_changes":
+	{
+		"height": 108.0
+	},
+	"pinned_build_system": "",
+	"project": "npns-backend.sublime-project",
+	"replace":
+	{
+		"height": 38.0
+	},
+	"save_all_on_build": true,
+	"select_file":
+	{
+		"height": 0.0,
+		"last_filter": "",
+		"selected_items":
+		[
+			[
+				".env.",
+				"secrets/environments/.env.production"
+			],
+			[
+				"secrets",
+				"secrets/environments/.env.dev"
+			],
+			[
+				"index",
+				"src/index.ts"
+			],
+			[
+				"package",
+				"package.json"
+			],
+			[
+				"web",
+				"webpack.config.js"
+			],
+			[
+				"tscon",
+				"tsconfig.json"
+			],
+			[
+				"tsconf",
+				"tsconfig.json"
+			],
+			[
+				"pic",
+				"src/picus/index.ts"
+			],
+			[
+				"picus",
+				"src/picus/index.ts"
+			],
+			[
+				"srcin",
+				"src/index.ts"
+			],
+			[
+				"pack",
+				"package.json"
+			],
+			[
+				"srcind",
+				"src/index.ts"
+			],
+			[
+				"packa",
+				"package.json"
+			],
+			[
+				"graphqlindex",
+				"src/graphql/index.ts"
+			],
+			[
+				"db",
+				"src/db.ts"
+			],
+			[
+				"graphqlin",
+				"src/graphql/index.ts"
+			]
+		],
+		"width": 0.0
+	},
+	"select_project":
+	{
+		"height": 0.0,
+		"last_filter": "",
+		"selected_items":
+		[
+		],
+		"width": 0.0
+	},
+	"select_symbol":
+	{
+		"height": 92.0,
+		"last_filter": "",
+		"selected_items":
+		[
+		],
+		"width": 592.0
+	},
+	"selected_group": 0,
+	"settings":
+	{
+	},
+	"show_minimap": true,
+	"show_open_files": false,
+	"show_tabs": true,
+	"side_bar_visible": true,
+	"side_bar_width": 258.0,
+	"status_bar_visible": true,
+	"template_settings":
+	{
+	}
+}
