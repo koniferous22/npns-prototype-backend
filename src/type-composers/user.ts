@@ -250,8 +250,6 @@ UserTC.addResolver({
   resolve: async ({ args }) => {
     // TODO I'm really curious if this shit actually works
     const user = args.profileOperationUser;
-    console.log('Wrapped resolver');
-    console.log(JSON.stringify(user, null, 2));
 
     user.setUserVerified(true);
     await user.save()

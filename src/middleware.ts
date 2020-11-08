@@ -92,8 +92,6 @@ export const tokenizedOperationMiddleware = async (
   if (!user) {
     throw new Error(`User ${token.user} not found`);
   }
-  console.log('User argument');
-  console.log(JSON.stringify(user, null, 2));
   // Had to create two separate args, otherwise would have to define custom input types - 3 lazy 3 do taht
   const result = await resolve(source, { ...args, profileOperationUser: user, profileOperationToken: token }, context, info);
   // NOTE test if it's possible to pass extra data to args in graphql
