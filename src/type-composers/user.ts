@@ -4,7 +4,11 @@ import { Resolver } from 'graphql-compose';
 import { composeMongoose } from 'graphql-compose-mongoose';
 import { UserModel, UserType } from '../models/user';
 import { AuthTokenModel } from '../models/authToken';
-import { VerificationTokenModel, VerificationTokenType } from '../models/verificationToken';
+import {
+  VerificationTokenModel,
+  VerificationTokenType,
+  SIGN_UP
+} from '../models/verificationToken';
 import { sendMail, templates } from '../external/nodemailer';
 import { MessagePayloadTC } from './payload';
 import { ArgsType } from '../utilTypes';
@@ -169,14 +173,14 @@ UserTC.addResolver(createProfileUpdateRequestResolver({
   documentFactory: (args) => {
     const user = new UserModel(args);
     return {
-      token: new VerificationTokenModel({ user: user._id }),
+      token: new VerificationTokenModel({ type: SIGN_UP, user: user._id }),
       user
     }
   },
   mail: {
-    template: 'usernameChangeTemplate',
+    template: 'signUpTemplate',
     // @ts-expect-error
-    getRecipient: (args) => args.user.email
+    getRecipient: (args) => args.email
   }
 }));
 
@@ -246,10 +250,13 @@ UserTC.addResolver({
   resolve: async ({ args }) => {
     // TODO I'm really curious if this shit actually works
     const user = args.profileOperationUser;
-    user.setVerified(true);
+    console.log('Wrapped resolver');
+    console.log(JSON.stringify(user, null, 2));
+
+    user.setUserVerified(true);
     await user.save()
     return {
-      message: `User ${user.username} status set to verified`
+      message: `User "${user.username}" status set to verified`
     };
   }
 })
@@ -267,9 +274,9 @@ UserTC.addResolver({
       throw new Error(`User ${args.user.username} is already verified`);
     }
     await VerificationTokenModel.deleteMany({user: args.user._id})
-    const token = new VerificationTokenModel({user: args.user._id})
+    const token = new VerificationTokenModel({type: SIGN_UP, user: args.user._id})
     return {
-      message: `Request resent, check your email adress ${args.user.email}`
+      message: `Request resent, check your email adress "${args.user.email}"`
     }
   }
 });
@@ -292,7 +299,7 @@ UserTC.addResolver({
     await args.profileOperationUser.save();
     await AuthTokenModel.deleteMany({ user: args.profileOperationUser._id })
     return {
-      message: `User email has been updated to ${args.profileOperationToken.newEmail}`
+      message: `User email has been updated to "${args.profileOperationToken.newEmail}"`
     }
   }
 });
@@ -315,7 +322,7 @@ UserTC.addResolver({
     await args.profileOperationUser.save();
     await AuthTokenModel.deleteMany({ user: args.profileOperationUser._id })
     return {
-      message: `Username has been updated to ${args.profileOperationToken.newUsername}`
+      message: `Username has been updated to "${args.profileOperationToken.newUsername}"`
     }
   }
 });
@@ -342,7 +349,7 @@ UserTC.addResolver(validationResolverFactory<typeof UserTC>({
     }
     const user = await UserModel.findById(token.user);
     if (!user) {
-      return `Related user with password reset token ${args.emailToken}`;
+      return `Related user with password reset token "${args.emailToken}"`;
     }
     await AuthTokenModel.deleteMany({ user: user._id });
     return true;

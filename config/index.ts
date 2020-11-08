@@ -7,14 +7,14 @@ export const configuration = {
     : 'mongodb://heroku_rmzmf414:r0i9je0ou0mafovfi4mgvsp9hd@ds237832.mlab.com:37832/heroku_rmzmf414',
   external: {
     nodemailer: {
-      host: 'lol',
-      port: 6666,
-      user: 'lol',
-      password: 'kokot'
+      host: 'smtp.ethereal.email',
+      port: 587,
+      user: 'arlo.romaguera@ethereal.email',
+      password: 'G2zFYVjjpAXwq1vyBm'
     }
   },
-  webAddress: '',
-  jwtKey: 'kokot',
+  webAddress: 'http://localhost:3001/',
+  jwtKey: 'TopSecretKey123',
   // TODO refactor epoch config into sth more normal
   testEpoch: {
     begin: {

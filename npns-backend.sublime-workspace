@@ -4,6 +4,414 @@
 		"selected_items":
 		[
 			[
+				"apply",
+				"applyTokenizedOperation\tconst"
+			],
+			[
+				"to",
+				"tokenizedOperationMiddleware\tconst"
+			],
+			[
+				"applyPre",
+				"applyPrefetchUser\tconst"
+			],
+			[
+				"Verfi",
+				"VerificationTokenType\talias"
+			],
+			[
+				"User",
+				"UserType\talias"
+			],
+			[
+				"templat",
+				"template"
+			],
+			[
+				"get",
+				"getRecipient"
+			],
+			[
+				"applyPr",
+				"applyPrefetchUser\tconst"
+			],
+			[
+				"app",
+				"apply"
+			],
+			[
+				"type",
+				"type-composers\tdirectory"
+			],
+			[
+				"auth",
+				"authWithPasswordValidation\tconst"
+			],
+			[
+				"C",
+				"ChallengeITC\tconst"
+			],
+			[
+				"aplp",
+				"applyMiddleware\tconst"
+			],
+			[
+				"chall",
+				"challenge"
+			],
+			[
+				"cha",
+				"challenge\tscript"
+			],
+			[
+				"ut",
+				"utilInputTypes\tscript"
+			],
+			[
+				"remove",
+				"removedArgs\tparameter"
+			],
+			[
+				"wra",
+				"withMiddlewares\tmethod"
+			],
+			[
+				"Resol",
+				"ResolverMiddleware\talias"
+			],
+			[
+				"util",
+				"utilTypes\tscript"
+			],
+			[
+				"graphql",
+				"graphql-compose\texternal module name"
+			],
+			[
+				"validat",
+				"validatePasswordIdentity"
+			],
+			[
+				"validate",
+				"validateReferral"
+			],
+			[
+				"gt",
+				"getResolver"
+			],
+			[
+				"is",
+				"isPasswordUsed\tconst"
+			],
+			[
+				"email",
+				"emailToken"
+			],
+			[
+				"find",
+				"findById\tmethod"
+			],
+			[
+				"Valid",
+				"ValidationResult\ttype"
+			],
+			[
+				"valida",
+				"validationResolverFactory"
+			],
+			[
+				"default",
+				"defaultErrorMessage"
+			],
+			[
+				"valid",
+				"validationResult\tconst"
+			],
+			[
+				"Extra",
+				"ExtractMongooseType\ttype"
+			],
+			[
+				"Object",
+				"ObjectTypeComposer\talias"
+			],
+			[
+				"graph",
+				"graphql-compose\texternal module name"
+			],
+			[
+				"Sch",
+				"Schema\tclass"
+			],
+			[
+				"mongo",
+				"mongoose\texternal module name"
+			],
+			[
+				"new",
+				"newEmail"
+			],
+			[
+				"pro",
+				"profileOperationToken"
+			],
+			[
+				"prof",
+				"profileOperationToken"
+			],
+			[
+				"conf",
+				"configuration"
+			],
+			[
+				"in",
+				"index\tscript"
+			],
+			[
+				"config",
+				"config\tdirectory"
+			],
+			[
+				"jw",
+				"jwtKey\tproperty"
+			],
+			[
+				"profie",
+				"profileOperationUser"
+			],
+			[
+				"appl",
+				"applyTokenizedEmailChange"
+			],
+			[
+				"profile",
+				"profileOperationUser"
+			],
+			[
+				"i",
+				"identifier"
+			],
+			[
+				"profi",
+				"profileOperationUser"
+			],
+			[
+				"token",
+				"tokenFactory"
+			],
+			[
+				"Message",
+				"MessagePayloadTC\talias"
+			],
+			[
+				"au",
+				"authHelper\tconst"
+			],
+			[
+				"create",
+				"createInputTC\tmethod"
+			],
+			[
+				"pas",
+				"passwordResetToken"
+			],
+			[
+				"Create",
+				"CreateUserArgs\ttype"
+			],
+			[
+				"user",
+				"user\tproperty"
+			],
+			[
+				"tempat",
+				"templates\tvar"
+			],
+			[
+				"username",
+				"usernameChangeTemplate"
+			],
+			[
+				"emia",
+				"emailChangeTemplate"
+			],
+			[
+				"sign",
+				"signUpTemplate\tconst"
+			],
+			[
+				"Nodemail",
+				"NodemailerTemplateArgs\ttype"
+			],
+			[
+				"m",
+				"models\tdirectory"
+			],
+			[
+				"Challe",
+				"ChallengeTC\tvar"
+			],
+			[
+				"chal",
+				"challenge\tconst"
+			],
+			[
+				"Chall",
+				"ChallengeTC\tvar"
+			],
+			[
+				"challe",
+				"challengeId"
+			],
+			[
+				"Cha",
+				"ChallengeTC\tvar"
+			],
+			[
+				"karma",
+				"karmaAmount"
+			],
+			[
+				"chalel",
+				"challenge"
+			],
+			[
+				"ts",
+				"ts-expect-error"
+			],
+			[
+				"sub",
+				"submission"
+			],
+			[
+				"boosted",
+				"boostedValue"
+			],
+			[
+				"Chal",
+				"ChallengeTC"
+			],
+			[
+				"add",
+				"addResolver"
+			],
+			[
+				"fin",
+				"findOne"
+			],
+			[
+				"Queue",
+				"QueueTC\tvar"
+			],
+			[
+				"po",
+				"populatedFields\tconst"
+			],
+			[
+				"popu",
+				"populatedFields"
+			],
+			[
+				"populate",
+				"populateQueueIds"
+			],
+			[
+				"Queu",
+				"QueueType\talias"
+			],
+			[
+				"addRes",
+				"addResolver\tmethod"
+			],
+			[
+				"Q",
+				"QueueTC\tvar"
+			],
+			[
+				"par",
+				"PaymentRequest\tvar"
+			],
+			[
+				"parent",
+				"parseInt\tfunction"
+			],
+			[
+				"ad",
+				"addResolver\tmethod"
+			],
+			[
+				"getRe",
+				"getResolver\tmethod"
+			],
+			[
+				"confi",
+				"configuration\talias"
+			],
+			[
+				"co",
+				"connect\tfunction"
+			],
+			[
+				"ts-n",
+				"ts-node-dev"
+			],
+			[
+				"con",
+				"configuration\talias"
+			],
+			[
+				"Quue",
+				"QueueTC\tconst"
+			],
+			[
+				"S",
+				"Schema\tclass"
+			],
+			[
+				"sud",
+				"subdocuments\tdirectory"
+			],
+			[
+				"Transact",
+				"TransactionMetaType"
+			],
+			[
+				"Veri",
+				"VerificationTokenType\ttype"
+			],
+			[
+				"Verifi",
+				"VerificationTokenType\ttype"
+			],
+			[
+				"AuthTOke",
+				"AuthTokenModelType\ttype"
+			],
+			[
+				"AuthToken",
+				"AuthTokenDbSchema"
+			],
+			[
+				"AuthTok",
+				"AuthTokenType\ttype"
+			],
+			[
+				"AuthTOek",
+				"AuthTokenType\tinterface"
+			],
+			[
+				"Sche",
+				"SchemaDefinition\tinterface"
+			],
+			[
+				"POST",
+				"POST_SUBMISSION"
+			],
+			[
+				"webpack",
+				"webpack-dev-server"
+			],
+			[
 				"repo",
 				"repo_id"
 			],
@@ -12,24 +420,8 @@
 				"repo_config"
 			],
 			[
-				"config",
-				"config"
-			],
-			[
 				"confg",
 				"config_file"
-			],
-			[
-				"conf",
-				"config_name"
-			],
-			[
-				"confi",
-				"config_updated"
-			],
-			[
-				"get",
-				"getFedoraVersion"
 			],
 			[
 				"ver",
@@ -66,10 +458,6 @@
 			[
 				"rpo",
 				"repositories_blacklist"
-			],
-			[
-				"is",
-				"isRepositoryAllowed"
 			],
 			[
 				"list",
@@ -126,415 +514,11 @@
 			[
 				"awk",
 				"awk_script"
-			],
-			[
-				"py",
-				"python_input_file"
-			],
-			[
-				"python",
-				"python_input_file"
-			],
-			[
-				"pyhon",
-				"python_script"
-			],
-			[
-				"home",
-				"home_directory_cp_command"
-			],
-			[
-				"DES",
-				"DEST_HOME_DIRECTORIES"
-			],
-			[
-				"DEST",
-				"DEST_HOME_DIRECTORIES"
-			],
-			[
-				"Apo",
-				"ApolloServerExpressConfig"
-			],
-			[
-				"Ver",
-				"VerificationTokenDbSchema"
-			],
-			[
-				"boost",
-				"boostAmount"
-			],
-			[
-				"booste",
-				"boostedAmount"
-			],
-			[
-				"karma",
-				"karmaEntries"
-			],
-			[
-				"queue",
-				"queueId"
-			],
-			[
-				"User",
-				"UserType"
-			],
-			[
-				"Queue",
-				"QueueType"
-			],
-			[
-				"winner",
-				"winnerId"
-			],
-			[
-				"Con",
-				"ContentMetaDbSchema"
-			],
-			[
-				"Conte",
-				"ContentMetaDbSchema"
-			],
-			[
-				"post",
-				"postReply"
-			],
-			[
-				"Reply",
-				"ReplyType"
-			],
-			[
-				"new",
-				"newQueue"
-			],
-			[
-				"parent",
-				"parentName"
-			],
-			[
-				"find",
-				"findAll"
-			],
-			[
-				"conte",
-				"content"
-			],
-			[
-				"sb",
-				"submissionId"
-			],
-			[
-				"Chal",
-				"ChallengeType"
-			],
-			[
-				"Res",
-				"ResendSignUpRequestInputType"
-			],
-			[
-				"res",
-				"resendSignUpRequestInput"
-			],
-			[
-				"user",
-				"username"
-			],
-			[
-				"Rese",
-				"ResendSignUpRequestInput"
-			],
-			[
-				"sign",
-				"signUserUpInput"
-			],
-			[
-				"Vali",
-				"ValidatedUserData"
-			],
-			[
-				"valie",
-				"validatedUserData"
-			],
-			[
-				"populate",
-				"populatePath"
-			],
-			[
-				"Boost",
-				"BoostChallengeInputType"
-			],
-			[
-				"postCha",
-				"postChallengeInput"
-			],
-			[
-				"email",
-				"emailChange"
-			],
-			[
-				"Profile",
-				"ProfileOperation"
-			],
-			[
-				"update",
-				"updatedUserFields"
-			],
-			[
-				"Requ",
-				"RequestProfileChangeInputType"
-			],
-			[
-				"requ",
-				"requestProfileChangeInput"
-			],
-			[
-				"veri",
-				"verifyOperationTokenInput"
-			],
-			[
-				"valida",
-				"validatedField"
-			],
-			[
-				"Chall",
-				"ChallengeModelType"
-			],
-			[
-				"Mark",
-				"MarkChallengeSolvedInputType"
-			],
-			[
-				"Post",
-				"PostChallengeInputType"
-			],
-			[
-				"edit",
-				"editId"
-			],
-			[
-				"submi",
-				"submittedBy"
-			],
-			[
-				"sub",
-				"submissionId"
-			],
-			[
-				"Sign",
-				"SignUserInPayload"
-			],
-			[
-				"operat",
-				"operationType"
-			],
-			[
-				"refe",
-				"referredBy"
-			],
-			[
-				"Pag",
-				"PagingType"
-			],
-			[
-				"P",
-				"Paging"
-			],
-			[
-				"Paging",
-				"PagingSizeType"
-			],
-			[
-				"des",
-				"descendants"
-			],
-			[
-				"de",
-				"depth"
-			],
-			[
-				"anc",
-				"ancestors"
-			],
-			[
-				"ances",
-				"ancestor"
-			],
-			[
-				"max",
-				"maxRightIndex"
-			],
-			[
-				"Cha",
-				"ChallengeType"
-			],
-			[
-				"Challe",
-				"ChallengeType"
-			],
-			[
-				"chal",
-				"challengeId"
-			],
-			[
-				"page",
-				"pageSize"
-			],
-			[
-				"Create",
-				"CreateQueueInputType"
-			],
-			[
-				"create",
-				"createQueueInput"
-			],
-			[
-				"Veri",
-				"VerificationTokenType"
-			],
-			[
-				"pass",
-				"passwordResetToken"
-			],
-			[
-				"dele",
-				"deleteAllBy"
-			],
-			[
-				"Verifi",
-				"VerificationTokenDbSchema"
-			],
-			[
-				"Verif",
-				"VerificationTokenModelType"
-			],
-			[
-				"for",
-				"forceLogout"
-			],
-			[
-				"keep",
-				"keepAliveInput"
-			],
-			[
-				"N",
-				"NodemailerTemplateResult"
-			],
-			[
-				"No",
-				"NodemailerTemplateArgs"
-			],
-			[
-				"A",
-				"AuthTokenModelType"
-			],
-			[
-				"del",
-				"deleteAllBy"
-			],
-			[
-				"delete",
-				"deleteToken"
-			],
-			[
-				"AuthToek",
-				"AuthTokenType"
-			],
-			[
-				"Conf",
-				"ConfirmPasswordInputType"
-			],
-			[
-				"Obje",
-				"ObjectId"
-			],
-			[
-				"Qu",
-				"QueueType"
-			],
-			[
-				"Submi",
-				"SubmissionType"
-			],
-			[
-				"Content",
-				"ContentMeta"
-			],
-			[
-				"REply",
-				"ReplyType"
-			],
-			[
-				"R",
-				"ReplyType"
-			],
-			[
-				"Conten",
-				"ContentMetaType"
-			],
-			[
-				"Edit",
-				"EditType"
-			],
-			[
-				"Obej",
-				"ObjectId"
-			],
-			[
-				"content",
-				"contentMeta"
-			],
-			[
-				"Obj",
-				"ObjectId"
-			],
-			[
-				"Act",
-				"ActivityMetaType"
-			],
-			[
-				"Acti",
-				"ActivityMetaIdentifiers"
-			],
-			[
-				"Auth",
-				"AuthTokenType"
-			],
-			[
-				"con",
-				"content"
-			],
-			[
-				"Transa",
-				"TransactionType"
-			],
-			[
-				"Tran",
-				"TransactionMetaType"
-			],
-			[
-				"Karm",
-				"KarmaEntryType"
 			]
 		]
 	},
 	"buffers":
 	[
-		{
-			"file": "src/index.ts",
-			"settings":
-			{
-				"buffer_size": 0,
-				"line_ending": "Unix"
-			}
-		},
-		{
-			"file": "package.json",
-			"settings":
-			{
-				"buffer_size": 179,
-				"line_ending": "Unix"
-			}
-		}
 	],
 	"build_system": "",
 	"build_system_choices":
@@ -548,24 +532,32 @@
 		"selected_items":
 		[
 			[
-				":W",
-				":w - Save"
-			],
-			[
 				":w",
 				":w - Save"
 			],
 			[
-				":e",
-				":e - Revert"
+				":W",
+				"HTML: Wrap Selection With Tag"
+			],
+			[
+				":Ww",
+				"HTML: Wrap Selection With Tag"
 			],
 			[
 				":",
 				":$ - EOF"
 			],
 			[
+				":e",
+				":e - Revert"
+			],
+			[
 				":we",
 				":w - Save"
+			],
+			[
+				"Install",
+				"Package Control: Install Package"
 			],
 			[
 				"Remove",
@@ -608,10 +600,6 @@
 				"Package Control: Install Package"
 			],
 			[
-				"Install",
-				"Package Control: Install Package"
-			],
-			[
 				"Package Control: ",
 				"Package Control: Install Package"
 			],
@@ -646,12 +634,105 @@
 	},
 	"expanded_folders":
 	[
-		"/home/konyferous/Projects/npns/backend-new"
+		"/home/konyferous/Projects/npns/backend-old"
 	],
 	"file_history":
 	[
-		"/home/konyferous/Projects/npns/backend/webpack.config.js",
+		"/home/konyferous/Projects/npns/backend-new/TODO",
+		"/home/konyferous/Projects/npns/backend-new/src/external/nodemailer.ts",
+		"/home/konyferous/Projects/npns/backend-old/config/index.ts",
+		"/home/konyferous/Desktop/translation.txt",
+		"/home/konyferous/Notes/chase-amante/x-factor.txt",
+		"/home/konyferous/Notes/chase-amante/x-factor-notes.txt",
+		"/home/konyferous/Recipes/ESSENTIALS",
+		"/home/konyferous/Own Shit/resources/pandora/templates/permanent",
+		"/home/konyferous/Own Shit/resources/pandora/templates/work",
+		"/home/konyferous/Projects/npns/backend-new/src/middleware.ts",
+		"/home/konyferous/Projects/npns/backend-new/src/type-composers/utilInputTypes.ts",
+		"/home/konyferous/Projects/npns/backend-new/src/utilTypes.ts",
+		"/home/konyferous/Projects/npns/backend-new/src/schema.ts",
+		"/home/konyferous/Projects/npns/backend-new/src/type-composers/user.ts",
+		"/home/konyferous/Projects/npns/backend-new/src/type-composers/payload.ts",
+		"/home/konyferous/Projects/npns/backend-new/src/utils.ts",
+		"/home/konyferous/Projects/npns/backend-new/src/type-composers/challenge.ts",
+		"/home/konyferous/Projects/npns/backend-new/src/models/user.ts",
+		"/home/konyferous/Projects/npns/backend-new/src/index.ts",
+		"/home/konyferous/Projects/npns/backend-new/src/models/authToken.ts",
+		"/home/konyferous/Projects/npns/backend-new/src/type-composers/validationResolverFactory.ts",
+		"/home/konyferous/Projects/npns/backend-new/src/models/challenge.ts",
+		"/home/konyferous/Projects/npns/backend-new/package.json",
+		"/home/konyferous/Projects/npns/backend-new/src/middleware/middleware.ts",
+		"/home/konyferous/Projects/npns/backend-new/config/index.ts",
+		"/home/konyferous/Projects/npns/backend-new/node_modules/jsonwebtoken/index.js",
+		"/home/konyferous/Projects/npns/backend-new/src/middleware/user.ts",
+		"/home/konyferous/Projects/npns/backend-new/src/type-composers/response.ts",
+		"/home/konyferous/Projects/npns/backend/src/graphql/mutations/resendSignUpRequest.ts",
+		"/home/konyferous/Projects/npns/backend/src/graphql/mutations/signUserUp.ts",
+		"/home/konyferous/Projects/npns/backend/src/graphql/mutations/signUserIn.ts",
+		"/home/konyferous/Projects/npns/backend/src/graphql/mutations/confirmPasswordReset.ts",
+		"/home/konyferous/Projects/npns/backend/src/graphql/mutations/verifyOperationToken.ts",
+		"/home/konyferous/Projects/npns/backend/src/graphql/mutations/logoutUser.ts",
+		"/home/konyferous/Projects/npns/backend/src/graphql/mutations/logoutUserAllDevices.ts",
+		"/home/konyferous/Projects/npns/backend/src/graphql/mutations/postChallenge.ts",
+		"/home/konyferous/Projects/npns/backend/src/graphql/mutations/requestProfileChange.ts",
+		"/home/konyferous/Projects/npns/backend/src/graphql/models/User/index.ts",
+		"/home/konyferous/Projects/npns/backend/src/graphql/mutations/confirmPassword.ts",
+		"/home/konyferous/Projects/npns/backend/src/graphql/mutations/keepAlive.ts",
+		"/home/konyferous/Projects/npns/backend-new/src/models/verificationToken.ts",
+		"/home/konyferous/Projects/npns/backend-new/src/models/activity.ts",
+		"/home/konyferous/Projects/npns/backend-new/src/type-composers/queue.ts",
+		"/home/konyferous/Projects/npns/backend-new/src/models/queue.ts",
+		"/home/konyferous/Projects/npns/backend-new/src/models/subdocuments/schemaBuilders.ts",
+		"/home/konyferous/Projects/npns/backend-new/node_modules/graphql-compose/lib/utils/definitions.d.ts",
+		"/home/konyferous/Projects/npns/backend-new/node_modules/graphql-compose/lib/ObjectTypeComposer.d.ts",
+		"/home/konyferous/Projects/npns/backend-new/node_modules/graphql-compose-mongoose/lib/resolvers/connection.d.ts",
+		"/home/konyferous/Projects/npns/backend-new/node_modules/graphql-compose-mongoose/lib/resolvers/index.d.ts",
+		"/home/konyferous/Projects/npns/backend-new/node_modules/graphql-compose-mongoose/lib/composeMongoose.d.ts.map",
+		"/home/konyferous/Projects/npns/backend-new/node_modules/graphql-compose-mongoose/lib/composeMongoose.d.ts",
+		"/home/konyferous/Projects/npns/backend-new/node_modules/graphql-compose-connection/lib/connection.d.ts",
+		"/home/konyferous/Projects/npns/backend/node_modules/@types/lodash.mapvalues/index.d.ts",
+		"/home/konyferous/Projects/npns/backend/node_modules/lodash.mapvalues/index.js",
+		"/home/konyferous/Projects/npns/backend-new/tsconfig.json",
+		"/home/konyferous/Projects/npns/backend-new/.eslintrc.json",
+		"/home/konyferous/Projects/npns/backend-new/webpack.config.js",
+		"/home/konyferous/Projects/npns/slavemaster/session/cfg-client/martin-novy.conf",
+		"/home/konyferous/Projects/npns/slavemaster/session/prepare-client",
+		"/home/konyferous/Projects/npns/slavemaster/session.conf",
+		"/home/konyferous/Projects/npns/slavemaster/start",
+		"/home/konyferous/Projects/npns/backend/src/graphql/models/Queue.ts",
+		"/home/konyferous/Projects/npns/backend/src/graphql/index.ts",
+		"/home/konyferous/Projects/npns/backend/src/graphql/mutations/index.ts",
+		"/home/konyferous/Projects/npns/backend/src/graphql/models/Challenge/Submission.ts",
+		"/home/konyferous/Recipes/bread",
+		"/home/konyferous/Recipes/pizza",
+		"/home/konyferous/Projects/npns/backend/src/graphql/utils/types.ts",
+		"/home/konyferous/Projects/npns/backend-new/dist/bundle.js",
+		"/home/konyferous/Projects/npns/backend-new/src/models/index.ts",
+		"/home/konyferous/Projects/npns/backend-new/src/models/challenge/ContentMeta.ts",
+		"/home/konyferous/Projects/npns/backend-new/src/models/challenge/Edit.ts",
+		"/home/konyferous/Projects/npns/backend-new/src/models/challenge/Submission.ts",
+		"/home/konyferous/Projects/npns/backend-new/src/models/challenge/Reply.ts",
+		"/home/konyferous/Projects/npns/backend-new/src/models/user/Activity.ts",
+		"/home/konyferous/Projects/npns/backend-new/src/models/user/Transaction.ts",
+		"/home/konyferous/Projects/npns/backend-new/src/models/user/VerificationToken.ts",
+		"/home/konyferous/Projects/npns/backend-new/src/models/user/AuthToken.ts",
+		"/home/konyferous/Projects/npns/backend-new/src/models/user/index.ts",
+		"/home/konyferous/Projects/npns/backend-new/.eslintrc",
 		"/home/konyferous/Projects/npns/backend/tsconfig.json",
+		"/home/konyferous/Projects/npns/backend-new/.eslintignore",
+		"/home/konyferous/Projects/npns/backend-new/dist/src/index.js.map",
+		"/home/konyferous/Projects/npns/backend-new/dist/src/index.js",
+		"/home/konyferous/Projects/npns/backend-new/config/index.js",
+		"/home/konyferous/Projects/npns/webpack-attempt/node_modules/webpack-dev-server/bin/webpack-dev-server.js",
+		"/home/konyferous/Projects/npns/webpack-attempt/package.json",
+		"/home/konyferous/Projects/npns/webpack-attempt/webpack.config.js",
+		"/home/konyferous/Projects/npns/webpack-attempt/src/index.ts",
+		"/home/konyferous/Projects/npns/webpack-attempt/dist/bundle.js",
+		"/home/konyferous/Projects/npns/backend/webpack.config.ts",
+		"/home/konyferous/Projects/npns/backend-new/npns-backend.sublime-project",
+		"/home/konyferous/Projects/npns/backend-new/package-lock.json",
+		"/home/konyferous/Projects/npns/backend/config/index.ts",
+		"/home/konyferous/Projects/npns/backend/webpack.config.js",
 		"/home/konyferous/Projects/npns/backend/src/index.ts",
 		"/home/konyferous/Projects/npns/backend/.gitignore",
 		"/home/konyferous/Projects/npns/backend/cfg/environments/.env.production",
@@ -667,7 +748,6 @@
 		"/home/konyferous/Projects/npns/backend/node_modules/apollo-server-plugin-base/LICENSE",
 		"/home/konyferous/Projects/npns/backend/node_modules/apollo-server-plugin-base/package.json",
 		"/home/konyferous/Projects/npns/backend/node_modules/apollo-server-plugin-base/src/index.ts",
-		"/home/konyferous/Projects/npns/backend/src/graphql/index.ts",
 		"/home/konyferous/Projects/npns/backend/src/db.ts",
 		"/home/konyferous/Own Shit/src/backupz/dnf_repo_gatherer.py",
 		"/home/konyferous/Own Shit/src/backupz/scrapers/__init__.py",
@@ -685,99 +765,7 @@
 		"/home/konyferous/Own Shit/src/backupz/backup.txt",
 		"/home/konyferous/Own Shit/src/backupz/opt_resources.csv",
 		"/home/konyferous/Own Shit/src/backupz/opt_installer.py",
-		"/home/konyferous/Own Shit/src/backupz/opt_runners.csv",
-		"/home/konyferous/Own Shit/src/backupz/parse_dnf_history.py",
-		"/home/konyferous/Own Shit/src/backupz/backup.",
-		"/etc/yum.repos.d/rpmfusion-free.repo",
-		"/etc/yum.repos.d/rpmfusion-free-updates.repo",
-		"/etc/yum.repos.d/rpmfusion-free-updates-testing.repo",
-		"/etc/yum.repos.d/rpmfusion-nonfree.repo",
-		"/etc/yum.repos.d/rpmfusion-nonfree-updates.repo",
-		"/etc/yum.repos.d/rpmfusion-nonfree-updates-testing.repo",
-		"/home/konyferous/Own Shit/src/backupz/restore",
-		"/etc/yum.repos.d/fedora-updates-testing.repo",
-		"/etc/yum.repos.d/fedora-updates-testing-modular.repo",
-		"/etc/yum.repos.d/fedora-updates.repo",
-		"/etc/yum.repos.d/fedora-updates-modular.repo",
-		"/etc/yum.repos.d/fedora.repo",
-		"/etc/yum.repos.d/fedora-modular.repo",
-		"/etc/yum.repos.d/fedora-cisco-openh264.repo",
-		"/home/konyferous/Own Shit/resources/pandora/templates/work",
-		"/home/konyferous/Own Shit/resources/pandora/templates/permanent",
-		"/home/konyferous/Recipes/ESSENTIALS",
-		"/home/konyferous/Own Shit/bin/pandora",
-		"/home/konyferous/.bashrc",
-		"/home/konyferous/.bash_profile",
-		"/home/konyferous/.bash_logout",
-		"/home/konyferous/.bash_history",
-		"/home/konyferous/.bashrc_auth",
-		"/home/konyferous/Desktop/kokot.py",
-		"/home/konyferous/Own Shit/src/backupz/snakeanus",
-		"/home/konyferous/Desktop/sqlite-output",
-		"/home/konyferous/Desktop/test/kokot",
-		"/home/konyferous/Desktop/dnf-history-files",
-		"/home/konyferous/Own Shit/bin/cancer",
-		"/home/konyferous/Own Shit/src/pandora/monitor",
-		"/home/konyferous/Own Shit/bin/mp3-repeat",
-		"/home/konyferous/Own Shit/bin/ytfuckoff",
-		"/home/konyferous/Own Shit/bin/weather",
-		"/home/konyferous/Own Shit/bin/vocap",
-		"/home/konyferous/Own Shit/bin/tts",
-		"/home/konyferous/Own Shit/bin/stopwatch",
-		"/home/konyferous/Own Shit/bin/shave-resolve",
-		"/home/konyferous/Own Shit/bin/shave-notify",
-		"/home/konyferous/Own Shit/bin/killbrowsers",
-		"/home/konyferous/Own Shit/bin/dungeon",
-		"/home/konyferous/Own Shit/bin/countdown",
-		"/home/konyferous/Own Shit/bin/copypasta",
-		"/home/konyferous/Own Shit/bin/call",
-		"/home/konyferous/Desktop/msg-nerds",
-		"/home/konyferous/Recipes/culinary-cook-useful-links",
-		"/home/konyferous/Notes/chase-amante/x-factor.txt",
-		"/home/konyferous/Recipes/bread",
-		"/home/konyferous/Notes/chase-amante/x-factor-notes.txt",
-		"/home/konyferous/Recipes/ESSE",
-		"/home/konyferous/Recipes/aioli",
-		"/home/konyferous/Recipes/ragout",
-		"/home/konyferous/Notes/chase-amante/casuality.txt",
-		"/home/konyferous/Notes/Hydra/post-vienna.txt",
-		"/home/konyferous/Recipes/francuzska-cibulacka",
-		"/home/konyferous/Recipes/ADVANCED",
-		"/home/konyferous/Recipes/bechamel",
-		"/home/konyferous/Recipes/chicken_ceasar_salat",
-		"/home/konyferous/Recipes/creme-de-celeri",
-		"/home/konyferous/Recipes/yeast",
-		"/home/konyferous/Recipes/chicken_stock",
-		"/home/konyferous/Recipes/CHRISTMAS RECIPE - Christmas Beef Wellington.mkv",
-		"/home/konyferous/Recipes/ROUXBE_NOTES.txt",
-		"/home/konyferous/Recipes/Gordon Ramsay How to Make a Classic Vinaigrette   YouTube.mkv",
-		"/home/konyferous/Recipes/Gordon Ramsay's Huevos Rancheros Recipe.mp4",
-		"/home/konyferous/Recipes/pizza",
-		"/home/konyferous/Recipes/porterhouse-steak",
-		"/home/konyferous/Recipes/ramsay-steak",
-		"/home/konyferous/Recipes/RESEARCH",
-		"/home/konyferous/Recipes/semolina-pasta",
-		"/home/konyferous/Recipes/veloute",
-		"/home/konyferous/Recipes/vinaigrette",
-		"/home/konyferous/Recipes/zemiakove_placky",
-		"/home/konyferous/Notes/music-recommendations/personalities.txt",
-		"/home/konyferous/Notes/music-recommendations/TO_BUY_discogs-djberoslaw",
-		"/home/konyferous/Notes/music-recommendations/bandcamp-to-buy.txt",
-		"/home/konyferous/Notes/music-recommendations/volpe.txt",
-		"/home/konyferous/Notes/music-recommendations/discogs-24hour2post.txt",
-		"/home/konyferous/Notes/music-recommendations/discogs-andriusireland.txt",
-		"/home/konyferous/Notes/music-recommendations/discogs-hunt.txt",
-		"/home/konyferous/Notes/music-recommendations/discogs-RebelP.txt",
-		"/home/konyferous/Notes/music-recommendations/discogs-transdanubier.txt",
-		"/home/konyferous/Notes/music-recommendations/good-shit-from-bandcamp.txt",
-		"/home/konyferous/Notes/music-recommendations/good-shit-in-general.txt",
-		"/home/konyferous/Notes/music-recommendations/lofi.txt",
-		"/home/konyferous/Notes/music-recommendations/MBV-loveless-vinyl-price.txt",
-		"/home/konyferous/Notes/music-recommendations/discogs-tj.le.dj",
-		"/home/konyferous/Desktop/Brno-prakticki lekari.ods",
-		"/home/konyferous/Notes/music-recommendations/discogs-",
-		"/home/konyferous/Desktop/znamy-lekar.py",
-		"/home/konyferous/Own Shit/cfg/pandora/allow/ewahahahah"
+		"/home/konyferous/Own Shit/src/backupz/opt_runners.csv"
 	],
 	"find":
 	{
@@ -799,7 +787,7 @@
 		"highlight": true,
 		"in_selection": false,
 		"preserve_case": false,
-		"regex": false,
+		"regex": true,
 		"replace_history":
 		[
 		],
@@ -812,68 +800,8 @@
 	"groups":
 	[
 		{
-			"selected": 1,
 			"sheets":
 			[
-				{
-					"buffer": 0,
-					"file": "src/index.ts",
-					"semi_transient": false,
-					"settings":
-					{
-						"buffer_size": 0,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								0,
-								0
-							]
-						],
-						"settings":
-						{
-							"open_with_edit": true,
-							"syntax": "Packages/Naomi/syntaxes/naomi.fjsx15.sublime-syntax",
-							"vintage_lines.line": -1
-						},
-						"translation.x": 0.0,
-						"translation.y": 0.0,
-						"zoom_level": 1.0
-					},
-					"stack_index": 1,
-					"type": "text"
-				},
-				{
-					"buffer": 1,
-					"file": "package.json",
-					"semi_transient": false,
-					"settings":
-					{
-						"buffer_size": 179,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								0,
-								0
-							]
-						],
-						"settings":
-						{
-							"syntax": "Packages/JavaScript/JSON.sublime-syntax",
-							"vintage_lines.line": -1
-						},
-						"translation.x": 0.0,
-						"translation.y": 0.0,
-						"zoom_level": 1.0
-					},
-					"stack_index": 0,
-					"type": "text"
-				}
 			]
 		}
 	],
@@ -908,6 +836,10 @@
 		]
 	},
 	"menu_visible": true,
+	"output.SublimeLinter":
+	{
+		"height": 0.0
+	},
 	"output.doc":
 	{
 		"height": 0.0
@@ -942,6 +874,402 @@
 		"selected_items":
 		[
 			[
+				"TODO",
+				"TODO"
+			],
+			[
+				"type",
+				"src/type-composers/user.ts"
+			],
+			[
+				"util",
+				"src/type-composers/utilInputTypes.ts"
+			],
+			[
+				"node",
+				"src/external/nodemailer.ts"
+			],
+			[
+				"typecompo",
+				"src/type-composers/user.ts"
+			],
+			[
+				"middle",
+				"src/middleware.ts"
+			],
+			[
+				"user",
+				"src/type-composers/user.ts"
+			],
+			[
+				"chal",
+				"src/type-composers/challenge.ts"
+			],
+			[
+				"chall",
+				"src/type-composers/challenge.ts"
+			],
+			[
+				"inde",
+				"src/index.ts"
+			],
+			[
+				"schema",
+				"src/schema.ts"
+			],
+			[
+				"auth",
+				"src/models/authToken.ts"
+			],
+			[
+				"mide",
+				"src/middleware.ts"
+			],
+			[
+				"",
+				"src/middleware.ts"
+			],
+			[
+				"vali",
+				"src/type-composers/validationResolverFactory.ts"
+			],
+			[
+				"valid",
+				"src/type-composers/validationResolverFactory.ts"
+			],
+			[
+				"valida",
+				"src/type-composers/validationResolverFactory.ts"
+			],
+			[
+				"payl",
+				"src/type-composers/payload.ts"
+			],
+			[
+				"mode",
+				"src/models/challenge.ts"
+			],
+			[
+				"confi",
+				"config/index.ts"
+			],
+			[
+				"modelsaut",
+				"src/models/authToken.ts"
+			],
+			[
+				"exte",
+				"src/external/nodemailer.ts"
+			],
+			[
+				"conf",
+				"config/index.ts"
+			],
+			[
+				"package",
+				"package.json"
+			],
+			[
+				"mid",
+				"src/middleware/user.ts"
+			],
+			[
+				"schem",
+				"src/schema.ts"
+			],
+			[
+				"sch",
+				"src/schema.ts"
+			],
+			[
+				"midd",
+				"src/middleware/user.ts"
+			],
+			[
+				"modelsuser",
+				"src/models/user.ts"
+			],
+			[
+				"Atu",
+				"src/models/authToken.ts"
+			],
+			[
+				"mi",
+				"src/middleware/user.ts"
+			],
+			[
+				"sche",
+				"src/schema.ts"
+			],
+			[
+				"pay",
+				"src/type-composers/payload.ts"
+			],
+			[
+				"nod",
+				"src/external/nodemailer.ts"
+			],
+			[
+				"typecom",
+				"src/type-composers/user.ts"
+			],
+			[
+				"sign",
+				"src/graphql/mutations/signUserUp.ts"
+			],
+			[
+				"req",
+				"src/graphql/mutations/requestProfileChange.ts"
+			],
+			[
+				"reqeu",
+				"src/graphql/mutations/requestProfileChange.ts"
+			],
+			[
+				"logou",
+				"src/graphql/mutations/logoutUser.ts"
+			],
+			[
+				"mutations",
+				"src/graphql/mutations/signUserIn.ts"
+			],
+			[
+				"config",
+				"config/index.ts"
+			],
+			[
+				"v",
+				"src/models/verificationToken.ts"
+			],
+			[
+				"index",
+				"src/index.ts"
+			],
+			[
+				"challenge",
+				"src/models/challenge.ts"
+			],
+			[
+				"models",
+				"src/models/challenge.ts"
+			],
+			[
+				"modelscha",
+				"src/models/challenge.ts"
+			],
+			[
+				"queu",
+				"src/type-composers/queue.ts"
+			],
+			[
+				"queue",
+				"src/models/queue.ts"
+			],
+			[
+				"modeslche",
+				"src/models/challenge.ts"
+			],
+			[
+				"modeslcha",
+				"src/models/challenge.ts"
+			],
+			[
+				"typ",
+				"src/type-composers/queue.ts"
+			],
+			[
+				"challe",
+				"src/models/challenge.ts"
+			],
+			[
+				"modelsch",
+				"src/models/challenge.ts"
+			],
+			[
+				"pack",
+				"package.json"
+			],
+			[
+				"modelsqueue",
+				"src/models/queue.ts"
+			],
+			[
+				"model queu",
+				"src/models/queue.ts"
+			],
+			[
+				"modelsqueu",
+				"src/models/queue.ts"
+			],
+			[
+				"modelschal",
+				"src/models/challenge.ts"
+			],
+			[
+				"modelsqu",
+				"src/models/queue.ts"
+			],
+			[
+				"tscon",
+				"tsconfig.json"
+			],
+			[
+				"typec",
+				"src/type-composers/queue.ts"
+			],
+			[
+				".esli",
+				".eslintrc.json"
+			],
+			[
+				"modelsque",
+				"src/models/queue.ts"
+			],
+			[
+				"srcind",
+				"src/index.ts"
+			],
+			[
+				"ind",
+				"src/index.ts"
+			],
+			[
+				"ts",
+				"tsconfig.json"
+			],
+			[
+				"tsconf",
+				"tsconfig.json"
+			],
+			[
+				"packa",
+				"package.json"
+			],
+			[
+				"srcin",
+				"src/index.ts"
+			],
+			[
+				"packag",
+				"package.json"
+			],
+			[
+				"inex",
+				"src/index.ts"
+			],
+			[
+				"pacage",
+				"package.json"
+			],
+			[
+				"m",
+				"src/models/challenge.ts"
+			],
+			[
+				"model",
+				"src/models/challenge.ts"
+			],
+			[
+				"mutationindex",
+				"src/graphql/mutations/index.ts"
+			],
+			[
+				"graphqlindex",
+				"src/graphql/index.ts"
+			],
+			[
+				"boost",
+				"src/graphql/mutations/boostChallenge.ts"
+			],
+			[
+				"mutationin",
+				"src/graphql/mutations/index.ts"
+			],
+			[
+				"mutationsin",
+				"src/graphql/mutations/signUserIn.ts"
+			],
+			[
+				"queries",
+				"src/graphql/queries/index.ts"
+			],
+			[
+				"graphql",
+				"src/graphql/index.ts"
+			],
+			[
+				"modesls",
+				"src/models/user.ts"
+			],
+			[
+				"modelschall",
+				"src/models/challenge.ts"
+			],
+			[
+				"modelsin",
+				"src/models/index.ts"
+			],
+			[
+				"modelsuse",
+				"src/models/user.ts"
+			],
+			[
+				"acti",
+				"src/models/activity.ts"
+			],
+			[
+				"TOD",
+				"TODO"
+			],
+			[
+				".es",
+				".eslintrc"
+			],
+			[
+				"tscpn",
+				"src/graphql/mutations/requestProfileChange.ts"
+			],
+			[
+				"in",
+				"src/index.ts"
+			],
+			[
+				"src",
+				"src/index.ts"
+			],
+			[
+				"esli",
+				".eslintrc"
+			],
+			[
+				"webpack",
+				"webpack.config.js"
+			],
+			[
+				"configin",
+				"config/index.ts"
+			],
+			[
+				"config ",
+				"webpack.config.js"
+			],
+			[
+				"web",
+				"webpack.config.js"
+			],
+			[
+				"webpac",
+				"webpack.config.js"
+			],
+			[
+				"srcindex",
+				"src/index.ts"
+			],
+			[
+				"configindex",
+				"config/index.ts"
+			],
+			[
 				".env.",
 				"secrets/environments/.env.production"
 			],
@@ -950,52 +1278,12 @@
 				"secrets/environments/.env.dev"
 			],
 			[
-				"index",
-				"src/index.ts"
-			],
-			[
-				"package",
-				"package.json"
-			],
-			[
-				"web",
-				"webpack.config.js"
-			],
-			[
-				"tscon",
-				"tsconfig.json"
-			],
-			[
-				"tsconf",
-				"tsconfig.json"
-			],
-			[
 				"pic",
 				"src/picus/index.ts"
 			],
 			[
 				"picus",
 				"src/picus/index.ts"
-			],
-			[
-				"srcin",
-				"src/index.ts"
-			],
-			[
-				"pack",
-				"package.json"
-			],
-			[
-				"srcind",
-				"src/index.ts"
-			],
-			[
-				"packa",
-				"package.json"
-			],
-			[
-				"graphqlindex",
-				"src/graphql/index.ts"
 			],
 			[
 				"db",

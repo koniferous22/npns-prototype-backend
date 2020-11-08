@@ -19,14 +19,15 @@ export type VerificationTokenType = mongoose.Document & {
 	}
 }
 
-const USERNAME_UPDATE = 'USER_UPDATE_USERNAME' as const;
-const PASSWORD_RESET = 'USER_PASSWORD_RESET' as const;
-const EMAIL_UPDATE = 'USER_UPDATE_EMAIL' as const;
+export const USERNAME_UPDATE = 'USER_UPDATE_USERNAME' as const;
+export const PASSWORD_RESET = 'USER_PASSWORD_RESET' as const;
+export const EMAIL_UPDATE = 'USER_UPDATE_EMAIL' as const;
+export const SIGN_UP = 'USER_SIGN_UP' as const;
 
 const VerificationTokenDbSchema = new mongoose.Schema({
   type: {
     type: String,
-    enum: [USERNAME_UPDATE, PASSWORD_RESET, EMAIL_UPDATE],
+    enum: [USERNAME_UPDATE, PASSWORD_RESET, EMAIL_UPDATE, SIGN_UP],
     required: true
   },
   user: {
