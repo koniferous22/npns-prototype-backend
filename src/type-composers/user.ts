@@ -389,7 +389,7 @@ UserTC.addResolver(validationResolverFactory<typeof UserTC>({
       return 'Invalid email';
     }
     const userWithEmail = await UserModel.findByIdentifier(args.email)
-    if (!userWithEmail) {
+    if (userWithEmail) {
       return 'Email taken'
     }
     return true
