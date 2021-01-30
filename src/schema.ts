@@ -54,16 +54,16 @@ schemaComposer.Query.addFields({
   queueFindAll: QueueTC.getResolver('findAll'),
   challengeView: ChallengeTC.getResolver('viewChallenge'),
   userFindByIdentifier: UserTC.getResolver('findByIdentifier'),
+});
+
+schemaComposer.Mutation.addFields({
   validatePasswordResetToken: UserTC.getResolver('validatePasswordResetToken'),
   validateUsername: UserTC.getResolver('validateUsername'),
   validateEmail: UserTC.getResolver('validateEmail'),
   validateReferral: UserTC.getResolver('validateReferral'),
   ...applyAuth({
     validatePasswordIdentity: UserTC.getResolver('validatePasswordIdentity')
-  })
-});
-
-schemaComposer.Mutation.addFields({
+  }),
   // TODO MISSING PERMISSION
   queueCreateOne: QueueTC.getResolver('createQueue'),
   userSignIn: UserTC.getResolver('signIn'),

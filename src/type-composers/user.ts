@@ -369,7 +369,7 @@ UserTC.addResolver(validationResolverFactory<typeof UserTC>({
       return 'No username submitted'
     }
     const userWithUsername = await UserModel.findByIdentifier(args.username);
-    if (!userWithUsername) {
+    if (userWithUsername) {
       return 'Username taken'
     }
     return true

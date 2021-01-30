@@ -13,12 +13,17 @@ export const validationResolverFactory = <TCType>({ name, args, validationFn, de
   args,
   type: ValidationPayloadTC,
   resolve: async ({ args }: { args: ArgsType<TCType>}) => {
+    console.log('pls loguj')
     console.log(JSON.stringify(args))
     console.log('before')
     const validationResult = await validationFn({ args });
+    console.log(validationResult)
     console.log('after');
     if (validationResult !== true) {
-      throw new Error(validationResult || 'Validation failed');
+      return {
+        result: false,
+        message: validationResult || 'Validation failed'
+      }
     }
     return {
       result: true

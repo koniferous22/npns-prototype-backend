@@ -10,6 +10,7 @@ export const MessagePayloadTC = schemaComposer.createObjectTC({
 export const ValidationPayloadTC = schemaComposer.createObjectTC({
   name: 'ValidationPayload',
   fields: {
-    result: 'Boolean!'
+    result: 'Boolean!',
+    message: 'String'
   }
 });
