@@ -1,0 +1,25 @@
+1. rename models to type-composers, export type composer with added resolvers
+* Everything has to go to type-composer because mongoose long-term doesn't make sense
+2. Permission scopes:
+* auth
+* validated password
+* user activated
+* prefetch (wraps everything)
+* content owner
+3. combine everything in schema.ts
+4. test
+5. husky: git hooks, typescript, eslint...
+
+
+
+* add Type check and ESlint fix to pipeline
+* resolving paths without index.ts
+
+* DISABLE index creating on production db
+
+FUTURE:
+* Dependency cleanup
+	* validator
+* split queues into separate service
+* db sharding and full optimization
+* data archiving and lifecycle end
