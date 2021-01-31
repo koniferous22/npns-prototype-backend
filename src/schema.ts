@@ -25,7 +25,7 @@ const applyMiddleware = (
 }
 
 const applyAuth = applyMiddleware([auth], 'user', {
-  identifier: 'String!'
+  authToken: 'String!'
 });
 const applyPwdValidation = applyMiddleware([passwordValidation], [], {
   password: 'String!'

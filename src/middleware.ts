@@ -19,12 +19,12 @@ export const auth = async (
   resolve: any,
   source: any,
   args: {
-    token: 'String!'
+    authToken: 'String!'
   },
   context: any,
   info: any
 ) => {
-  const user = await authHelper(args.token);
+  const user = await authHelper(args.authToken);
   resolve(source, { ...args, user }, context, info);
 }
 
