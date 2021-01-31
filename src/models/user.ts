@@ -153,7 +153,7 @@ UserDbSchema.statics.areIdentifiersAvailable = function (username: string, email
 }
 // TODO refactor into permission scope
 UserDbSchema.methods.isPasswordValid = function (comparedPassword: string) {
-  return bcrypt.compare(this.password, comparedPassword)
+  return bcrypt.compare(comparedPassword, this.password)
 }
 
 UserDbSchema.methods.setUserVerified = function () {

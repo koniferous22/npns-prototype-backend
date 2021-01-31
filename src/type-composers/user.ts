@@ -48,7 +48,7 @@ UserTC.addResolver({
     }
     const hasValidPassword = await user.isPasswordValid(args.password);
     if (!hasValidPassword) {
-      throw new Error('Invalid login credentials')
+      throw new Error('Invalid password')
     }
     if (!user.verified) {
       throw new Error('not verified, check your email')
@@ -171,6 +171,7 @@ UserTC.addResolver(createProfileUpdateRequestResolver({
     lastName: 'String'
   },
   documentFactory: (args) => {
+    args.password = UserModel.generatePasswordHash(args.password);
     const user = new UserModel(args);
     return {
       token: new VerificationTokenModel({ type: SIGN_UP, user: user._id }),
